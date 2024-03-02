@@ -17,49 +17,62 @@ namespace bustub {
 enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
 
 inline auto ComputeDistance(const std::vector<double> &left, const std::vector<double> &right,
-                            VectorExpressionType dist_fn) {
+							VectorExpressionType dist_fn) {
   auto sz = left.size();
   BUSTUB_ASSERT(sz == right.size(), "vector length mismatched!");
+
+  double result = 0.0;
+  double dot_product = 0.0;
+  double left_norm = 0.0;
+  double right_norm = 0.0;
+
+  for (size_t i = 0; i < sz; ++i) {
+	dot_product += left[i] * right[i];
+	left_norm += left[i] * left[i];
+	right_norm += right[i] * right[i];
+  }
+
   switch (dist_fn) {
-    case VectorExpressionType::L2Dist: {
-      // IMPLEMENT ME
-      return 0.0;
-    }
-    case VectorExpressionType::InnerProduct: {
-      // IMPLEMENT ME
-      return 1.0;
-    }
-    case VectorExpressionType::CosineSimilarity: {
-      // IMPLEMENT ME
-      return 2.0;
-    }
-    default:
-      BUSTUB_ASSERT(false, "Unsupported vector expr type.");
+	case VectorExpressionType::L2Dist: {
+	  for (size_t i = 0; i < sz; ++i) {
+		result += (left[i] - right[i]) * (left[i] - right[i]);
+	  }
+	  return std::sqrt(result);
+	}
+	case VectorExpressionType::InnerProduct: {
+	  return -dot_product;
+	}
+	case VectorExpressionType::CosineSimilarity: {
+	  assert(dot_product != 0.0 && "dot product is zero.");
+	  assert(left_norm != 0.0 && right_norm != 0.0 && "norm is zero.");
+	  return 1.0 - dot_product / (std::sqrt(left_norm) * std::sqrt(right_norm));
+	}
+	default:BUSTUB_ASSERT(false, "Unsupported vector expr type.");
   }
 }
 
 class VectorExpression : public AbstractExpression {
  public:
   VectorExpression(VectorExpressionType expr_type, AbstractExpressionRef left, AbstractExpressionRef right)
-      : AbstractExpression({std::move(left), std::move(right)}, Column{"<val>", TypeId::DECIMAL}),
-        expr_type_{expr_type} {}
+	  : AbstractExpression({std::move(left), std::move(right)}, Column{"<val>", TypeId::DECIMAL}),
+		expr_type_{expr_type} {}
 
   auto Evaluate(const Tuple *tuple, const Schema &schema) const -> Value override {
-    Value lhs = GetChildAt(0)->Evaluate(tuple, schema);
-    Value rhs = GetChildAt(1)->Evaluate(tuple, schema);
-    return ValueFactory::GetDecimalValue(PerformComputation(lhs, rhs));
+	Value lhs = GetChildAt(0)->Evaluate(tuple, schema);
+	Value rhs = GetChildAt(1)->Evaluate(tuple, schema);
+	return ValueFactory::GetDecimalValue(PerformComputation(lhs, rhs));
   }
 
   auto EvaluateJoin(const Tuple *left_tuple, const Schema &left_schema, const Tuple *right_tuple,
-                    const Schema &right_schema) const -> Value override {
-    Value lhs = GetChildAt(0)->EvaluateJoin(left_tuple, left_schema, right_tuple, right_schema);
-    Value rhs = GetChildAt(1)->EvaluateJoin(left_tuple, left_schema, right_tuple, right_schema);
-    return ValueFactory::GetDecimalValue(PerformComputation(lhs, rhs));
+					const Schema &right_schema) const -> Value override {
+	Value lhs = GetChildAt(0)->EvaluateJoin(left_tuple, left_schema, right_tuple, right_schema);
+	Value rhs = GetChildAt(1)->EvaluateJoin(left_tuple, left_schema, right_tuple, right_schema);
+	return ValueFactory::GetDecimalValue(PerformComputation(lhs, rhs));
   }
 
   /** @return the string representation of the expression node and its children */
   auto ToString() const -> std::string override {
-    return fmt::format("{}({}, {})", expr_type_, *GetChildAt(0), *GetChildAt(1));
+	return fmt::format("{}({}, {})", expr_type_, *GetChildAt(0), *GetChildAt(1));
   }
 
   BUSTUB_EXPR_CLONE_WITH_CHILDREN(VectorExpression);
@@ -68,33 +81,29 @@ class VectorExpression : public AbstractExpression {
 
  private:
   auto PerformComputation(const Value &lhs, const Value &rhs) const -> double {
-    auto left_vec = lhs.GetVector();
-    auto right_vec = rhs.GetVector();
-    return ComputeDistance(left_vec, right_vec, expr_type_);
+	auto left_vec = lhs.GetVector();
+	auto right_vec = rhs.GetVector();
+	return ComputeDistance(left_vec, right_vec, expr_type_);
   }
 };
 
 }  // namespace bustub
 
-template <>
+template<>
 struct fmt::formatter<bustub::VectorExpressionType> : formatter<string_view> {
-  template <typename FormatContext>
+  template<typename FormatContext>
   auto format(bustub::VectorExpressionType c, FormatContext &ctx) const {
-    string_view name;
-    switch (c) {
-      case bustub::VectorExpressionType::L2Dist:
-        name = "l2_dist";
-        break;
-      case bustub::VectorExpressionType::CosineSimilarity:
-        name = "cosine_similarity";
-        break;
-      case bustub::VectorExpressionType::InnerProduct:
-        name = "inner_product";
-        break;
-      default:
-        name = "Unknown";
-        break;
-    }
-    return formatter<string_view>::format(name, ctx);
+	string_view name;
+	switch (c) {
+	  case bustub::VectorExpressionType::L2Dist:name = "l2_dist";
+		break;
+	  case bustub::VectorExpressionType::CosineSimilarity:name = "cosine_similarity";
+		break;
+	  case bustub::VectorExpressionType::InnerProduct:name = "inner_product";
+		break;
+	  default:name = "Unknown";
+		break;
+	}
+	return formatter<string_view>::format(name, ctx);
   }
 };
