@@ -1,0 +1,26 @@
+statement ok
+SELECT ARRAY [1.0, 1.0, 1.0] <-> ARRAY [-1.0, -1.0, -1.0] as distance;
+
+statement ok
+SELECT ARRAY [1.0, 1.0, 1.0] <=> ARRAY [-1.0, -1.0, -1.0] as distance;
+
+statement ok
+SELECT inner_product(ARRAY [1.0, 1.0, 1.0], ARRAY [-1.0, -1.0, -1.0]) as distance;
+
+statement ok
+CREATE TABLE t1(v1 VECTOR(3), v2 integer);
+
+statement ok
+INSERT INTO t1 VALUES (ARRAY [1.0, 1.0, 1.0], 1), (ARRAY [2.0, 1.0, 1.0], 2), (ARRAY [3.0, 1.0, 1.0], 3), (ARRAY [4.0, 1.0, 1.0], 4);
+
+statement ok
+SELECT * FROM t1;
+
+statement ok
+SELECT v1, ARRAY [1.0, 1.0, 1.0] <-> v1 as distance FROM t1;
+
+statement ok
+SELECT v1, ARRAY [1.0, 1.0, 1.0] <=> v1 as distance FROM t1;
+
+statement ok
+SELECT v1, inner_product(ARRAY [1.0, 1.0, 1.0], v1) as distance FROM t1;

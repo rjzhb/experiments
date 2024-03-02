@@ -1,0 +1,29 @@
+statement ok
+CREATE TABLE t1(v1 VECTOR(3), v2 integer);
+
+statement ok
+INSERT INTO t1 VALUES (ARRAY [-1.0, 1.0, 1.0], -1), (ARRAY [-2.0, 1.0, 1.0], -2), (ARRAY [-3.0, 1.0, 1.0], -3), (ARRAY [-4.0, 1.0, 1.0], -4), (ARRAY [1.0, 1.0, 1.0], 1), (ARRAY [2.0, 1.0, 1.0], 2), (ARRAY [3.0, 1.0, 1.0], 3), (ARRAY [4.0, 1.0, 1.0], 4);
+
+statement ok
+EXPLAIN (o) SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 3;
+
+statement ok
+EXPLAIN (o) SELECT * FROM (SELECT v1, ARRAY [0.5, 1.0, 1.0] <-> v1 as distance FROM t1) ORDER BY distance LIMIT 3;
+
+statement ok
+EXPLAIN (o) SELECT * FROM (SELECT v1, ARRAY [0.5, 1.0, 1.0] <=> v1 as distance FROM t1) ORDER BY distance LIMIT 3;
+
+statement ok
+EXPLAIN (o) SELECT * FROM (SELECT v1, inner_product(ARRAY [0.5, 1.0, 1.0], v1) as distance FROM t1) ORDER BY distance LIMIT 3;
+
+statement ok
+SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 3;
+
+statement ok
+SELECT * FROM (SELECT v1, ARRAY [0.5, 1.0, 1.0] <-> v1 as distance FROM t1) ORDER BY distance LIMIT 3;
+
+statement ok
+SELECT * FROM (SELECT v1, ARRAY [0.5, 1.0, 1.0] <=> v1 as distance FROM t1) ORDER BY distance LIMIT 3;
+
+statement ok
+SELECT * FROM (SELECT v1, inner_product(ARRAY [0.5, 1.0, 1.0], v1) as distance FROM t1) ORDER BY distance LIMIT 3;

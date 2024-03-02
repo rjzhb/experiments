@@ -1,0 +1,38 @@
+statement ok
+CREATE TABLE t1(v1 VECTOR(3), v2 integer);
+
+statement ok
+CREATE INDEX t1v1ivfflat ON t1 USING ivfflat (v1 vector_l2_ops) WITH (lists = 10, probe_lists = 3);
+
+statement ok
+CREATE INDEX t1v1hnsw ON t1 USING hnsw (v1 vector_l2_ops) WITH (m = 5, ef_construction = 64, ef_search = 10);
+
+statement ok
+EXPLAIN (o) SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+EXPLAIN (o) SELECT * FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+EXPLAIN (o) SELECT v1, ARRAY [1.0, 1.0, 1.0] <-> v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+EXPLAIN (o) SELECT v2, v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+set vector_index_method=none
+
+statement ok
+EXPLAIN (o) SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+set vector_index_method=ivfflat
+
+statement ok
+EXPLAIN (o) SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
+
+statement ok
+set vector_index_method=hnsw
+
+statement ok
+EXPLAIN (o) SELECT v1 FROM t1 ORDER BY ARRAY [1.0, 1.0, 1.0] <-> v1 LIMIT 2;
