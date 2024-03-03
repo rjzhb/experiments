@@ -62,14 +62,11 @@ class InsertExecutor : public AbstractExecutor {
 
   std::unique_ptr<AbstractExecutor> child_executor_;
 
-  // Vector indexes on the insertion table, initialize it in the constructor.
   std::vector<VectorIndex *> indexes_;
 
-  // Reference to the insertion table heap, initialize it in the constructor.
-  [[maybe_unused]] TableHeap *table_heap_;
+  TableHeap *table_heap_;
 
-  // Whether `Next` has been called.
-  [[maybe_unused]] bool emitted_{false};
+  bool emitted_{false};
 };
 
 }  // namespace bustub

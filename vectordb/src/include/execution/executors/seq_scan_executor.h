@@ -53,10 +53,8 @@ class SeqScanExecutor : public AbstractExecutor {
   /** The sequential scan plan node to be executed */
   const SeqScanPlanNode *plan_;
 
-  // Reference to the table heap. Initialize it in the constructor.
-  [[maybe_unused]] TableHeap *table_heap_;
+  TableHeap *table_heap_;
 
-  // The table iterator. Initialize it in the `Init` function.
   std::unique_ptr<TableIterator> iter_{nullptr};
 };
 }  // namespace bustub
