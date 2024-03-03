@@ -22,101 +22,107 @@
 
 namespace bustub {
 
-using timestamp_t = int64_t;
-const timestamp_t INVALID_TS = -1;
+using timestamp_t = int64_t; // 定义时间戳类型
+const timestamp_t INVALID_TS = -1; // 无效时间戳的常量定义
 
-static constexpr size_t TUPLE_META_SIZE = 16;
+static constexpr size_t TUPLE_META_SIZE = 16; // 元组元数据的大小
 
+// 元组元数据的结构体定义
 struct TupleMeta {
-  /** the ts / txn_id of this tuple. In project 3, simply set it to 0. */
-  timestamp_t ts_;
-  /** marks whether this tuple is marked removed from table heap. */
-  bool is_deleted_;
+  timestamp_t ts_; // 元组的时间戳或事务ID，用于版本控制或并发控制
+  bool is_deleted_; // 标记元组是否已从表堆中删除
 
+  // 比较两个元组元数据是否相等的操作符重载
   friend auto operator==(const TupleMeta &a, const TupleMeta &b) {
-    return a.ts_ == b.ts_ && a.is_deleted_ == b.is_deleted_;
+	return a.ts_ == b.ts_ && a.is_deleted_ == b.is_deleted_;
   }
 
+  // 比较两个元组元数据是否不等的操作符重载
   friend auto operator!=(const TupleMeta &a, const TupleMeta &b) { return !(a == b); }
 };
 
+// 静态断言以确保TupleMeta的大小符合预期
 static_assert(sizeof(TupleMeta) == TUPLE_META_SIZE);
 
 /**
- * Tuple format:
+ * 元组的格式描述：
  * ---------------------------------------------------------------------
- * | FIXED-SIZE or VARIED-SIZED OFFSET | PAYLOAD OF VARIED-SIZED FIELD |
+ * | 固定大小或可变大小字段的偏移量 | 可变大小字段的有效载荷 |
  * ---------------------------------------------------------------------
  */
 class Tuple {
+  // 元组类的友元类，它们可以访问元组的私有成员
   friend class TablePage;
   friend class TableHeap;
   friend class TableIterator;
 
  public:
-  // Default constructor (to create a dummy tuple)
+  // 默认构造函数，用于创建虚拟元组
   Tuple() = default;
 
-  // constructor for table heap tuple
+  // 构造函数，用于创建指向表堆中特定元组的元组对象
   explicit Tuple(RID rid) : rid_(rid) {}
 
+  // 创建一个空元组的静态方法
   static auto Empty() -> Tuple { return Tuple{RID{INVALID_PAGE_ID, 0}}; }
 
-  // constructor for creating a new tuple based on input value
+  // 根据值和模式创建新元组的构造函数
   Tuple(std::vector<Value> values, const Schema *schema);
 
+  // 拷贝构造函数
   Tuple(const Tuple &other) = default;
 
-  // move constructor
+  // 移动构造函数
   Tuple(Tuple &&other) noexcept = default;
 
-  // assign operator, deep copy
+  // 赋值操作符，深拷贝
   auto operator=(const Tuple &other) -> Tuple & = default;
 
-  // move assignment
+  // 移动赋值操作符
   auto operator=(Tuple &&other) noexcept -> Tuple & = default;
 
-  // serialize tuple data
+  // 序列化元组数据到存储空间
   void SerializeTo(char *storage) const;
 
-  // deserialize tuple data(deep copy)
+  // 从存储空间反序列化元组数据（深拷贝）
   void DeserializeFrom(const char *storage);
 
-  // return RID of current tuple
+  // 获取当前元组的RID
   inline auto GetRid() const -> RID { return rid_; }
 
-  // return RID of current tuple
+  // 设置当前元组的RID
   inline auto SetRid(RID rid) { rid_ = rid; }
 
-  // Get the address of this tuple in the table's backing store
+  // 获取表存储中此元组的地址
   inline auto GetData() const -> const char * { return data_.data(); }
 
-  // Get length of the tuple, including varchar length
+  // 获取元组的长度，包括varchar字段的长度
   inline auto GetLength() const -> uint32_t { return data_.size(); }
 
-  // Get the value of a specified column (const)
-  // checks the schema to see how to return the Value.
+  // 根据模式获取指定列的值（const版本）
   auto GetValue(const Schema *schema, uint32_t column_idx) const -> Value;
 
-  // Generates a key tuple given schemas and attributes
+  // 使用模式和属性生成键元组
   auto KeyFromTuple(const Schema &schema, const Schema &key_schema, const std::vector<uint32_t> &key_attrs) -> Tuple;
 
-  // Is the column value null ?
+  // 判断指定列值是否为空
   inline auto IsNull(const Schema *schema, uint32_t column_idx) const -> bool {
-    Value value = GetValue(schema, column_idx);
-    return value.IsNull();
+	Value value = GetValue(schema, column_idx);
+	return value.IsNull();
   }
 
+  // 将元组转换为字符串表示
   auto ToString(const Schema *schema) const -> std::string;
 
+  // 判断两个元组的内容是否相等
   friend inline auto IsTupleContentEqual(const Tuple &a, const Tuple &b) { return a.data_ == b.data_; }
 
  private:
-  // Get the starting storage address of specific column
+  // 获取特定列的起始存储地址
   auto GetDataPtr(const Schema *schema, uint32_t column_idx) const -> const char *;
 
-  RID rid_{};  // if pointing to the table heap, the rid is valid
-  std::vector<char> data_;
+  RID rid_{};  // 如果指向表堆，则rid有效
+  std::vector<char> data_;  // 元组的数据内容
 };
 
 }  // namespace bustub

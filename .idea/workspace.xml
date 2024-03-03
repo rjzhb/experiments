@@ -142,7 +142,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/execution/seq_scan_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/seq_scan_executor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/tuple.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/tuple.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -975,7 +977,7 @@
       <updated>1709369292482</updated>
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
-      <workItem from="1709451980154" duration="6435000" />
+      <workItem from="1709451980154" duration="9811000" />
     </task>
     <servers />
   </component>
