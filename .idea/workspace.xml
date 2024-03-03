@@ -141,9 +141,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/common/bustub_instance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/common/bustub_instance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/execution_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/execution_engine.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -976,7 +974,7 @@
       <updated>1709369292482</updated>
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
-      <workItem from="1709451980154" duration="3553000" />
+      <workItem from="1709451980154" duration="3891000" />
     </task>
     <servers />
   </component>
