@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// executor_context.h
-//
-// Identification: src/include/execution/executor_context.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <deque>
@@ -39,8 +27,12 @@ class ExecutorContext {
    * @param txn_mgr The transaction manager that the executor uses
    * @param lock_mgr The lock manager that the executor uses
    */
-  ExecutorContext(Transaction *transaction, Catalog *catalog, BufferPoolManager *bpm, TransactionManager *txn_mgr,
-                  LockManager *lock_mgr, bool is_delete)
+  ExecutorContext(Transaction *transaction,
+				  Catalog *catalog,
+				  BufferPoolManager *bpm,
+				  TransactionManager *txn_mgr,
+                  LockManager *lock_mgr,
+				  bool is_delete)
       : transaction_(transaction),
         catalog_{catalog},
         bpm_{bpm},
@@ -82,7 +74,8 @@ class ExecutorContext {
   /** @return the check options */
   auto GetCheckOptions() -> std::shared_ptr<CheckOptions> { return check_options_; }
 
-  void AddCheckExecutor(AbstractExecutor *left_exec, AbstractExecutor *right_exec) {
+  void AddCheckExecutor(AbstractExecutor *left_exec,
+						AbstractExecutor *right_exec) {
     nlj_check_exec_set_.emplace_back(left_exec, right_exec);
   }
 

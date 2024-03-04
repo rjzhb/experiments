@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// value.h
-//
-// Identification: src/include/type/value.h
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <cstring>
@@ -29,11 +17,11 @@ class Column;
 
 inline auto GetCmpBool(bool boolean) -> CmpBool { return boolean ? CmpBool::CmpTrue : CmpBool::CmpFalse; }
 
-// A value is an abstract class that represents a view over SQL data stored in
-// some materialized state. All values have a type and comparison functions, but
-// subclasses implement other type-specific functionality.
+// Value是一个抽象类，代表在数据库中存储的SQL数据的视图。
+// 它定义了所有值共有的基本接口和属性，例如数据类型和比较函数。
+// 具体的类型特定功能由子类实现。
 class Value {
-  // Friend Type classes
+  // 允许Type类及其子类访问Value的私有和保护成员。
   friend class Type;
   friend class NumericType;
   friend class IntegerParentType;
@@ -45,6 +33,7 @@ class Value {
   friend class TimestampType;
   friend class BooleanType;
   friend class VarlenType;
+  //向量数据库专用
   friend class VectorType;
 
  public:
@@ -175,6 +164,7 @@ class Value {
     const char *const_varlen_;
   } value_;
 
+  // 用于存储变长数据长度或元素类型ID的联合体
   union {
     uint32_t len_;
     TypeId elem_type_id_;

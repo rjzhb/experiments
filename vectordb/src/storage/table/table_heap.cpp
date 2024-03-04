@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// table_heap.cpp
-//
-// Identification: src/storage/table/table_heap.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include <cassert>
 #include <mutex>  // NOLINT
 #include <utility>

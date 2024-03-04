@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// bigint_type.cpp
-//
-// Identification: src/type/bigint_type.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include <cassert>
 #include <cmath>
 #include <iostream>

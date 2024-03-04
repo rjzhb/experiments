@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// tuple.cpp
-//
-// Identification: src/storage/table/tuple.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include <cassert>
 #include <cstdlib>
 #include <sstream>
@@ -86,6 +74,7 @@ auto Tuple::GetDataPtr(const Schema *schema, const uint32_t column_idx) const ->
   if (is_inlined) {
     return (data_.data() + col.GetOffset());
   }
+  //非内联数据，通常意味着是varchar，他以int32来存储偏移量
   // We read the relative offset from the tuple data.
   int32_t offset = *reinterpret_cast<const int32_t *>(data_.data() + col.GetOffset());
   // And return the beginning address of the real data for the VARCHAR type.
