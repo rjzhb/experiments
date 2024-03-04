@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// abstract_expression.h
-//
-// Identification: src/include/expression/abstract_expression.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -47,7 +35,8 @@ class AbstractExpression {
    * @param children the children of this abstract expression
    * @param ret_type the return type of this abstract expression when it is evaluated
    */
-  AbstractExpression(std::vector<AbstractExpressionRef> children, Column ret_type)
+  AbstractExpression(std::vector<AbstractExpressionRef> children,
+					 Column ret_type)
       : children_{std::move(children)}, ret_type_{std::move(ret_type)} {}
 
   /** Virtual destructor. */

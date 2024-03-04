@@ -142,10 +142,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/plans/abstract_plan.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/plans/abstract_plan.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/plans/projection_plan.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/plans/projection_plan.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/planner/planner.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/planner/planner.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/planner/plan_select.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/planner/plan_select.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/planner/plan_expression.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/planner/plan_expression.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/planner/plan_insert.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/planner/plan_insert.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -982,7 +980,7 @@
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
       <workItem from="1709451980154" duration="10129000" />
-      <workItem from="1709529322592" duration="8015000" />
+      <workItem from="1709529322592" duration="12633000" />
     </task>
     <servers />
   </component>

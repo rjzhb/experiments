@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// filter_plan.h
-//
-// Identification: src/include/execution/plans/filter_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -34,7 +22,9 @@ class FilterPlanNode : public AbstractPlanNode {
    * @param predicate The predicate applied during the scan operation
    * @param child The child plan node
    */
-  FilterPlanNode(SchemaRef output, AbstractExpressionRef predicate, AbstractPlanNodeRef child)
+  FilterPlanNode(SchemaRef output,
+				 AbstractExpressionRef predicate,
+				 AbstractPlanNodeRef child)
       : AbstractPlanNode(std::move(output), {std::move(child)}), predicate_{std::move(predicate)} {}
 
   /** @return The type of the plan node */

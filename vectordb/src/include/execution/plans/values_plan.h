@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// values_plan.h
-//
-// Identification: src/include/execution/plans/values_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -35,7 +23,8 @@ class ValuesPlanNode : public AbstractPlanNode {
    * @param output The output schema of this values plan node
    * @param values The values produced by this plan node
    */
-  explicit ValuesPlanNode(SchemaRef output, std::vector<std::vector<AbstractExpressionRef>> values)
+  explicit ValuesPlanNode(SchemaRef output,
+						  std::vector<std::vector<AbstractExpressionRef>> values)
       : AbstractPlanNode(std::move(output), {}), values_(std::move(values)) {}
 
   /** @return The type of the plan node */

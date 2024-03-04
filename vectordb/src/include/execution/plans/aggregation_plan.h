@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// aggregation_plan.h
-//
-// Identification: src/include/execution/plans/aggregation_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -44,8 +32,11 @@ class AggregationPlanNode : public AbstractPlanNode {
    * @param aggregates The expressions that we are aggregating
    * @param agg_types The types that we are aggregating
    */
-  AggregationPlanNode(SchemaRef output_schema, AbstractPlanNodeRef child, std::vector<AbstractExpressionRef> group_bys,
-                      std::vector<AbstractExpressionRef> aggregates, std::vector<AggregationType> agg_types)
+  AggregationPlanNode(SchemaRef output_schema,
+					  AbstractPlanNodeRef child,
+					  std::vector<AbstractExpressionRef> group_bys,
+                      std::vector<AbstractExpressionRef> aggregates,
+					  std::vector<AggregationType> agg_types)
       : AbstractPlanNode(std::move(output_schema), {std::move(child)}),
         group_bys_(std::move(group_bys)),
         aggregates_(std::move(aggregates)),

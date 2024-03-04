@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// update_plan.h
-//
-// Identification: src/include/execution/plans/update_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 #include <string>
 #include <unordered_map>
@@ -34,7 +22,9 @@ class UpdatePlanNode : public AbstractPlanNode {
    * @param table_oid The identifier of the table that should be updated
    * @param target_expressions The target expressions for new tuples
    */
-  UpdatePlanNode(SchemaRef output, AbstractPlanNodeRef child, table_oid_t table_oid,
+  UpdatePlanNode(SchemaRef output,
+				 AbstractPlanNodeRef child,
+				 table_oid_t table_oid,
                  std::vector<AbstractExpressionRef> target_expressions)
       : AbstractPlanNode(std::move(output), {std::move(child)}),
         table_oid_{table_oid},

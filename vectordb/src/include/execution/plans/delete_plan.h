@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// delete_plan.h
-//
-// Identification: src/include/execution/plans/delete_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <string>
@@ -34,7 +22,9 @@ class DeletePlanNode : public AbstractPlanNode {
    * @param child The child plan to obtain tuple from
    * @param table_oid The identifier of the table from which tuples are deleted
    */
-  DeletePlanNode(SchemaRef output, AbstractPlanNodeRef child, table_oid_t table_oid)
+  DeletePlanNode(SchemaRef output,
+				 AbstractPlanNodeRef child,
+				 table_oid_t table_oid)
       : AbstractPlanNode(std::move(output), {std::move(child)}), table_oid_{table_oid} {}
 
   /** @return The type of the plan node */

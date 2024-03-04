@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// sort_plan.h
-//
-// Identification: src/include/execution/plans/sort_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -36,8 +24,10 @@ class SortPlanNode : public AbstractPlanNode {
    * @param child The child plan node
    * @param order_bys The sort expressions and their order by types.
    */
-  SortPlanNode(SchemaRef output, AbstractPlanNodeRef child,
-               std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_bys)
+  SortPlanNode(SchemaRef output,
+			   AbstractPlanNodeRef child,
+               std::vector<std::pair<OrderByType,
+			   AbstractExpressionRef>> order_bys)
       : AbstractPlanNode(std::move(output), {std::move(child)}), order_bys_(std::move(order_bys)) {}
 
   /** @return The type of the plan node */

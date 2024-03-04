@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// limit_plan.h
-//
-// Identification: src/include/execution/plans/limit_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <string>
@@ -30,7 +18,9 @@ class LimitPlanNode : public AbstractPlanNode {
    * @param child The child plan from which tuples are obtained
    * @param limit The number of output tuples
    */
-  LimitPlanNode(SchemaRef output, AbstractPlanNodeRef child, std::size_t limit)
+  LimitPlanNode(SchemaRef output,
+				AbstractPlanNodeRef child,
+				std::size_t limit)
       : AbstractPlanNode(std::move(output), {std::move(child)}), limit_{limit} {}
 
   /** @return The type of the plan node */

@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// aggregation_plan.h
-//
-// Identification: src/include/execution/plans/aggregation_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -58,17 +46,19 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
    *    functions: std::vector<AbstractExpressionRef>{0.3, 0.4}
    *    window_func_types: std::vector<WindowFunctionType>{SumAggregate, SumAggregate}
    */
-  WindowFunctionPlanNode(SchemaRef output_schema, AbstractPlanNodeRef child, std::vector<uint32_t> window_func_indexes,
-                         std::vector<AbstractExpressionRef> columns,
-                         std::vector<std::vector<AbstractExpressionRef>> partition_bys,
-                         std::vector<std::vector<std::pair<OrderByType, AbstractExpressionRef>>> order_bys,
-                         std::vector<AbstractExpressionRef> functions,
-                         std::vector<WindowFunctionType> window_func_types)
-      : AbstractPlanNode(std::move(output_schema), {std::move(child)}), columns_(std::move(columns)) {
-    for (uint32_t i = 0; i < window_func_indexes.size(); i++) {
-      window_functions_[window_func_indexes[i]] =
-          WindowFunction{functions[i], window_func_types[i], partition_bys[i], order_bys[i]};
-    }
+  WindowFunctionPlanNode(SchemaRef output_schema,
+						 AbstractPlanNodeRef child,
+						 std::vector<uint32_t> window_func_indexes,
+						 std::vector<AbstractExpressionRef> columns,
+						 std::vector<std::vector<AbstractExpressionRef>> partition_bys,
+						 std::vector<std::vector<std::pair<OrderByType, AbstractExpressionRef>>> order_bys,
+						 std::vector<AbstractExpressionRef> functions,
+						 std::vector<WindowFunctionType> window_func_types)
+	  : AbstractPlanNode(std::move(output_schema), {std::move(child)}), columns_(std::move(columns)) {
+	for (uint32_t i = 0; i < window_func_indexes.size(); i++) {
+	  window_functions_[window_func_indexes[i]] =
+		  WindowFunction{functions[i], window_func_types[i], partition_bys[i], order_bys[i]};
+	}
   }
 
   /** @return The type of the plan node */
@@ -76,8 +66,8 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
 
   /** @return the child of this aggregation plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Window Aggregation expected to only have one child.");
-    return GetChildAt(0);
+	BUSTUB_ASSERT(GetChildren().size() == 1, "Window Aggregation expected to only have one child.");
+	return GetChildAt(0);
   }
 
   static auto InferWindowSchema(const std::vector<AbstractExpressionRef> &columns) -> Schema;
@@ -85,10 +75,10 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
   BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(WindowFunctionPlanNode);
 
   struct WindowFunction {
-    AbstractExpressionRef function_;
-    WindowFunctionType type_;
-    std::vector<AbstractExpressionRef> partition_by_;
-    std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_by_;
+	AbstractExpressionRef function_;
+	WindowFunctionType type_;
+	std::vector<AbstractExpressionRef> partition_by_;
+	std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_by_;
   };
 
   /** all columns expressions */
@@ -102,42 +92,36 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
 
 }  // namespace bustub
 
-template <>
+template<>
 struct fmt::formatter<bustub::WindowFunctionPlanNode::WindowFunction> : formatter<std::string> {
-  template <typename FormatContext>
+  template<typename FormatContext>
   auto format(const bustub::WindowFunctionPlanNode::WindowFunction &x, FormatContext &ctx) const {
-    return formatter<std::string>::format(fmt::format("{{ function_arg={}, type={}, partition_by={}, order_by={} }}",
-                                                      x.function_, x.type_, x.partition_by_, x.order_by_),
-                                          ctx);
+	return formatter<std::string>::format(fmt::format("{{ function_arg={}, type={}, partition_by={}, order_by={} }}",
+													  x.function_, x.type_, x.partition_by_, x.order_by_),
+										  ctx);
   }
 };
 
-template <>
+template<>
 struct fmt::formatter<bustub::WindowFunctionType> : formatter<std::string> {
-  template <typename FormatContext>
+  template<typename FormatContext>
   auto format(bustub::WindowFunctionType c, FormatContext &ctx) const {
-    using bustub::WindowFunctionType;
-    std::string name = "unknown";
-    switch (c) {
-      case WindowFunctionType::CountStarAggregate:
-        name = "count_star";
-        break;
-      case WindowFunctionType::CountAggregate:
-        name = "count";
-        break;
-      case WindowFunctionType::SumAggregate:
-        name = "sum";
-        break;
-      case WindowFunctionType::MinAggregate:
-        name = "min";
-        break;
-      case WindowFunctionType::MaxAggregate:
-        name = "max";
-        break;
-      case WindowFunctionType::Rank:
-        name = "rank";
-        break;
-    }
-    return formatter<std::string>::format(name, ctx);
+	using bustub::WindowFunctionType;
+	std::string name = "unknown";
+	switch (c) {
+	  case WindowFunctionType::CountStarAggregate:name = "count_star";
+		break;
+	  case WindowFunctionType::CountAggregate:name = "count";
+		break;
+	  case WindowFunctionType::SumAggregate:name = "sum";
+		break;
+	  case WindowFunctionType::MinAggregate:name = "min";
+		break;
+	  case WindowFunctionType::MaxAggregate:name = "max";
+		break;
+	  case WindowFunctionType::Rank:name = "rank";
+		break;
+	}
+	return formatter<std::string>::format(name, ctx);
   }
 };

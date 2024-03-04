@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// seq_scan_plan.h
-//
-// Identification: src/include/execution/plans/seq_scan_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -34,7 +22,9 @@ class SeqScanPlanNode : public AbstractPlanNode {
    * @param output The output schema of this sequential scan plan node
    * @param table_oid The identifier of table to be scanned
    */
-  SeqScanPlanNode(SchemaRef output, table_oid_t table_oid, std::string table_name,
+  SeqScanPlanNode(SchemaRef output,
+				  table_oid_t table_oid,
+				  std::string table_name,
                   AbstractExpressionRef filter_predicate = nullptr)
       : AbstractPlanNode(std::move(output), {}),
         table_oid_{table_oid},
