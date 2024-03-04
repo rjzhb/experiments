@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// projection_plan.h
-//
-// Identification: src/include/execution/plans/projection_plan.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -25,30 +13,32 @@
 namespace bustub {
 
 /**
- * The ProjectionPlanNode represents a project operation.
- * It computes expressions based on the input.
+ * ProjectionPlanNode 表示投影操作。
+ * 它基于输入计算表达式。
  */
 class ProjectionPlanNode : public AbstractPlanNode {
  public:
   /**
-   * Construct a new ProjectionPlanNode instance.
-   * @param output The output schema of this projection node
-   * @param expressions The expression to evaluate
-   * @param child The child plan node
+   * 构造一个新的 ProjectionPlanNode 实例。
+   * @param output 此投影节点的输出模式
+   * @param expressions 要评估的表达式
+   * @param child 子计划节点
    */
-  ProjectionPlanNode(SchemaRef output, std::vector<AbstractExpressionRef> expressions, AbstractPlanNodeRef child)
-      : AbstractPlanNode(std::move(output), {std::move(child)}), expressions_(std::move(expressions)) {}
+  ProjectionPlanNode(SchemaRef output,
+					 std::vector<AbstractExpressionRef> expressions,
+					 AbstractPlanNodeRef child)
+	  : AbstractPlanNode(std::move(output), {std::move(child)}), expressions_(std::move(expressions)) {}
 
-  /** @return The type of the plan node */
+  /** @return 计划节点的类型 */
   auto GetType() const -> PlanType override { return PlanType::Projection; }
 
-  /** @return The child plan node */
+  /** @return 子计划节点 */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Projection should have exactly one child plan.");
-    return GetChildAt(0);
+	BUSTUB_ASSERT(GetChildren().size() == 1, "Projection should have exactly one child plan.");
+	return GetChildAt(0);
   }
 
-  /** @return Projection expressions */
+  /** @return 投影表达式 */
   auto GetExpressions() const -> const std::vector<AbstractExpressionRef> & { return expressions_; }
 
   static auto InferProjectionSchema(const std::vector<AbstractExpressionRef> &expressions) -> Schema;

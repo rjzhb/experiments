@@ -142,36 +142,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/execution_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/execution_engine.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executor_context.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executor_context.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executor_factory.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executor_factory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_iterator.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_iterator.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/tuple.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/tuple.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/abstract_pool.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/abstract_pool.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/bigint_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/bigint_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/boolean_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/boolean_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/decimal_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/decimal_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/integer_parent_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/integer_parent_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/integer_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/integer_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/limits.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/limits.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/numeric_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/numeric_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/smallint_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/smallint_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/timestamp_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/timestamp_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/tinyint_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/tinyint_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/type_id.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/type_id.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/type_util.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/type_util.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/value.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/value.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/value_factory.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/value_factory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/varlen_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/varlen_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/vector_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/vector_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/storage/table/tuple.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/table/tuple.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/type/bigint_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/type/bigint_type.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/type/value.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/type/value.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/type/varlen_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/type/varlen_type.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/type/vector_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/type/vector_type.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/plans/abstract_plan.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/plans/abstract_plan.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/plans/projection_plan.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/plans/projection_plan.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/planner/planner.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/planner/planner.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/planner/plan_select.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/planner/plan_select.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,6 +161,9 @@
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="3kxfyi3i" />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-Debug-bustub_execution" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -1005,7 +982,7 @@
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
       <workItem from="1709451980154" duration="10129000" />
-      <workItem from="1709529322592" duration="5429000" />
+      <workItem from="1709529322592" duration="8015000" />
     </task>
     <servers />
   </component>
