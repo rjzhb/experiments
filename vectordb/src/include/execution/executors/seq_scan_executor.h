@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// seq_scan_executor.h
-//
-// Identification: src/include/execution/executors/seq_scan_executor.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <vector>
@@ -33,7 +21,8 @@ class SeqScanExecutor : public AbstractExecutor {
    * @param exec_ctx The executor context
    * @param plan The sequential scan plan to be executed
    */
-  SeqScanExecutor(ExecutorContext *exec_ctx, const SeqScanPlanNode *plan);
+  SeqScanExecutor(ExecutorContext *exec_ctx,
+				  const SeqScanPlanNode *plan);
 
   /** Initialize the sequential scan */
   void Init() override;

@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// executor_factory.cpp
-//
-// Identification: src/execution/executor_factory.cpp
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include "execution/executor_factory.h"
 
 #include <memory>
