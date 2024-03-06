@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// delete_executor.h
-//
-// Identification: src/include/execution/executors/delete_executor.h
-//
-// Copyright (c) 2015-19, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -36,7 +24,7 @@ class DeleteExecutor : public AbstractExecutor {
    * @param child_executor The child executor that feeds the delete
    */
   DeleteExecutor(ExecutorContext *exec_ctx, const DeletePlanNode *plan,
-                 std::unique_ptr<AbstractExecutor> &&child_executor);
+				 std::unique_ptr<AbstractExecutor> &&child_executor);
 
   /** Initialize the delete */
   void Init() override;
@@ -58,8 +46,12 @@ class DeleteExecutor : public AbstractExecutor {
  private:
   /** The delete plan node to be executed */
   const DeletePlanNode *plan_;
-
   /** The child executor from which RIDs for deleted tuples are pulled */
   std::unique_ptr<AbstractExecutor> child_executor_;
+
+  const TableInfo *table_info_;
+
+  std::vector<IndexInfo *> table_indexes_;
+  bool is_end_{false};
 };
 }  // namespace bustub
