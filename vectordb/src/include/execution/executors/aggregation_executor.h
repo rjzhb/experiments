@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// aggregation_executor.h
-//
-// Identification: src/include/execution/executors/aggregation_executor.h
-//
-// Copyright (c) 2015-2021, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -39,28 +27,28 @@ class SimpleAggregationHashTable {
    * @param agg_types the types of aggregations
    */
   SimpleAggregationHashTable(const std::vector<AbstractExpressionRef> &agg_exprs,
-                             const std::vector<AggregationType> &agg_types)
-      : agg_exprs_{agg_exprs}, agg_types_{agg_types} {}
+							 const std::vector<AggregationType> &agg_types)
+	  : agg_exprs_{agg_exprs}, agg_types_{agg_types} {}
 
-  /** @return The initial aggregate value for this aggregation executor */
+  /** @return The initial aggregrate value for this aggregation executor */
   auto GenerateInitialAggregateValue() -> AggregateValue {
-    std::vector<Value> values{};
-    for (const auto &agg_type : agg_types_) {
-      switch (agg_type) {
-        case AggregationType::CountStarAggregate:
-          // Count start starts at zero.
-          values.emplace_back(ValueFactory::GetIntegerValue(0));
-          break;
-        case AggregationType::CountAggregate:
-        case AggregationType::SumAggregate:
-        case AggregationType::MinAggregate:
-        case AggregationType::MaxAggregate:
-          // Others starts at null.
-          values.emplace_back(ValueFactory::GetNullValueByType(TypeId::INTEGER));
-          break;
-      }
-    }
-    return {values};
+	std::vector<Value> values{};
+	for (const auto &agg_type : agg_types_) {
+	  switch (agg_type) {
+		case AggregationType::CountStarAggregate:
+		  // Count start starts at zero.
+		  values.emplace_back(ValueFactory::GetIntegerValue(0));
+		  break;
+		case AggregationType::CountAggregate:
+		case AggregationType::SumAggregate:
+		case AggregationType::MinAggregate:
+		case AggregationType::MaxAggregate:
+		  // Others starts at null.
+		  values.emplace_back(ValueFactory::GetNullValueByType(TypeId::INTEGER));
+		  break;
+	  }
+	}
+	return {values};
   }
 
   /**
@@ -71,16 +59,42 @@ class SimpleAggregationHashTable {
    * @param input The input value
    */
   void CombineAggregateValues(AggregateValue *result, const AggregateValue &input) {
-    for (uint32_t i = 0; i < agg_exprs_.size(); i++) {
-      switch (agg_types_[i]) {
-        case AggregationType::CountStarAggregate:
-        case AggregationType::CountAggregate:
-        case AggregationType::SumAggregate:
-        case AggregationType::MinAggregate:
-        case AggregationType::MaxAggregate:
-          break;
-      }
-    }
+	for (uint32_t i = 0; i < agg_exprs_.size(); i++) {
+	  switch (agg_types_[i]) {
+		case AggregationType::CountStarAggregate:
+		  result->aggregates_[i] = result->aggregates_[i].Add(ValueFactory::GetIntegerValue(1));
+		  break;
+		case AggregationType::CountAggregate:
+		  if (result->aggregates_[i].IsNull()) {
+			result->aggregates_[i] = ValueFactory::GetIntegerValue(0);
+		  }
+		  if (!input.aggregates_[i].IsNull()) {
+			result->aggregates_[i] = result->aggregates_[i].Add(ValueFactory::GetIntegerValue(1));
+		  }
+		  break;
+		case AggregationType::SumAggregate:
+		  if (result->aggregates_[i].IsNull()) {
+			result->aggregates_[i] = input.aggregates_[i];
+		  } else if (!input.aggregates_[i].IsNull()) {
+			result->aggregates_[i] = result->aggregates_[i].Add(input.aggregates_[i]);
+		  }
+		  break;
+		case AggregationType::MinAggregate:
+		  if (result->aggregates_[i].IsNull()) {
+			result->aggregates_[i] = input.aggregates_[i];
+		  } else if (!input.aggregates_[i].IsNull()) {
+			result->aggregates_[i] = result->aggregates_[i].Min(input.aggregates_[i]);
+		  }
+		  break;
+		case AggregationType::MaxAggregate:
+		  if (result->aggregates_[i].IsNull()) {
+			result->aggregates_[i] = input.aggregates_[i];
+		  } else if (!input.aggregates_[i].IsNull()) {
+			result->aggregates_[i] = result->aggregates_[i].Max(input.aggregates_[i]);
+		  }
+		  break;
+	  }
+	}
   }
 
   /**
@@ -89,11 +103,13 @@ class SimpleAggregationHashTable {
    * @param agg_val the value to be inserted
    */
   void InsertCombine(const AggregateKey &agg_key, const AggregateValue &agg_val) {
-    if (ht_.count(agg_key) == 0) {
-      ht_.insert({agg_key, GenerateInitialAggregateValue()});
-    }
-    CombineAggregateValues(&ht_[agg_key], agg_val);
+	if (ht_.count(agg_key) == 0) {
+	  ht_.insert({agg_key, GenerateInitialAggregateValue()});
+	}
+	CombineAggregateValues(&ht_[agg_key], agg_val);
   }
+
+  void InsertIntialCombine() { ht_.insert({{std::vector<Value>()}, GenerateInitialAggregateValue()}); }
 
   /**
    * Clear the hash table
@@ -103,30 +119,30 @@ class SimpleAggregationHashTable {
   /** An iterator over the aggregation hash table */
   class Iterator {
    public:
-    /** Creates an iterator for the aggregate map. */
-    explicit Iterator(std::unordered_map<AggregateKey, AggregateValue>::const_iterator iter) : iter_{iter} {}
+	/** Creates an iterator for the aggregate map. */
+	explicit Iterator(std::unordered_map<AggregateKey, AggregateValue>::const_iterator iter) : iter_{iter} {}
 
-    /** @return The key of the iterator */
-    auto Key() -> const AggregateKey & { return iter_->first; }
+	/** @return The key of the iterator */
+	auto Key() -> const AggregateKey & { return iter_->first; }
 
-    /** @return The value of the iterator */
-    auto Val() -> const AggregateValue & { return iter_->second; }
+	/** @return The value of the iterator */
+	auto Val() -> const AggregateValue & { return iter_->second; }
 
-    /** @return The iterator before it is incremented */
-    auto operator++() -> Iterator & {
-      ++iter_;
-      return *this;
-    }
+	/** @return The iterator before it is incremented */
+	auto operator++() -> Iterator & {
+	  ++iter_;
+	  return *this;
+	}
 
-    /** @return `true` if both iterators are identical */
-    auto operator==(const Iterator &other) -> bool { return this->iter_ == other.iter_; }
+	/** @return `true` if both iterators are identical */
+	auto operator==(const Iterator &other) -> bool { return this->iter_ == other.iter_; }
 
-    /** @return `true` if both iterators are different */
-    auto operator!=(const Iterator &other) -> bool { return this->iter_ != other.iter_; }
+	/** @return `true` if both iterators are different */
+	auto operator!=(const Iterator &other) -> bool { return this->iter_ != other.iter_; }
 
    private:
-    /** Aggregates map */
-    std::unordered_map<AggregateKey, AggregateValue>::const_iterator iter_;
+	/** Aggregates map */
+	std::unordered_map<AggregateKey, AggregateValue>::const_iterator iter_;
   };
 
   /** @return Iterator to the start of the hash table */
@@ -134,6 +150,8 @@ class SimpleAggregationHashTable {
 
   /** @return Iterator to the end of the hash table */
   auto End() -> Iterator { return Iterator{ht_.cend()}; }
+
+  auto Size() -> size_t { return ht_.size(); }
 
  private:
   /** The hash table is just a map from aggregate keys to aggregate values */
@@ -157,7 +175,7 @@ class AggregationExecutor : public AbstractExecutor {
    * @param child_executor The child executor from which inserted tuples are pulled (may be `nullptr`)
    */
   AggregationExecutor(ExecutorContext *exec_ctx, const AggregationPlanNode *plan,
-                      std::unique_ptr<AbstractExecutor> &&child_executor);
+					  std::unique_ptr<AbstractExecutor> &&child);
 
   /** Initialize the aggregation */
   void Init() override;
@@ -179,33 +197,31 @@ class AggregationExecutor : public AbstractExecutor {
  private:
   /** @return The tuple as an AggregateKey */
   auto MakeAggregateKey(const Tuple *tuple) -> AggregateKey {
-    std::vector<Value> keys;
-    for (const auto &expr : plan_->GetGroupBys()) {
-      keys.emplace_back(expr->Evaluate(tuple, child_executor_->GetOutputSchema()));
-    }
-    return {keys};
+	std::vector<Value> keys;
+	for (const auto &expr : plan_->GetGroupBys()) {
+	  keys.emplace_back(expr->Evaluate(tuple, child_->GetOutputSchema()));
+	}
+	return {keys};
   }
 
   /** @return The tuple as an AggregateValue */
   auto MakeAggregateValue(const Tuple *tuple) -> AggregateValue {
-    std::vector<Value> vals;
-    for (const auto &expr : plan_->GetAggregates()) {
-      vals.emplace_back(expr->Evaluate(tuple, child_executor_->GetOutputSchema()));
-    }
-    return {vals};
+	std::vector<Value> vals;
+	for (const auto &expr : plan_->GetAggregates()) {
+	  vals.emplace_back(expr->Evaluate(tuple, child_->GetOutputSchema()));
+	}
+	return {vals};
   }
 
  private:
   /** The aggregation plan node */
   const AggregationPlanNode *plan_;
-
   /** The child executor that produces tuples over which the aggregation is computed */
-  std::unique_ptr<AbstractExecutor> child_executor_;
-
+  std::unique_ptr<AbstractExecutor> child_;
   /** Simple aggregation hash table */
-  // TODO(Student): Uncomment SimpleAggregationHashTable aht_;
-
+  SimpleAggregationHashTable aht_;
   /** Simple aggregation hash table iterator */
-  // TODO(Student): Uncomment SimpleAggregationHashTable::Iterator aht_iterator_;
+  SimpleAggregationHashTable::Iterator aht_iterator_;
 };
+
 }  // namespace bustub

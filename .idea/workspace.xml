@@ -142,7 +142,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/execution/aggregation_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/aggregation_executor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/execution/insert_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/insert_executor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vectordb/src/execution/nested_loop_join_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/nested_loop_join_executor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/execution/sort_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/sort_executor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executors/aggregation_executor.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executors/aggregation_executor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executors/insert_executor.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executors/insert_executor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executors/sort_executor.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executors/sort_executor.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -979,11 +985,22 @@
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
       <workItem from="1709451980154" duration="10129000" />
-      <workItem from="1709529322592" duration="18744000" />
+      <workItem from="1709529322592" duration="26380000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/include/execution/plans/aggregation_plan.h</url>
+          <line>57</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

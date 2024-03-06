@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// sort_executor.h
-//
-// Identification: src/include/execution/executors/sort_executor.h
-//
-// Copyright (c) 2015-2022, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #pragma once
 
 #include <memory>
@@ -52,5 +40,9 @@ class SortExecutor : public AbstractExecutor {
  private:
   /** The sort plan node to be executed */
   const SortPlanNode *plan_;
+  std::unique_ptr<AbstractExecutor> child_;
+  std::vector<Tuple> child_tuples_;
+
+  std::vector<Tuple>::const_iterator child_iter_;
 };
 }  // namespace bustub
