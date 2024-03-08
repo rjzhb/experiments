@@ -35,7 +35,7 @@ class TableHeap {
    * @param first_page_id 第一个页面的ID
    */
   explicit TableHeap(BufferPoolManager *bpm);
-
+  
   /**
    * 向表中插入一个元组。如果元组太大（>=页面大小），则返回 std::nullopt。
    * @param meta 元组的元数据

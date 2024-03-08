@@ -194,4 +194,6 @@ auto TableHeap::GetTupleMetaWithLockAcquired(RID rid, const TablePage *page) -> 
   return page->GetTupleMeta(rid);  // 返回元组的元数据。
 }
 
+
+
 }  // namespace bustub

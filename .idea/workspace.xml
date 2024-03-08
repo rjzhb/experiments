@@ -143,7 +143,12 @@
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vectordb/src/execution/delete_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/delete_executor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executors/delete_executor.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executors/delete_executor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/catalog/catalog.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/catalog/catalog.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/catalog/column.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/catalog/column.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/catalog/schema.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/catalog/schema.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/index/index.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/index/index.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/table/table_heap.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/table/table_heap.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,11 +406,6 @@
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="b_plus_tree_printer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BusTub" TARGET_NAME="b_plus_tree_printer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BusTub" RUN_TARGET_NAME="b_plus_tree_printer">
@@ -980,7 +980,8 @@
       <workItem from="1709369294935" duration="10448000" />
       <workItem from="1709451360861" duration="587000" />
       <workItem from="1709451980154" duration="10129000" />
-      <workItem from="1709529322592" duration="38262000" />
+      <workItem from="1709529322592" duration="40765000" />
+      <workItem from="1709883174949" duration="6242000" />
     </task>
     <servers />
   </component>
