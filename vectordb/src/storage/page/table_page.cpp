@@ -1,14 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// table_page.cpp
-//
-// Identification: src/storage/page/table_page.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
 
 #include "storage/page/table_page.h"
 

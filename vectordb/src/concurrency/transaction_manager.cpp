@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// transaction_manager.cpp
-//
-// Identification: src/concurrency/transaction_manager.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include "concurrency/transaction_manager.h"
 
 #include <memory>
