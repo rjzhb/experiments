@@ -1,14 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// disk_manager_memory.h
-//
-// Identification: src/include/storage/disk/disk_manager_memory.h
-//
-// Copyright (c) 2015-2020, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
 #include <array>
 #include <chrono>  // NOLINT
 #include <cstring>
