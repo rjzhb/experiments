@@ -1,15 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// log_manager.cpp
-//
-// Identification: src/recovery/log_manager.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
-
 #include "recovery/log_manager.h"
 
 namespace bustub {
