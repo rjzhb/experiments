@@ -1,14 +1,4 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// log_record.h
-//
-// Identification: src/include/recovery/log_record.h
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
+
 
 #pragma once
 
