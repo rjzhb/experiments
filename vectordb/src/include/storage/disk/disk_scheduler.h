@@ -1,14 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// disk_scheduler.h
-//
-// Identification: src/include/storage/disk/disk_scheduler.h
-//
-// Copyright (c) 2015-2023, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
 
 #pragma once
 

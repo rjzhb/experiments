@@ -1,14 +1,3 @@
-//===----------------------------------------------------------------------===//
-//
-//                         BusTub
-//
-// checkpoint_manager.cpp
-//
-// Identification: src/recovery/checkpoint_manager.cpp
-//
-// Copyright (c) 2015-2019, Carnegie Mellon University Database Group
-//
-//===----------------------------------------------------------------------===//
 
 #include "recovery/checkpoint_manager.h"
 
