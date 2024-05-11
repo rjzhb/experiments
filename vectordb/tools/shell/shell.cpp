@@ -9,6 +9,8 @@
 #include "libfort/lib/fort.hpp"
 #include "linenoise/linenoise.h"
 #include "utf8proc/utf8proc.h"
+#include <chrono>
+#include <iomanip> // 包括用于格式化输出的头文件
 
 #include "utf8proc/utf8proc.h"
 
@@ -118,14 +120,24 @@ auto main(int argc, char **argv) -> int {
 	  linenoiseHistoryAdd(query.c_str()); // 添加到历史记录
 	}
 
+	// 开始计时
+	auto start = std::chrono::high_resolution_clock::now();
+
 	// 尝试执行SQL查询
 	try {
 	  auto writer = vdbms::FortTableWriter(); // 创建表格写入器
 	  vdbms->ExecuteSql(query, writer); // 执行SQL查询
+
+	  // 结束计时
+	  auto end = std::chrono::high_resolution_clock::now();
+	  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+	  double duration_ms = duration / 1000.0; // 将微秒转换为毫秒
+
 	  // 打印查询结果
 	  for (const auto &table : writer.tables_) {
 		std::cout << table << std::flush;
 	  }
+	  std::cout << std::fixed << std::setprecision(6) << "Query executed in: " << duration_ms << " ms\n"; // 打印执行时间，保留六位小数
 	} catch (vdbms::Exception &ex) {
 	  std::cerr << ex.what() << std::endl; // 打印异常信息
 	}
