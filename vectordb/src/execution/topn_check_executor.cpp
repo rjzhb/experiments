@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // topn_check_executor.cpp
 //
@@ -13,7 +13,7 @@
 #include "execution/executors/topn_check_executor.h"
 #include "execution/executors/topn_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 TopNCheckExecutor::TopNCheckExecutor(ExecutorContext *exec_ctx, const TopNPlanNode *plan,
                                      std::unique_ptr<AbstractExecutor> &&child_executor, TopNExecutor *topn_executor)
@@ -36,13 +36,13 @@ auto TopNCheckExecutor::Next(Tuple *tuple, RID *rid) -> bool {
     return EXECUTOR_EXHAUSTED;
   }
 
-  BUSTUB_ASSERT(topn_executor_->GetNumInHeap() <= plan_->GetN(), "Cannot store more than N elements");
+  vdbms_ASSERT(topn_executor_->GetNumInHeap() <= plan_->GetN(), "Cannot store more than N elements");
   if (prev_ > 0 && prev_ < plan_->GetN()) {
-    BUSTUB_ASSERT(topn_executor_->GetNumInHeap() - prev_ == 1, "Did you implement GetNumInHeap() properly?");
+    vdbms_ASSERT(topn_executor_->GetNumInHeap() - prev_ == 1, "Did you implement GetNumInHeap() properly?");
   }
   prev_ = topn_executor_->GetNumInHeap();
   // Emit the next tuple
   return child_executor_->Next(tuple, rid);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

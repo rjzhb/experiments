@@ -1,6 +1,6 @@
 #include "execution/executors/sort_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 SortExecutor::SortExecutor(ExecutorContext *exec_ctx, const SortPlanNode *plan,
 						   std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -58,4 +58,4 @@ auto SortExecutor::Next(Tuple *tuple, RID *rid) -> bool {
 
   return true;
 }
-}  // namespace bustub
+}  // namespace vdbms

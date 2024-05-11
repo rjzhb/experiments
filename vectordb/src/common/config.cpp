@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // config.cpp
 //
@@ -12,7 +12,7 @@
 
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 std::atomic<bool> enable_logging(false);
 
@@ -22,4 +22,4 @@ std::chrono::milliseconds cycle_detection_interval = std::chrono::milliseconds(5
 
 std::atomic<bool> global_disable_execution_exception_print{false};
 
-}  // namespace bustub
+}  // namespace vdbms

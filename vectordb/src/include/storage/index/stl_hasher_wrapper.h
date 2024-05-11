@@ -2,7 +2,7 @@
 
 #include "container/hash/hash_function.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename K>
 class StlHasherWrapper {
@@ -14,4 +14,4 @@ class StlHasherWrapper {
   HashFunction<K> hash_fn_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

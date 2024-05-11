@@ -11,7 +11,7 @@
 #include "fmt/format.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** AggregationType enumerates all the possible aggregation functions in our system */
 enum class AggregationType { CountStarAggregate, CountAggregate, SumAggregate, MinAggregate, MaxAggregate };
@@ -47,7 +47,7 @@ class AggregationPlanNode : public AbstractPlanNode {
 
   /** @return the child of this aggregation plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Aggregation expected to only have one child.");
+    vdbms_ASSERT(GetChildren().size() == 1, "Aggregation expected to only have one child.");
     return GetChildAt(0);
   }
 
@@ -70,7 +70,7 @@ class AggregationPlanNode : public AbstractPlanNode {
                              const std::vector<AbstractExpressionRef> &aggregates,
                              const std::vector<AggregationType> &agg_types) -> Schema;
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(AggregationPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(AggregationPlanNode);
 
   /** The GROUP BY expressions */
   std::vector<AbstractExpressionRef> group_bys_;
@@ -109,18 +109,18 @@ struct AggregateValue {
   std::vector<Value> aggregates_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 namespace std {
 
 /** Implements std::hash on AggregateKey */
 template <>
-struct hash<bustub::AggregateKey> {
-  auto operator()(const bustub::AggregateKey &agg_key) const -> std::size_t {
+struct hash<vdbms::AggregateKey> {
+  auto operator()(const vdbms::AggregateKey &agg_key) const -> std::size_t {
     size_t curr_hash = 0;
     for (const auto &key : agg_key.group_bys_) {
       if (!key.IsNull()) {
-        curr_hash = bustub::HashUtil::CombineHashes(curr_hash, bustub::HashUtil::HashValue(&key));
+        curr_hash = vdbms::HashUtil::CombineHashes(curr_hash, vdbms::HashUtil::HashValue(&key));
       }
     }
     return curr_hash;
@@ -130,10 +130,10 @@ struct hash<bustub::AggregateKey> {
 }  // namespace std
 
 template <>
-struct fmt::formatter<bustub::AggregationType> : formatter<std::string> {
+struct fmt::formatter<vdbms::AggregationType> : formatter<std::string> {
   template <typename FormatContext>
-  auto format(bustub::AggregationType c, FormatContext &ctx) const {
-    using bustub::AggregationType;
+  auto format(vdbms::AggregationType c, FormatContext &ctx) const {
+    using vdbms::AggregationType;
     std::string name = "unknown";
     switch (c) {
       case AggregationType::CountStarAggregate:

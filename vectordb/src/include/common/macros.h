@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // macros.h
 //
@@ -16,13 +16,13 @@
 #include <exception>
 #include <stdexcept>
 
-namespace bustub {
+namespace vdbms {
 
-#define BUSTUB_ASSERT(expr, message) assert((expr) && (message))
+#define vdbms_ASSERT(expr, message) assert((expr) && (message))
 
 #define UNIMPLEMENTED(message) throw std::logic_error(message)
 
-#define BUSTUB_ENSURE(expr, message)                  \
+#define vdbms_ENSURE(expr, message)                  \
   if (!(expr)) {                                      \
     std::cerr << "ERROR: " << (message) << std::endl; \
     std::terminate();                                 \
@@ -43,4 +43,4 @@ namespace bustub {
   DISALLOW_COPY(cname);               \
   DISALLOW_MOVE(cname);
 
-}  // namespace bustub
+}  // namespace vdbms

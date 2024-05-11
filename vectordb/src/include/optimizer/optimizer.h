@@ -12,7 +12,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The optimizer takes an `AbstractPlanNode` and outputs an optimized `AbstractPlanNode`.
@@ -100,7 +100,7 @@ class Optimizer {
   auto OptimizeSortLimitAsTopN(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef;
 
   /**
-   * @brief get the estimated cardinality for a table based on the table name. Useful when join reordering. BusTub
+   * @brief get the estimated cardinality for a table based on the table name. Useful when join reordering. vdbms
    * doesn't support statistics for now, so it's the only way for you to get the table size :(
    *
    * @param table_name
@@ -118,4 +118,4 @@ class Optimizer {
   std::string vector_index_match_method_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

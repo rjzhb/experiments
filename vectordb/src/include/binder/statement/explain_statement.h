@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/select_statement.h
 //
@@ -20,7 +20,7 @@ enum ExplainOptions : uint8_t {
   SCHEMA = 8,    /**< Show schema. */
 };
 
-namespace bustub {
+namespace vdbms {
 
 class ExplainStatement : public BoundStatement {
  public:
@@ -33,4 +33,4 @@ class ExplainStatement : public BoundStatement {
   uint8_t options_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -8,7 +8,7 @@
 #include "storage/index/index.h"
 #include "storage/index/vector_index.h"
 
-namespace bustub {
+namespace vdbms {
 
 class IVFFlatIndex : public VectorIndex {
  public:
@@ -36,4 +36,4 @@ class IVFFlatIndex : public VectorIndex {
   std::vector<std::vector<std::pair<Vector, RID>>> centroids_buckets_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

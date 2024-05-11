@@ -7,7 +7,7 @@
 #include "binder/bound_table_ref.h"
 #include "fmt/core.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A cross product. e.g., `SELECT * FROM x, y`, where `x, y` is `CrossProduct`.
@@ -27,4 +27,4 @@ class BoundCrossProductRef : public BoundTableRef {
   /** The right side of the cross product. */
   std::unique_ptr<BoundTableRef> right_;
 };
-}  // namespace bustub
+}  // namespace vdbms

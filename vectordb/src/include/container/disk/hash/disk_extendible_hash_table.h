@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // disk_extendible_hash_table.h
 //
@@ -27,7 +27,7 @@
 #include "storage/page/extendible_htable_header_page.h"
 #include "storage/page/page_guard.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Implementation of extendible hash table that is backed by a buffer pool
@@ -134,4 +134,4 @@ class DiskExtendibleHashTable {
   page_id_t header_page_id_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -2,7 +2,7 @@
 
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The header page is just used to retrieve the root page,
@@ -17,4 +17,4 @@ class BPlusTreeHeaderPage {
   page_id_t root_page_id_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

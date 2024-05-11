@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // binder_test.cpp
 //
@@ -16,7 +16,7 @@
 #include "catalog/catalog.h"
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * @brief Bind a query using the schema below:
@@ -27,26 +27,26 @@ namespace bustub {
  * - `CREATE TABLE c (x VARCHAR(100), y VARCHAR(100))
  */
 auto TryBind(const std::string &query) {
-  bustub::Catalog catalog(nullptr, nullptr, nullptr);
-  bustub::Binder binder(catalog);
+  vdbms::Catalog catalog(nullptr, nullptr, nullptr);
+  vdbms::Binder binder(catalog);
   catalog.CreateTable(
       nullptr, "y",
-      bustub::Schema(std::vector{bustub::Column{"x", TypeId::INTEGER}, bustub::Column{"z", TypeId::INTEGER},
-                                 bustub::Column{"a", TypeId::INTEGER}, bustub::Column{"b", TypeId::INTEGER},
-                                 bustub::Column{"c", TypeId::INTEGER}}),
+      vdbms::Schema(std::vector{vdbms::Column{"x", TypeId::INTEGER}, vdbms::Column{"z", TypeId::INTEGER},
+                                 vdbms::Column{"a", TypeId::INTEGER}, vdbms::Column{"b", TypeId::INTEGER},
+                                 vdbms::Column{"c", TypeId::INTEGER}}),
       false);
 
   catalog.CreateTable(
       nullptr, "a",
-      bustub::Schema(std::vector{bustub::Column{"x", TypeId::INTEGER}, bustub::Column{"y", TypeId::INTEGER}}), false);
+      vdbms::Schema(std::vector{vdbms::Column{"x", TypeId::INTEGER}, vdbms::Column{"y", TypeId::INTEGER}}), false);
 
   catalog.CreateTable(
       nullptr, "b",
-      bustub::Schema(std::vector{bustub::Column{"x", TypeId::INTEGER}, bustub::Column{"y", TypeId::INTEGER}}), false);
+      vdbms::Schema(std::vector{vdbms::Column{"x", TypeId::INTEGER}, vdbms::Column{"y", TypeId::INTEGER}}), false);
 
   catalog.CreateTable(
       nullptr, "c",
-      bustub::Schema(std::vector{bustub::Column{"x", TypeId::VARCHAR, 100}, bustub::Column{"y", TypeId::VARCHAR, 100}}),
+      vdbms::Schema(std::vector{vdbms::Column{"x", TypeId::VARCHAR, 100}, vdbms::Column{"y", TypeId::VARCHAR, 100}}),
       false);
 
   binder.ParseAndSave(query);
@@ -185,4 +185,4 @@ TEST(BinderTest, DISABLED_BindUpdate) { TryBind("UPDATE y SET z = z + 1;"); }
 // TODO(chi): delete is not supported yet
 TEST(BinderTest, DISABLED_BindDelete) { TryBind("DELETE FROM y WHERE z = 1"); }
 
-}  // namespace bustub
+}  // namespace vdbms

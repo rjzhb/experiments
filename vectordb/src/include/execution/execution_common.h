@@ -8,7 +8,7 @@
 #include "concurrency/transaction.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto ReconstructTuple(const Schema *schema, const Tuple &base_tuple, const TupleMeta &base_meta,
                       const std::vector<UndoLog> &undo_logs) -> std::optional<Tuple>;
@@ -34,4 +34,4 @@ void TxnMgrDbg(const std::string &info, TransactionManager *txn_mgr, const Table
 // your implementation. Please add your own ones as necessary so that you do not need to write
 // the same code everywhere.
 
-}  // namespace bustub
+}  // namespace vdbms

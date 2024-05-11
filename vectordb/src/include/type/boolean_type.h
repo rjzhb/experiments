@@ -4,7 +4,7 @@
 #include "type/type.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 // A boolean value isn't a real SQL type, but we treat it as one to keep
 // consistent in the expression subsystem.
 class BooleanType : public Type {
@@ -37,4 +37,4 @@ class BooleanType : public Type {
 
   auto CastAs(const Value &val, TypeId type_id) const -> Value override;
 };
-}  // namespace bustub
+}  // namespace vdbms

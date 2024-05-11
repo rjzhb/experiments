@@ -16,7 +16,7 @@
 #include "execution/plans/aggregation_plan.h"
 #include "execution/plans/window_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 class BoundStatement;
 class SelectStatement;
@@ -73,7 +73,7 @@ class PlannerContext {
 };
 
 /**
- * 规划器接受一个已绑定的语句，并将其转换为 BusTub 计划树。
+ * 规划器接受一个已绑定的语句，并将其转换为 vdbms 计划树。
  * 计划树将由执行引擎执行该语句。
  */
 class Planner {
@@ -190,4 +190,4 @@ class Planner {
 
 static constexpr const char *const UNNAMED_COLUMN = "<unnamed>";
 
-}  // namespace bustub
+}  // namespace vdbms

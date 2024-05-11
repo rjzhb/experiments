@@ -9,7 +9,7 @@
 #include "common/exception.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 void TablePage::Init() {
   next_page_id_ = INVALID_PAGE_ID;
@@ -23,7 +23,7 @@ auto TablePage::GetNextTupleOffset(const TupleMeta &meta, const Tuple &tuple) co
     auto &[offset, size, meta] = tuple_info_[num_tuples_ - 1];
     slot_end_offset = offset;
   } else {
-    slot_end_offset = BUSTUB_PAGE_SIZE;
+    slot_end_offset = vdbms_PAGE_SIZE;
   }
   auto tuple_offset = slot_end_offset - tuple.GetLength();
   auto offset_size = TABLE_PAGE_HEADER_SIZE + TUPLE_INFO_SIZE * (num_tuples_ + 1);
@@ -48,7 +48,7 @@ auto TablePage::InsertTuple(const TupleMeta &meta, const Tuple &tuple) -> std::o
 void TablePage::UpdateTupleMeta(const TupleMeta &meta, const RID &rid) {
   auto tuple_id = rid.GetSlotNum();
   if (tuple_id >= num_tuples_) {
-    throw bustub::Exception("Tuple ID out of range");
+    throw vdbms::Exception("Tuple ID out of range");
   }
   auto &[offset, size, old_meta] = tuple_info_[tuple_id];
   if (!old_meta.is_deleted_ && meta.is_deleted_) {
@@ -60,7 +60,7 @@ void TablePage::UpdateTupleMeta(const TupleMeta &meta, const RID &rid) {
 auto TablePage::GetTuple(const RID &rid) const -> std::pair<TupleMeta, Tuple> {
   auto tuple_id = rid.GetSlotNum();
   if (tuple_id >= num_tuples_) {
-    throw bustub::Exception("Tuple ID out of range");
+    throw vdbms::Exception("Tuple ID out of range");
   }
   auto &[offset, size, meta] = tuple_info_[tuple_id];
   Tuple tuple;
@@ -73,7 +73,7 @@ auto TablePage::GetTuple(const RID &rid) const -> std::pair<TupleMeta, Tuple> {
 auto TablePage::GetTupleMeta(const RID &rid) const -> TupleMeta {
   auto tuple_id = rid.GetSlotNum();
   if (tuple_id >= num_tuples_) {
-    throw bustub::Exception("Tuple ID out of range");
+    throw vdbms::Exception("Tuple ID out of range");
   }
   auto &[_1, _2, meta] = tuple_info_[tuple_id];
   return meta;
@@ -82,11 +82,11 @@ auto TablePage::GetTupleMeta(const RID &rid) const -> TupleMeta {
 void TablePage::UpdateTupleInPlaceUnsafe(const TupleMeta &meta, const Tuple &tuple, RID rid) {
   auto tuple_id = rid.GetSlotNum();
   if (tuple_id >= num_tuples_) {
-    throw bustub::Exception("Tuple ID out of range");
+    throw vdbms::Exception("Tuple ID out of range");
   }
   auto &[offset, size, old_meta] = tuple_info_[tuple_id];
   if (size != tuple.GetLength()) {
-    throw bustub::Exception("Tuple size mismatch");
+    throw vdbms::Exception("Tuple size mismatch");
   }
   if (!old_meta.is_deleted_ && meta.is_deleted_) {
     num_deleted_tuples_++;
@@ -95,4 +95,4 @@ void TablePage::UpdateTupleInPlaceUnsafe(const TupleMeta &meta, const Tuple &tup
   memcpy(page_start_ + offset, tuple.data_.data(), tuple.GetLength());
 }
 
-}  // namespace bustub
+}  // namespace vdbms

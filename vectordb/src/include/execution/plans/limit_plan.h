@@ -6,7 +6,7 @@
 #include "execution/plans/abstract_plan.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Limit constraints the number of output tuples produced by its child executor.
@@ -31,11 +31,11 @@ class LimitPlanNode : public AbstractPlanNode {
 
   /** @return The child plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Limit should have at most one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "Limit should have at most one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(LimitPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(LimitPlanNode);
 
   /** The limit */
   std::size_t limit_;
@@ -44,4 +44,4 @@ class LimitPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

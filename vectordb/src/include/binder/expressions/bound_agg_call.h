@@ -8,7 +8,7 @@
 
 #include "binder/bound_expression.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound aggregate call, e.g., `sum(x)`.
@@ -34,4 +34,4 @@ class BoundAggCall : public BoundExpression {
   /** Arguments of the agg call. */
   std::vector<std::unique_ptr<BoundExpression>> args_;
 };
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,5 +1,5 @@
 add_library(
-        bustub_buffer
+        vdbms_buffer
         OBJECT
         buffer_pool_manager.cpp
         clock_replacer.cpp
@@ -7,5 +7,5 @@ add_library(
         lru_k_replacer.cpp)
 
 set(ALL_OBJECT_FILES
-        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_buffer>
+        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_buffer>
         PARENT_SCOPE)

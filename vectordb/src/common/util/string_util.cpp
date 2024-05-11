@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // string_util.cpp
 //
@@ -22,7 +22,7 @@
 #include "common/util/string_util.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto StringUtil::Contains(const std::string &haystack, const std::string &needle) -> bool {
   return (haystack.find(needle) != std::string::npos);
@@ -236,4 +236,4 @@ auto StringUtil::IndentAllLines(const std::string &lines, size_t num_indent, boo
   return fmt::format("{}", fmt::join(lines_str, "\n"));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

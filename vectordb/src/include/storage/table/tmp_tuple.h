@@ -2,7 +2,7 @@
 
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 // Document this class! What does it represent?
 
@@ -22,4 +22,4 @@ class TmpTuple {
   size_t offset_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

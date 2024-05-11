@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // lru_k_replacer.h
 //
@@ -21,7 +21,7 @@
 #include "common/config.h"
 #include "common/macros.h"
 
-namespace bustub {
+namespace vdbms {
 
 enum class AccessType { Unknown = 0, Lookup, Scan, Index };
 
@@ -92,7 +92,7 @@ class LRUKReplacer {
    * Create a new entry for access history if frame id has not been seen before.
    *
    * If frame id is invalid (ie. larger than replacer_size_), throw an exception. You can
-   * also use BUSTUB_ASSERT to abort the process if frame id is invalid.
+   * also use vdbms_ASSERT to abort the process if frame id is invalid.
    *
    * @param frame_id id of frame that received a new access.
    * @param access_type type of access that was received. This parameter is only needed for
@@ -158,4 +158,4 @@ class LRUKReplacer {
   [[maybe_unused]] std::mutex latch_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

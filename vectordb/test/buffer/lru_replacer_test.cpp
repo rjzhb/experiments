@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // lru_replacer_test.cpp
 //
@@ -17,7 +17,7 @@
 #include "buffer/lru_replacer.h"
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 TEST(LRUReplacerTest, DISABLED_SampleTest) {
   LRUReplacer lru_replacer(7);
@@ -59,4 +59,4 @@ TEST(LRUReplacerTest, DISABLED_SampleTest) {
   EXPECT_EQ(4, value);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

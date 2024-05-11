@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // common.h
 //
@@ -20,7 +20,7 @@
 
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 // use a fixed schema to construct a random tuple
 auto ConstructTuple(Schema *schema) -> Tuple {
@@ -73,4 +73,4 @@ auto ConstructTuple(Schema *schema) -> Tuple {
   return {values, schema};
 }
 
-}  // namespace bustub
+}  // namespace vdbms

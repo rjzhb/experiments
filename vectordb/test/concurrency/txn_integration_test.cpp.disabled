@@ -16,7 +16,7 @@
 
 #include "common_checker.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
 void CommitTest1() {
   // should scan changes of committed txn
@@ -61,4 +61,4 @@ TEST(IsolationLevelTest, DISABLED_DeleteTestA) {
                ExpectedOutcome::BlockOnRead);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

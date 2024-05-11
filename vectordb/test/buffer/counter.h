@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // counter.h
 //
@@ -16,7 +16,7 @@
 
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 enum FuncType { FetchPage, UnpinPage, FlushPage, NewPage, DeletePage, FlushAllPages };
 
@@ -87,4 +87,4 @@ struct Counter {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

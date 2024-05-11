@@ -5,7 +5,7 @@
 #include "common/util/string_util.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto GetSessionVariable(const std::unordered_map<std::string, std::string> &session_variables, const std::string &key)
     -> std::string {
@@ -65,4 +65,4 @@ auto Optimizer::EstimatedCardinality(const std::string &table_name) -> std::opti
   return std::nullopt;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,10 +1,10 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
-// bustub_instance.h
+// vdbms_instance.h
 //
-// Identification: src/include/common/bustub_instance.h
+// Identification: src/include/common/vdbms_instance.h
 //
 // Copyright (c) 2015-2019, Carnegie Mellon University Database Group
 //
@@ -29,7 +29,7 @@
 #include "libfort/lib/fort.hpp"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Transaction;
 class ExecutorContext;
@@ -233,47 +233,47 @@ class FortTableWriter : public ResultWriter {
   std::vector<std::string> tables_;
 };
 
-class BustubInstance {
+class vdbmsInstance {
  private:
   /**
-   * Get the executor context from the BusTub instance.
+   * Get the executor context from the vdbms instance.
    */
   auto MakeExecutorContext(Transaction *txn, bool is_modify) -> std::unique_ptr<ExecutorContext>;
 
  public:
-  explicit BustubInstance(const std::string &db_file_name, size_t bpm_size = 128);
+  explicit vdbmsInstance(const std::string &db_file_name, size_t bpm_size = 128);
 
-  explicit BustubInstance(size_t bpm_size = 128);
+  explicit vdbmsInstance(size_t bpm_size = 128);
 
-  ~BustubInstance();
+  ~vdbmsInstance();
 
   /**
-   * Execute a SQL query in the BusTub instance.
+   * Execute a SQL query in the vdbms instance.
    */
   auto ExecuteSql(const std::string &sql, ResultWriter &writer, std::shared_ptr<CheckOptions> check_options = nullptr)
       -> bool;
 
   /**
-   * Execute a SQL query in the BusTub instance with provided txn.
+   * Execute a SQL query in the vdbms instance with provided txn.
    */
   auto ExecuteSqlTxn(const std::string &sql, ResultWriter &writer, Transaction *txn,
                      std::shared_ptr<CheckOptions> check_options = nullptr) -> bool;
 
-  /** Enable managed txn mode on this BusTub instance, allowing statements like `BEGIN`. */
+  /** Enable managed txn mode on this vdbms instance, allowing statements like `BEGIN`. */
   void EnableManagedTxn();
 
   /** Get the current transaction. */
   auto CurrentManagedTxn() -> Transaction *;
 
   /**
-   * FOR TEST ONLY. Generate test tables in this BusTub instance.
+   * FOR TEST ONLY. Generate test tables in this vdbms instance.
    * It's used in the shell to predefine some tables, as we don't support
    * create / drop table and insert for now. Should remove it in the future.
    */
   void GenerateTestTable();
 
   /**
-   * FOR TEST ONLY. Generate mock tables in this BusTub instance.
+   * FOR TEST ONLY. Generate mock tables in this vdbms instance.
    * It's used in the shell to predefine some tables, as we don't support
    * create / drop table and insert for now. Should remove it in the future.
    */
@@ -321,4 +321,4 @@ class BustubInstance {
   bool managed_txn_mode_{false};
 };
 
-}  // namespace bustub
+}  // namespace vdbms

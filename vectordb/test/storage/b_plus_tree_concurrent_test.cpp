@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // b_plus_tree_concurrent_test.cpp
 //
@@ -21,9 +21,9 @@
 #include "storage/index/b_plus_tree.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
-using bustub::DiskManagerUnlimitedMemory;
+using vdbms::DiskManagerUnlimitedMemory;
 
 // helper function to launch multiple threads
 template <typename... Args>
@@ -402,4 +402,4 @@ TEST(BPlusTreeConcurrentTest, DISABLED_MixTest2) {
   delete bpm;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -24,7 +24,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 // TODO(chi): clang-tidy on macOS will suggest changing it to const reference. Looks like a bug.
 
@@ -90,7 +90,7 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
       column_names.emplace_back(alias_expr.alias_);
       window_item = &(*alias_expr.child_);
     } else {
-      BUSTUB_ASSERT(item->type_ == ExpressionType::WINDOW, "Invalid expression type has window function");
+      vdbms_ASSERT(item->type_ == ExpressionType::WINDOW, "Invalid expression type has window function");
       column_names.emplace_back(fmt::format("__unnamed#{}", universal_id_++));
       window_item = &(*item);
     }
@@ -98,7 +98,7 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
     if (window_call.start_ != WindowBoundary::UNBOUNDED_PRECEDING ||
         (window_call.end_ != WindowBoundary::CURRENT_ROW_ROWS &&
          window_call.end_ != WindowBoundary::CURRENT_ROW_RANGE)) {
-      throw Exception("Bustub currently only support window function with default window frame settings");
+      throw Exception("vdbms currently only support window function with default window frame settings");
     }
     std::vector<AbstractExpressionRef> partition_by;
     for (auto &item : window_call.partition_by_) {
@@ -128,7 +128,7 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
     auto [window_func_type, clean_args] = GetWindowAggCallFromFactory(window_call.func_name_, std::move(raw_args));
     window_func_types.emplace_back(window_func_type);
     if (clean_args.size() > 1) {
-      throw bustub::NotImplementedException("only agg call of zero/one arg is supported");
+      throw vdbms::NotImplementedException("only agg call of zero/one arg is supported");
     }
     if (clean_args.empty()) {
       // Rewrite count(*)/row_number into count(1)
@@ -152,4 +152,4 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
   return plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

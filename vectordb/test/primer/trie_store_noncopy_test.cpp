@@ -11,7 +11,7 @@
 #include "primer/trie.h"
 #include "primer/trie_store.h"
 
-namespace bustub {
+namespace vdbms {
 
 using Integer = std::unique_ptr<uint32_t>;
 
@@ -71,4 +71,4 @@ TEST(TrieStoreTest, ReadWriteTest) {
   ASSERT_NE(store.Get<MoveBlocked>("d"), std::nullopt);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -19,7 +19,7 @@
 #include "nodes/parsenodes.hpp"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Binder::BindInsert(duckdb_libpgquery::PGInsertStmt *pg_stmt) -> std::unique_ptr<InsertStatement> {
   if (pg_stmt->cols != nullptr) {
@@ -29,7 +29,7 @@ auto Binder::BindInsert(duckdb_libpgquery::PGInsertStmt *pg_stmt) -> std::unique
   auto table = BindBaseTableRef(pg_stmt->relation->relname, std::nullopt);
 
   if (StringUtil::StartsWith(table->table_, "__")) {
-    throw bustub::Exception(fmt::format("invalid table for insert: {}", table->table_));
+    throw vdbms::Exception(fmt::format("invalid table for insert: {}", table->table_));
   }
 
   auto select_statement = BindSelect(reinterpret_cast<duckdb_libpgquery::PGSelectStmt *>(pg_stmt->selectStmt));
@@ -53,11 +53,11 @@ auto Binder::BindDelete(duckdb_libpgquery::PGDeleteStmt *stmt) -> std::unique_pt
 
 auto Binder::BindUpdate(duckdb_libpgquery::PGUpdateStmt *stmt) -> std::unique_ptr<UpdateStatement> {
   if (stmt->withClause != nullptr) {
-    throw bustub::NotImplementedException("update with clause not supported yet");
+    throw vdbms::NotImplementedException("update with clause not supported yet");
   }
 
   if (stmt->fromClause != nullptr) {
-    throw bustub::NotImplementedException("update from clause not supported yet");
+    throw vdbms::NotImplementedException("update from clause not supported yet");
   }
 
   auto table = BindBaseTableRef(stmt->relation->relname, std::nullopt);
@@ -84,4 +84,4 @@ auto Binder::BindUpdate(duckdb_libpgquery::PGUpdateStmt *stmt) -> std::unique_pt
   return std::make_unique<UpdateStatement>(std::move(table), std::move(filter_expr), std::move(target_expr));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

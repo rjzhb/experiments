@@ -21,7 +21,7 @@
 #include "fmt/format.h"
 #include "planner/planner.h"
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE
 auto Planner::GetFuncCallFromFactory(const std::string &func_name, std::vector<AbstractExpressionRef> args)
@@ -32,4 +32,4 @@ auto Planner::GetFuncCallFromFactory(const std::string &func_name, std::vector<A
   throw Exception(fmt::format("func call {} not supported in planner yet", func_name));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

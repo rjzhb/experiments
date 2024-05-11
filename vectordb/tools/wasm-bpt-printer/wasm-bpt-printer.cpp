@@ -8,7 +8,7 @@
 #include <string>
 #include "binder/binder.h"
 #include "buffer/buffer_pool_manager.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/exception.h"
 #include "common/logger.h"
 #include "common/util/string_util.h"
@@ -18,16 +18,16 @@
 #include "test_util.h"  // NOLINT
 #include "utf8proc/utf8proc.h"
 
-using bustub::BPlusTree;
-using bustub::BufferPoolManager;
-using bustub::DiskManager;
-using bustub::Exception;
-using bustub::GenericComparator;
-using bustub::GenericKey;
-using bustub::page_id_t;
-using bustub::ParseCreateStatement;
-using bustub::RID;
-using bustub::Transaction;
+using vdbms::BPlusTree;
+using vdbms::BufferPoolManager;
+using vdbms::DiskManager;
+using vdbms::Exception;
+using vdbms::GenericComparator;
+using vdbms::GenericKey;
+using vdbms::page_id_t;
+using vdbms::ParseCreateStatement;
+using vdbms::RID;
+using vdbms::Transaction;
 
 auto UsageMessage() -> std::string {
   std::string message =
@@ -42,11 +42,11 @@ using BPT = BPlusTree<GenericKey<8>, RID, GenericComparator<8>>;
 BPT *tree = nullptr;
 BufferPoolManager *bpm = nullptr;
 Transaction *transaction = nullptr;
-std::unique_ptr<bustub::Schema> key_schema = nullptr;
+std::unique_ptr<vdbms::Schema> key_schema = nullptr;
 
 extern "C" {
 
-auto BustubInit(int leaf_max_size, int internal_max_size) -> int {
+auto vdbmsInit(int leaf_max_size, int internal_max_size) -> int {
   // create KeyComparator and index schema
   std::string create_stmt = "a bigint";
   try {
@@ -68,7 +68,7 @@ auto BustubInit(int leaf_max_size, int internal_max_size) -> int {
   return 0;
 }
 
-auto BustubApplyCommand(const char *input, char *output, uint16_t len) -> int {
+auto vdbmsApplyCommand(const char *input, char *output, uint16_t len) -> int {
   GenericKey<8> index_key;
   int64_t key = 0;
   RID rid;

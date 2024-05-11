@@ -2,7 +2,7 @@
 #include "execution/plans/window_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 WindowFunctionExecutor::WindowFunctionExecutor(ExecutorContext *exec_ctx, const WindowFunctionPlanNode *plan,
                                                std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -11,4 +11,4 @@ WindowFunctionExecutor::WindowFunctionExecutor(ExecutorContext *exec_ctx, const 
 void WindowFunctionExecutor::Init() { throw NotImplementedException("WindowFunctionExecutor is not implemented"); }
 
 auto WindowFunctionExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,5 +1,5 @@
 add_library(
-  bustub_primer
+  vdbms_primer
   OBJECT
   orset.cpp
   orset_driver.cpp
@@ -7,5 +7,5 @@ add_library(
   trie_store.cpp)
 
 set(ALL_OBJECT_FILES
-  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_primer>
+  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_primer>
   PARENT_SCOPE)

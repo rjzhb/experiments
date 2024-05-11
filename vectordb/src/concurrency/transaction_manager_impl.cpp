@@ -23,7 +23,7 @@
 #include "type/value.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto TransactionManager::UpdateUndoLink(RID rid, std::optional<UndoLink> prev_link,
                                         std::function<bool(std::optional<UndoLink>)> &&check) -> bool {
@@ -122,4 +122,4 @@ void Transaction::SetTainted() {
   std::terminate();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

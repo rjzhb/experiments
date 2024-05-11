@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // nested_index_join_executor.cpp
 //
@@ -12,14 +12,14 @@
 
 #include "execution/executors/nested_index_join_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 NestIndexJoinExecutor::NestIndexJoinExecutor(ExecutorContext *exec_ctx, const NestedIndexJoinPlanNode *plan,
                                              std::unique_ptr<AbstractExecutor> &&child_executor)
     : AbstractExecutor(exec_ctx) {
   if (!(plan->GetJoinType() == JoinType::LEFT || plan->GetJoinType() == JoinType::INNER)) {
     // Note for 2023 Spring: You ONLY need to implement left join and inner join.
-    throw bustub::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
+    throw vdbms::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
   }
 }
 
@@ -27,4 +27,4 @@ void NestIndexJoinExecutor::Init() { throw NotImplementedException("NestIndexJoi
 
 auto NestIndexJoinExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

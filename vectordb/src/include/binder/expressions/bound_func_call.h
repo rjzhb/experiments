@@ -9,7 +9,7 @@
 #include "binder/bound_expression.h"
 #include "binder/expressions/bound_window.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound func call, e.g., `lower(x)`.
@@ -29,4 +29,4 @@ class BoundFuncCall : public BoundExpression {
   /** Arguments of the func call. */
   std::vector<std::unique_ptr<BoundExpression>> args_;
 };
-}  // namespace bustub
+}  // namespace vdbms

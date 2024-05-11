@@ -11,7 +11,7 @@
 #include "concurrency/transaction_manager.h"
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 TEST(LockManagerDeadlockDetectionTest, DISABLED_EdgeTest) {
   LockManager lock_mgr{};
   TransactionManager txn_mgr{&lock_mgr};
@@ -117,4 +117,4 @@ TEST(LockManagerDeadlockDetectionTest, DISABLED_BasicDeadlockDetectionTest) {
   delete txn0;
   delete txn1;
 }
-}  // namespace bustub
+}  // namespace vdbms

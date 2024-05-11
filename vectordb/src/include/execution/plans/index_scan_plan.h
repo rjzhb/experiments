@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // index_scan_plan.h
 //
@@ -21,7 +21,7 @@
 #include "execution/expressions/constant_value_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * IndexScanPlanNode identifies a table that should be scanned with an optional predicate.
  */
@@ -47,7 +47,7 @@ class IndexScanPlanNode : public AbstractPlanNode {
   /** @return the identifier of the table that should be scanned */
   auto GetIndexOid() const -> index_oid_t { return index_oid_; }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(IndexScanPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(IndexScanPlanNode);
 
   /** The table which the index is created on. */
   table_oid_t table_oid_;
@@ -78,4 +78,4 @@ class IndexScanPlanNode : public AbstractPlanNode {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

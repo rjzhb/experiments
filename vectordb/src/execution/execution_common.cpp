@@ -8,7 +8,7 @@
 #include "type/value.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto ReconstructTuple(const Schema *schema, const Tuple &base_tuple, const TupleMeta &base_meta,
                       const std::vector<UndoLog> &undo_logs) -> std::optional<Tuple> {
@@ -41,4 +41,4 @@ void TxnMgrDbg(const std::string &info, TransactionManager *txn_mgr, const Table
   //   txn3@1 (7, _, _) ts=1
 }
 
-}  // namespace bustub
+}  // namespace vdbms

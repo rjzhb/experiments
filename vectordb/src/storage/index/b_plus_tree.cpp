@@ -6,7 +6,7 @@
 #include "common/rid.h"
 #include "storage/index/b_plus_tree.h"
 
-namespace bustub {
+namespace vdbms {
 
 INDEX_TEMPLATE_ARGUMENTS
 BPLUSTREE_TYPE::BPlusTree(std::string name, page_id_t header_page_id, BufferPoolManager *buffer_pool_manager,
@@ -369,4 +369,4 @@ template class BPlusTree<GenericKey<32>, RID, GenericComparator<32>>;
 
 template class BPlusTree<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -10,7 +10,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The TopNPlanNode represents a top-n operation. It will gather the n extreme rows based on
@@ -40,11 +40,11 @@ class TopNPlanNode : public AbstractPlanNode {
 
   /** @return The child plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "TopN should have exactly one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "TopN should have exactly one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(TopNPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(TopNPlanNode);
 
   std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_bys_;
   std::size_t n_;
@@ -53,4 +53,4 @@ class TopNPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

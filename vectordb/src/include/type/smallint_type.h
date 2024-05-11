@@ -2,7 +2,7 @@
 #include <string>
 #include "type/integer_parent_type.h"
 
-namespace bustub {
+namespace vdbms {
 // An integer value of the common sizes.
 class SmallintType : public IntegerParentType {
  public:
@@ -45,4 +45,4 @@ class SmallintType : public IntegerParentType {
 
   auto IsZero(const Value &val) const -> bool override;
 };
-}  // namespace bustub
+}  // namespace vdbms

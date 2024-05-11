@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // column.cpp
 //
@@ -16,7 +16,7 @@
 #include <string>
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Column::ToString(bool simplified) const -> std::string {
   if (simplified) {
@@ -40,4 +40,4 @@ auto Column::ToString(bool simplified) const -> std::string {
   return (os.str());
 }
 
-}  // namespace bustub
+}  // namespace vdbms

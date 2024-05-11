@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_join_executor.h
 //
@@ -20,7 +20,7 @@
 #include "execution/plans/hash_join_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * HashJoinExecutor executes a nested-loop JOIN on two tables.
@@ -56,4 +56,4 @@ class HashJoinExecutor : public AbstractExecutor {
   const HashJoinPlanNode *plan_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,5 +1,5 @@
 add_library(
-  bustub_planner
+  vdbms_planner
   OBJECT
   expression_factory.cpp
   plan_aggregation.cpp
@@ -12,5 +12,5 @@ add_library(
   planner.cpp)
 
 set(ALL_OBJECT_FILES
-  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_planner>
+  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_planner>
   PARENT_SCOPE)

@@ -29,7 +29,7 @@
 #include "planner/planner.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE - weird error on clang-tidy.
 auto Planner::PlanTableRef(const BoundTableRef &table_ref) -> AbstractPlanNodeRef {
@@ -97,7 +97,7 @@ auto Planner::PlanSubquery(const BoundSubqueryRef &table_ref, const std::string 
 auto Planner::PlanBaseTableRef(const BoundBaseTableRef &table_ref) -> AbstractPlanNodeRef {
   // 始终扫描表的所有列，并使用投影执行器删除其中的一些列，从而简化规划过程
   auto table = catalog_.GetTable(table_ref.table_);
-  BUSTUB_ASSERT(table, "table not found");
+  vdbms_ASSERT(table, "table not found");
 
   // 如果是模拟表，则计划为MockScanPlanNode
   if (StringUtil::StartsWith(table->name_, "__")) {
@@ -105,7 +105,7 @@ auto Planner::PlanBaseTableRef(const BoundBaseTableRef &table_ref) -> AbstractPl
 	  return std::make_shared<MockScanPlanNode>(std::make_shared<Schema>(SeqScanPlanNode::InferScanSchema(table_ref)),
 												table->name_);
 	}
-	throw bustub::Exception(fmt::format("unsupported internal table: {}", table->name_));
+	throw vdbms::Exception(fmt::format("unsupported internal table: {}", table->name_));
   }
   // 否则，计划为正常的SeqScanPlanNode
   return std::make_shared<SeqScanPlanNode>(std::make_shared<Schema>(SeqScanPlanNode::InferScanSchema(table_ref)),
@@ -174,4 +174,4 @@ auto Planner::PlanExpressionListRef(const BoundExpressionListRef &table_ref) -> 
 }
 
 
-}  // namespace bustub
+}  // namespace vdbms

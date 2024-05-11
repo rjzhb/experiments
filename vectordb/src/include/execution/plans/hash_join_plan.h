@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_join_plan.h
 //
@@ -20,7 +20,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Hash join performs a JOIN operation with a hash table.
@@ -53,20 +53,20 @@ class HashJoinPlanNode : public AbstractPlanNode {
 
   /** @return The left plan node of the hash join */
   auto GetLeftPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 2, "Hash joins should have exactly two children plans.");
+    vdbms_ASSERT(GetChildren().size() == 2, "Hash joins should have exactly two children plans.");
     return GetChildAt(0);
   }
 
   /** @return The right plan node of the hash join */
   auto GetRightPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 2, "Hash joins should have exactly two children plans.");
+    vdbms_ASSERT(GetChildren().size() == 2, "Hash joins should have exactly two children plans.");
     return GetChildAt(1);
   }
 
   /** @return The join type used in the hash join */
   auto GetJoinType() const -> JoinType { return join_type_; };
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(HashJoinPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(HashJoinPlanNode);
 
   /** The expression to compute the left JOIN key */
   std::vector<AbstractExpressionRef> left_key_expressions_;
@@ -80,4 +80,4 @@ class HashJoinPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

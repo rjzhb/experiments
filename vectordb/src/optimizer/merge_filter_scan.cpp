@@ -8,7 +8,7 @@
 
 #include "optimizer/optimizer.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::OptimizeMergeFilterScan(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef {
   std::vector<AbstractPlanNodeRef> children;
@@ -20,7 +20,7 @@ auto Optimizer::OptimizeMergeFilterScan(const AbstractPlanNodeRef &plan) -> Abst
 
   if (optimized_plan->GetType() == PlanType::Filter) {
     const auto &filter_plan = dynamic_cast<const FilterPlanNode &>(*optimized_plan);
-    BUSTUB_ASSERT(optimized_plan->children_.size() == 1, "must have exactly one children");
+    vdbms_ASSERT(optimized_plan->children_.size() == 1, "must have exactly one children");
     const auto &child_plan = *optimized_plan->children_[0];
     if (child_plan.GetType() == PlanType::SeqScan) {
       const auto &seq_scan_plan = dynamic_cast<const SeqScanPlanNode &>(child_plan);
@@ -34,4 +34,4 @@ auto Optimizer::OptimizeMergeFilterScan(const AbstractPlanNodeRef &plan) -> Abst
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -19,7 +19,7 @@
 #include "optimizer/optimizer.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::MatchIndex(const std::string &table_name, uint32_t index_key_idx)
     -> std::optional<std::tuple<index_oid_t, std::string>> {
@@ -42,7 +42,7 @@ auto Optimizer::OptimizeNLJAsIndexJoin(const AbstractPlanNodeRef &plan) -> Abstr
   if (optimized_plan->GetType() == PlanType::NestedLoopJoin) {
     const auto &nlj_plan = dynamic_cast<const NestedLoopJoinPlanNode &>(*optimized_plan);
     // Has exactly two children
-    BUSTUB_ENSURE(nlj_plan.children_.size() == 2, "NLJ should have exactly 2 children.");
+    vdbms_ENSURE(nlj_plan.children_.size() == 2, "NLJ should have exactly 2 children.");
     // Check if expr is equal condition where one is for the left table, and one is for the right table.
     if (const auto *expr = dynamic_cast<const ComparisonExpression *>(nlj_plan.Predicate().get()); expr != nullptr) {
       if (expr->comp_type_ == ComparisonType::Equal) {
@@ -90,4 +90,4 @@ auto Optimizer::OptimizeNLJAsIndexJoin(const AbstractPlanNodeRef &plan) -> Abstr
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

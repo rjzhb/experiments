@@ -1,5 +1,5 @@
 add_library(
-    bustub_type
+    vdbms_type
     OBJECT
     bigint_type.cpp
     boolean_type.cpp
@@ -15,5 +15,5 @@ add_library(
     vector_type.cpp)
 
 set(ALL_OBJECT_FILES
-    ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_type>
+    ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_type>
     PARENT_SCOPE)

@@ -10,7 +10,7 @@
 #include "execution/plans/abstract_plan.h"
 #include "fmt/core.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * NestedLoopJoinPlanNode joins tuples from two child plan nodes.
@@ -47,7 +47,7 @@ class NestedLoopJoinPlanNode : public AbstractPlanNode {
 
   static auto InferJoinSchema(const AbstractPlanNode &left, const AbstractPlanNode &right) -> Schema;
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(NestedLoopJoinPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(NestedLoopJoinPlanNode);
 
   /** The join predicate */
   AbstractExpressionRef predicate_;
@@ -61,4 +61,4 @@ class NestedLoopJoinPlanNode : public AbstractPlanNode {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

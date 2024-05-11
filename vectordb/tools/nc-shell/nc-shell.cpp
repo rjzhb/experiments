@@ -9,7 +9,7 @@
 #include <thread>
 #include "argparse/argparse.hpp"
 #include "binder/binder.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/exception.h"
 #include "common/util/string_util.h"
 #include "concurrency/transaction.h"
@@ -33,14 +33,14 @@ auto GetWidthOfUtf8(const void *beg, const void *end, size_t *width) -> int {
   return 0;
 }
 
-void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso_lvl) {
-  const std::string prompt = "bustub> ";
+void Serve(int socket, vdbms::vdbmsInstance *vdbms, bool use_serializable_iso_lvl) {
+  const std::string prompt = "vdbms> ";
   char buffer[1024] = {0};
 
-  std::string welcome = "Welcome to the BusTub shell! Type \\help to learn more.\n";
+  std::string welcome = "Welcome to the vdbms shell! Type \\help to learn more.\n";
 
-  auto txn = bustub->txn_manager_->Begin(use_serializable_iso_lvl ? bustub::IsolationLevel::SERIALIZABLE
-                                                                  : bustub::IsolationLevel::SNAPSHOT_ISOLATION);
+  auto txn = vdbms->txn_manager_->Begin(use_serializable_iso_lvl ? vdbms::IsolationLevel::SERIALIZABLE
+                                                                  : vdbms::IsolationLevel::SNAPSHOT_ISOLATION);
 
   fmt::println(stderr, "txn{}: started", txn->GetTransactionIdHumanReadable());
 
@@ -52,7 +52,7 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
                     txn->GetTransactionState(), txn->GetReadTs(), txn->GetIsolationLevel());
     send(socket, txn_status.c_str(), txn_status.length(), 0);
 
-    if (txn->GetTransactionState() != bustub::TransactionState::RUNNING) {
+    if (txn->GetTransactionState() != vdbms::TransactionState::RUNNING) {
       close(socket);
       return;
     }
@@ -66,9 +66,9 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
       if (valread <= 0) {
         fmt::println(stderr, "txn{}: disconnected, status={}", txn->GetTransactionIdHumanReadable(),
                      txn->GetTransactionState());
-        if (txn->GetTransactionState() == bustub::TransactionState::RUNNING ||
-            txn->GetTransactionState() == bustub::TransactionState::TAINTED) {
-          bustub->txn_manager_->Abort(txn);
+        if (txn->GetTransactionState() == vdbms::TransactionState::RUNNING ||
+            txn->GetTransactionState() == vdbms::TransactionState::TAINTED) {
+          vdbms->txn_manager_->Abort(txn);
           fmt::println(stderr, "txn{}: aborted due to disconnected", txn->GetTransactionIdHumanReadable());
         }
         close(socket);
@@ -79,11 +79,11 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
       size_t last_len;
       do {
         last_len = query.length();
-        query = bustub::StringUtil::Strip(query, '\n');
-        query = bustub::StringUtil::Strip(query, '\r');
+        query = vdbms::StringUtil::Strip(query, '\n');
+        query = vdbms::StringUtil::Strip(query, '\r');
       } while (query.length() != last_len);
 
-      if (bustub::StringUtil::EndsWith(query, ";") || bustub::StringUtil::StartsWith(query, "\\")) {
+      if (vdbms::StringUtil::EndsWith(query, ";") || vdbms::StringUtil::StartsWith(query, "\\")) {
         break;
       }
       query += "\n";
@@ -91,8 +91,8 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
     }
     std::cout << "txn" << txn->GetTransactionIdHumanReadable() << ": " << query << std::endl << std::flush;
     try {
-      auto writer = bustub::FortTableWriter();
-      if (!bustub->ExecuteSqlTxn(query, writer, txn)) {
+      auto writer = vdbms::FortTableWriter();
+      if (!vdbms->ExecuteSqlTxn(query, writer, txn)) {
         std::string res = "failed to execute\n";
         send(socket, res.c_str(), res.length(), 0);
         continue;
@@ -101,7 +101,7 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
         auto tt = table + "\n";
         send(socket, tt.c_str(), tt.length(), 0);
       }
-    } catch (bustub::Exception &ex) {
+    } catch (vdbms::Exception &ex) {
       std::string what = ex.what();
       std::string what1 = "Error: " + what + "\n";
       send(socket, what1.c_str(), what1.length(), 0);
@@ -110,12 +110,12 @@ void Serve(int socket, bustub::BustubInstance *bustub, bool use_serializable_iso
   }
 }
 
-void Cli(bustub::BustubInstance *bustub) {
-  const std::string prompt = "bustub> ";
+void Cli(vdbms::vdbmsInstance *vdbms) {
+  const std::string prompt = "vdbms> ";
 
-  std::cout << "Welcome to the BusTub shell! Type \\help to learn more.\n";
+  std::cout << "Welcome to the vdbms shell! Type \\help to learn more.\n";
   std::cout << "In this terminal, all statements are running in separate transactions. To create transactions, use "
-               "the `nc` command to connect to BusTub.\n"
+               "the `nc` command to connect to vdbms.\n"
             << std::flush;
 
   while (true) {
@@ -127,22 +127,22 @@ void Cli(bustub::BustubInstance *bustub) {
       std::string query_line;
       std::getline(std::cin, query_line);
       query += query_line;
-      if (bustub::StringUtil::EndsWith(query, ";") || bustub::StringUtil::StartsWith(query, "\\")) {
+      if (vdbms::StringUtil::EndsWith(query, ";") || vdbms::StringUtil::StartsWith(query, "\\")) {
         break;
       }
       query += "\n";
       first_line = false;
     }
     try {
-      auto writer = bustub::FortTableWriter();
-      if (!bustub->ExecuteSql(query, writer)) {
+      auto writer = vdbms::FortTableWriter();
+      if (!vdbms->ExecuteSql(query, writer)) {
         std::cout << "failed to execute" << std::endl << std::flush;
         continue;
       }
       for (const auto &table : writer.tables_) {
         std::cout << table << std::endl << std::flush;
       }
-    } catch (bustub::Exception &ex) {
+    } catch (vdbms::Exception &ex) {
       std::cerr << ex.what() << std::endl;
     }
   }
@@ -154,9 +154,9 @@ auto main(int argc, char **argv) -> int {
 
   ft_set_u8strwid_func(&GetWidthOfUtf8);
 
-  auto bustub = std::make_unique<bustub::BustubInstance>("db.bustub");
+  auto vdbms = std::make_unique<vdbms::vdbmsInstance>("db.vdbms");
 
-  argparse::ArgumentParser program("bustub-nc-shell");
+  argparse::ArgumentParser program("vdbms-nc-shell");
   program.add_argument("--port").help("the port of the server");
   program.add_argument("--serializable")
       .help("use serializable isolation level")
@@ -184,10 +184,10 @@ auto main(int argc, char **argv) -> int {
     std::cerr << "iso_lvl=SNAPSHOT_ISOLATION\n";
   }
 
-  bustub->GenerateMockTable();
+  vdbms->GenerateMockTable();
 
-  if (bustub->buffer_pool_manager_ != nullptr) {
-    bustub->GenerateTestTable();
+  if (vdbms->buffer_pool_manager_ != nullptr) {
+    vdbms->GenerateTestTable();
   }
 
   struct sockaddr_in address;
@@ -217,7 +217,7 @@ auto main(int argc, char **argv) -> int {
   std::cerr << "Listening at " << port << std::endl;
   std::cerr << "connect with `nc 127.0.0.1 " << port << "`" << std::endl;
 
-  std::thread cli(Cli, bustub.get());
+  std::thread cli(Cli, vdbms.get());
 
   while (true) {
     int new_socket = accept(server_fd, reinterpret_cast<struct sockaddr *>(&address), &addrlen);
@@ -225,7 +225,7 @@ auto main(int argc, char **argv) -> int {
       perror("accept");
       exit(EXIT_FAILURE);
     }
-    std::thread thread(Serve, new_socket, bustub.get(), use_serializable_iso_lvl);
+    std::thread thread(Serve, new_socket, vdbms.get(), use_serializable_iso_lvl);
     thread.detach();
   }
 

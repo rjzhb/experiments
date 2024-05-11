@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // window_function_executor.h
 //
@@ -20,7 +20,7 @@
 #include "execution/plans/window_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The WindowFunctionExecutor executor executes a window function for columns using window function.
@@ -91,4 +91,4 @@ class WindowFunctionExecutor : public AbstractExecutor {
   /** The child executor from which tuples are obtained */
   std::unique_ptr<AbstractExecutor> child_executor_;
 };
-}  // namespace bustub
+}  // namespace vdbms

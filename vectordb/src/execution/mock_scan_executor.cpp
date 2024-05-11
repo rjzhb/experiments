@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // mock_scan_executor.cpp
 //
@@ -20,7 +20,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 static const char *ta_list_2022[] = {"amstqq",      "durovo",     "joyceliaoo", "karthik-ramanathan-3006",
                                      "kush789",     "lmwnshn",    "mkpjnx",     "skyzh",
@@ -128,7 +128,7 @@ auto GetMockTableSchemaOf(const std::string &table) -> Schema {
     return Schema{std::vector{Column{"x", TypeId::INTEGER}, Column{"y", TypeId::INTEGER}}};
   }
 
-  throw bustub::Exception(fmt::format("mock table {} not found", table));
+  throw vdbms::Exception(fmt::format("mock table {} not found", table));
 }
 
 auto GetSizeOf(const MockScanPlanNode *plan) -> size_t {
@@ -473,4 +473,4 @@ auto MockScanExecutor::Next(Tuple *tuple, RID *rid) -> bool {
 
 auto MockScanExecutor::MakeDummyRID() -> RID { return RID{0}; }
 
-}  // namespace bustub
+}  // namespace vdbms

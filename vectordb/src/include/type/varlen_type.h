@@ -2,7 +2,7 @@
 #include <string>
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 /* A varlen value is an abstract class representing all objects that have
  * variable length.
  * For simplicity, for valen_type we always set flag "inline" as true, which
@@ -48,4 +48,4 @@ class VarlenType : public Type {
   // Create a copy of this value
   auto Copy(const Value &val) const -> Value override;
 };
-}  // namespace bustub
+}  // namespace vdbms

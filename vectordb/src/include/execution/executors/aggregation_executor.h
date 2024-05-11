@@ -14,7 +14,7 @@
 #include "storage/table/tuple.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A simplified hash table that has all the necessary functionality for aggregations.
@@ -224,4 +224,4 @@ class AggregationExecutor : public AbstractExecutor {
   SimpleAggregationHashTable::Iterator aht_iterator_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

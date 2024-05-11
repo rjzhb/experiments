@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // exception.h
 //
@@ -22,7 +22,7 @@
 
 #include "type/type.h"
 
-namespace bustub {
+namespace vdbms {
 
 // TODO(WAN): the comment I added below is a lie, but you shouldn't need to poke around here. Don't worry about it.
 //  Most of the exception types are type subsystem madness. I think we can get rid of it at some point.
@@ -135,4 +135,4 @@ class ExecutionException : public Exception {
   explicit ExecutionException(const std::string &msg) : Exception(ExceptionType::EXECUTION, msg, true) {}
 };
 
-}  // namespace bustub
+}  // namespace vdbms

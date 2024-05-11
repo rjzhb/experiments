@@ -6,7 +6,7 @@
 
 #include "optimizer/optimizer.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::OptimizeEliminateTrueFilter(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef {
   std::vector<AbstractPlanNodeRef> children;
@@ -19,7 +19,7 @@ auto Optimizer::OptimizeEliminateTrueFilter(const AbstractPlanNodeRef &plan) -> 
   if (optimized_plan->GetType() == PlanType::Filter) {
     const auto &filter_plan = dynamic_cast<const FilterPlanNode &>(*optimized_plan);
     if (IsPredicateTrue(filter_plan.GetPredicate())) {
-      BUSTUB_ASSERT(optimized_plan->children_.size() == 1, "must have exactly one children");
+      vdbms_ASSERT(optimized_plan->children_.size() == 1, "must have exactly one children");
       return optimized_plan->children_[0];
     }
   }
@@ -27,4 +27,4 @@ auto Optimizer::OptimizeEliminateTrueFilter(const AbstractPlanNodeRef &plan) -> 
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

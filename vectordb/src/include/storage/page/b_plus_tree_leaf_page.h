@@ -16,11 +16,11 @@
 
 #include "storage/page/b_plus_tree_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define B_PLUS_TREE_LEAF_PAGE_TYPE BPlusTreeLeafPage<KeyType, ValueType, KeyComparator>
 #define LEAF_PAGE_HEADER_SIZE 16
-#define LEAF_PAGE_SIZE ((BUSTUB_PAGE_SIZE - LEAF_PAGE_HEADER_SIZE) / sizeof(MappingType))
+#define LEAF_PAGE_SIZE ((vdbms_PAGE_SIZE - LEAF_PAGE_HEADER_SIZE) / sizeof(MappingType))
 
 /**
  * Store indexed key and record id (record id = page id combined with slot id,
@@ -87,4 +87,4 @@ class BPlusTreeLeafPage : public BPlusTreePage {
   MappingType array_[0];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

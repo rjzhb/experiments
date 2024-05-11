@@ -2,7 +2,7 @@
 #include <string>
 #include "type/numeric_type.h"
 
-namespace bustub {
+namespace vdbms {
 class DecimalType : public NumericType {
  public:
   DecimalType();
@@ -47,4 +47,4 @@ class DecimalType : public NumericType {
  private:
   auto OperateNull(const Value &left, const Value &right) const -> Value override;
 };
-}  // namespace bustub
+}  // namespace vdbms

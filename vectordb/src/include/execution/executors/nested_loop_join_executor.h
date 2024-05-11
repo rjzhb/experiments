@@ -9,7 +9,7 @@
 #include "execution/plans/nested_loop_join_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * NestedLoopJoinExecutor executes a nested-loop JOIN on two tables.
@@ -53,4 +53,4 @@ class NestedLoopJoinExecutor : public AbstractExecutor {
   int32_t right_tuple_idx_ = -1;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // mock_scan_executor.h
 //
@@ -21,7 +21,7 @@
 #include "execution/plans/mock_scan_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 extern const char *mock_table_list[];
 auto GetMockTableSchemaOf(const std::string &table) -> Schema;
@@ -81,4 +81,4 @@ class MockScanExecutor : public AbstractExecutor {
   std::vector<size_t> shuffled_idx_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

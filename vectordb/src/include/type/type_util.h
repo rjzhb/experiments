@@ -6,7 +6,7 @@
 
 #include "type/type.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * Type Utility Functions
  */
@@ -241,4 +241,4 @@ class TypeUtil {
   //    return (result);
   //  }
 };
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_test.cpp
 //
@@ -20,7 +20,7 @@
 #include "murmur3/MurmurHash3.h"
 #include "storage/disk/disk_manager_memory.h"
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE
 TEST(ExtendibleHTableTest, DISABLED_InsertTest1) {
@@ -156,4 +156,4 @@ TEST(ExtendibleHTableTest, DISABLED_RemoveTest1) {
   ht.VerifyIntegrity();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

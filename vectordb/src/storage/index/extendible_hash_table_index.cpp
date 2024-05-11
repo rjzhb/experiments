@@ -2,7 +2,7 @@
 
 #include "storage/index/extendible_hash_table_index.h"
 
-namespace bustub {
+namespace vdbms {
 /*
  * Constructor
  */
@@ -46,4 +46,4 @@ template class ExtendibleHashTableIndex<GenericKey<16>, RID, GenericComparator<1
 template class ExtendibleHashTableIndex<GenericKey<32>, RID, GenericComparator<32>>;
 template class ExtendibleHashTableIndex<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

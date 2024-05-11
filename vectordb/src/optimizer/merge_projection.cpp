@@ -7,7 +7,7 @@
 #include "execution/plans/projection_plan.h"
 #include "optimizer/optimizer.h"
 
-namespace bustub {
+namespace vdbms {
 
 // 定义Optimizer类中的一个方法，用于优化合并投影操作
 auto Optimizer::OptimizeMergeProjection(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef {
@@ -23,7 +23,7 @@ auto Optimizer::OptimizeMergeProjection(const AbstractPlanNodeRef &plan) -> Abst
   if (optimized_plan->GetType() == PlanType::Projection) {
 	const auto &projection_plan = dynamic_cast<const ProjectionPlanNode &>(*optimized_plan);
 	// 确保投影节点只有一个子节点
-	BUSTUB_ENSURE(optimized_plan->children_.size() == 1, "Projection with multiple children?? That's weird!");
+	vdbms_ENSURE(optimized_plan->children_.size() == 1, "Projection with multiple children?? That's weird!");
 	// 如果子节点的输出模式和投影节点的输出模式相同（忽略列名）
 	const auto &child_plan = optimized_plan->children_[0];
 	const auto &child_schema = child_plan->OutputSchema();
@@ -61,4 +61,4 @@ auto Optimizer::OptimizeMergeProjection(const AbstractPlanNodeRef &plan) -> Abst
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

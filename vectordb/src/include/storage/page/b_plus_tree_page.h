@@ -18,7 +18,7 @@
 #include "buffer/buffer_pool_manager.h"
 #include "storage/index/generic_key.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define MappingType std::pair<KeyType, ValueType>
 
@@ -63,4 +63,4 @@ class BPlusTreePage {
   int max_size_ __attribute__((__unused__));
 };
 
-}  // namespace bustub
+}  // namespace vdbms

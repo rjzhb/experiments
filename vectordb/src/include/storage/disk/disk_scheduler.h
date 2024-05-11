@@ -8,7 +8,7 @@
 #include "common/channel.h"
 #include "storage/disk/disk_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * @brief Represents a Write or Read request for the DiskManager to execute.
@@ -81,4 +81,4 @@ class DiskScheduler {
   /** The background thread responsible for issuing scheduled requests to the disk manager. */
   std::optional<std::thread> background_thread_;
 };
-}  // namespace bustub
+}  // namespace vdbms

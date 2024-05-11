@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // int_comparator.h
 //
@@ -12,7 +12,7 @@
 
 #pragma once
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Function object return is > 0 if lhs > rhs, < 0 if lhs < rhs,
@@ -30,4 +30,4 @@ class IntComparator {
     return 0;
   }
 };
-}  // namespace bustub
+}  // namespace vdbms

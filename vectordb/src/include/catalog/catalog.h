@@ -22,7 +22,7 @@
 #include "storage/table/table_heap.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * 类型定义
@@ -178,7 +178,7 @@ class Catalog {
 	}
 
 	auto meta = tables_.find(table_oid->second);
-	BUSTUB_ASSERT(meta != tables_.end(), "Invariant Broken");
+	vdbms_ASSERT(meta != tables_.end(), "Invariant Broken");
 
 	return (meta->second).get();
   }
@@ -220,7 +220,7 @@ class Catalog {
 	}
 
 	// 如果表存在，那么 index_names_ 中应该已经有了该表的条目
-	BUSTUB_ASSERT((index_names_.find(table_name) != index_names_.end()), "Invariant Broken");
+	vdbms_ASSERT((index_names_.find(table_name) != index_names_.end()), "Invariant Broken");
 
 	// 确定此表是否已存在请求的索引
 	auto &table_indexes = index_names_.find(table_name)->second;
@@ -285,7 +285,7 @@ class Catalog {
 	}
 
 	// 如果表存在，那么 index_names_ 中应该已经有了该表的条目
-	BUSTUB_ASSERT((index_names_.find(table_name) != index_names_.end()), "Invariant Broken");
+	vdbms_ASSERT((index_names_.find(table_name) != index_names_.end()), "Invariant Broken");
 
 	// 确定此表是否已存在请求的索引
 	auto &table_indexes = index_names_.find(table_name)->second;
@@ -355,7 +355,7 @@ class Catalog {
   auto GetIndex(const std::string &index_name, const std::string &table_name) -> IndexInfo * {
 	auto table = index_names_.find(table_name);
 	if (table == index_names_.end()) {
-	  BUSTUB_ASSERT((table_names_.find(table_name) == table_names_.end()), "Invariant Broken");
+	  vdbms_ASSERT((table_names_.find(table_name) == table_names_.end()), "Invariant Broken");
 	  return NULL_INDEX_INFO;
 	}
 
@@ -367,7 +367,7 @@ class Catalog {
 	}
 
 	auto index = indexes_.find(index_meta->second);
-	BUSTUB_ASSERT((index != indexes_.end()), "Invariant Broken");
+	vdbms_ASSERT((index != indexes_.end()), "Invariant Broken");
 
 	return index->second.get();
   }
@@ -416,13 +416,13 @@ class Catalog {
     }
 
     auto table_indexes = index_names_.find(table_name);
-    BUSTUB_ASSERT((table_indexes != index_names_.end()), "Broken Invariant");
+    vdbms_ASSERT((table_indexes != index_names_.end()), "Broken Invariant");
 
     std::vector<IndexInfo *> indexes{};
     indexes.reserve(table_indexes->second.size());
     for (const auto &index_meta : table_indexes->second) {
       auto index = indexes_.find(index_meta.second);
-      BUSTUB_ASSERT((index != indexes_.end()), "Broken Invariant");
+      vdbms_ASSERT((index != indexes_.end()), "Broken Invariant");
       indexes.push_back(index->second.get());
     }
 
@@ -469,30 +469,30 @@ class Catalog {
   std::atomic<index_oid_t> next_index_oid_{0};
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::IndexType> : formatter<string_view> {
+struct fmt::formatter<vdbms::IndexType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::IndexType c, FormatContext &ctx) const {
+  auto format(vdbms::IndexType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::IndexType::BPlusTreeIndex:
+      case vdbms::IndexType::BPlusTreeIndex:
         name = "BPlusTree";
         break;
-      case bustub::IndexType::HashTableIndex:
+      case vdbms::IndexType::HashTableIndex:
         name = "Hash";
         break;
-      case bustub::IndexType::STLOrderedIndex:
+      case vdbms::IndexType::STLOrderedIndex:
         name = "STLOrdered";
         break;
-      case bustub::IndexType::STLUnorderedIndex:
+      case vdbms::IndexType::STLUnorderedIndex:
         name = "STLUnordered";
         break;
-      case bustub::IndexType::VectorHNSWIndex:
+      case vdbms::IndexType::VectorHNSWIndex:
         name = "VectorHNSW";
         break;
-      case bustub::IndexType::VectorIVFFlatIndex:
+      case vdbms::IndexType::VectorIVFFlatIndex:
         name = "VectorIVFFlat";
         break;
       default:

@@ -7,7 +7,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 InsertExecutor::InsertExecutor(ExecutorContext *exec_ctx, const InsertPlanNode *plan,
                                std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -16,7 +16,7 @@ InsertExecutor::InsertExecutor(ExecutorContext *exec_ctx, const InsertPlanNode *
   table_heap_ = table->table_.get();
   for (const auto &index_info : exec_ctx->GetCatalog()->GetTableIndexes(table->name_)) {
     auto index = dynamic_cast<VectorIndex *>(index_info->index_.get());
-    BUSTUB_ASSERT(index != nullptr, "only vector index is supported");
+    vdbms_ASSERT(index != nullptr, "only vector index is supported");
     indexes_.push_back(index);
   }
 }
@@ -28,10 +28,10 @@ void InsertExecutor::Init() {
   while (child_executor_->Next(&tuple, &rid)) {
     auto inserted_rid = table_heap_->InsertTuple(TupleMeta{0, false}, tuple);
     for (auto *index : indexes_) {
-      BUSTUB_ASSERT(index->GetKeyAttrs().size() == 1, "only support vector index with one vector");
+      vdbms_ASSERT(index->GetKeyAttrs().size() == 1, "only support vector index with one vector");
       auto index_key = index->GetKeyAttrs()[0];
       auto val = tuple.GetValue(&child_executor_->GetOutputSchema(), index_key);
-      BUSTUB_ASSERT(val.GetTypeId() == TypeId::VECTOR, "only support vector type for vector index");
+      vdbms_ASSERT(val.GetTypeId() == TypeId::VECTOR, "only support vector type for vector index");
       auto vec = val.GetVector();
       index->InsertVectorEntry(vec, *inserted_rid);
     }
@@ -48,4 +48,4 @@ auto InsertExecutor::Next(Tuple *tuple, RID *rid) -> bool {
   return true;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

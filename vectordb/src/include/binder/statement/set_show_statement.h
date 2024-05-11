@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/set_get_statement.h
 //
@@ -15,7 +15,7 @@
 #include "common/enums/statement_type.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 class VariableSetStatement : public BoundStatement {
  public:
@@ -54,4 +54,4 @@ class TransactionStatement : public BoundStatement {
   auto ToString() const -> std::string override { return fmt::format("BoundTransaction {{ type={} }}", type_); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

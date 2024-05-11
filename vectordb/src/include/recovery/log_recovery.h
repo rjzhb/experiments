@@ -9,7 +9,7 @@
 #include "concurrency/lock_manager.h"
 #include "recovery/log_record.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Read log file from disk, redo and undo.
@@ -43,4 +43,4 @@ class LogRecovery {
   char *log_buffer_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

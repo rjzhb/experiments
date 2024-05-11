@@ -13,7 +13,7 @@
 #include "storage/index/index.h"
 #include "storage/index/stl_comparator_wrapper.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename KT, typename VT, typename Cmp>
 class STLOrderedIndexIterator {
@@ -99,4 +99,4 @@ class STLOrderedIndex : public Index {
 
 using STLOrderedIndexForTwoIntegerColumn = STLOrderedIndex<GenericKey<8>, RID, GenericComparator<8>>;
 
-}  // namespace bustub
+}  // namespace vdbms

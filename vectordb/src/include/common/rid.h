@@ -6,7 +6,7 @@
 
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 class RID {
  public:
@@ -53,11 +53,11 @@ class RID {
   uint32_t slot_num_{0};  // logical offset from 0, 1...
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 namespace std {
 template <>
-struct hash<bustub::RID> {
-  auto operator()(const bustub::RID &obj) const -> size_t { return hash<int64_t>()(obj.Get()); }
+struct hash<vdbms::RID> {
+  auto operator()(const vdbms::RID &obj) const -> size_t { return hash<int64_t>()(obj.Get()); }
 };
 }  // namespace std

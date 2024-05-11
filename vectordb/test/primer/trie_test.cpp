@@ -10,7 +10,7 @@
 #include "gtest/gtest.h"
 #include "primer/trie.h"
 
-namespace bustub {
+namespace vdbms {
 
 TEST(TrieTest, ConstructorTest) { auto trie = Trie(); }
 
@@ -282,4 +282,4 @@ TEST(TrieTest, PointerStability) {
   ASSERT_EQ(reinterpret_cast<uint64_t>(ptr_before), reinterpret_cast<uint64_t>(ptr_after));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

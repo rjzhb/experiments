@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // constant_value_expression.h
 //
@@ -20,7 +20,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * ArrayExpression represents arrays.
  */
@@ -60,6 +60,6 @@ class ArrayExpression : public AbstractExpression {
   /** @return the string representation of the plan node and its children */
   auto ToString() const -> std::string override { return fmt::format("[{}]", fmt::join(children_, ",")); }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(ArrayExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(ArrayExpression);
 };
-}  // namespace bustub
+}  // namespace vdbms

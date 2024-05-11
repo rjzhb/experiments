@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // limit_executor.h
 //
@@ -18,7 +18,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/limit_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * LimitExecutor limits the number of output tuples produced by a child operator.
@@ -55,4 +55,4 @@ class LimitExecutor : public AbstractExecutor {
   /** The child executor from which tuples are obtained */
   std::unique_ptr<AbstractExecutor> child_executor_;
 };
-}  // namespace bustub
+}  // namespace vdbms

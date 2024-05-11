@@ -1,7 +1,7 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
-// bustub/binder/simplified_token.h
+// vdbms/binder/simplified_token.h
 //
 //
 //===----------------------------------------------------------------------===//
@@ -33,7 +33,7 @@
 #include <iostream>
 #include <string>
 
-namespace bustub {
+namespace vdbms {
 
 /** Simplified tokens are a simplified (dense) representation of the lexer
  * used for simple syntax highlighting in the tests. */
@@ -58,4 +58,4 @@ struct ParserKeyword {
   KeywordCategory category_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

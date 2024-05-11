@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // update_executor.cpp
 //
@@ -13,7 +13,7 @@
 
 #include "execution/executors/update_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 UpdateExecutor::UpdateExecutor(ExecutorContext *exec_ctx, const UpdatePlanNode *plan,
                                std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -25,4 +25,4 @@ void UpdateExecutor::Init() { throw NotImplementedException("UpdateExecutor is n
 
 auto UpdateExecutor::Next([[maybe_unused]] Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

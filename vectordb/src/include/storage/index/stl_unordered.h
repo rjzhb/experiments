@@ -16,7 +16,7 @@
 #include "storage/index/stl_equal_wrapper.h"
 #include "storage/index/stl_hasher_wrapper.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename KT, typename VT, typename Cmp>
 class STLUnorderedIndex : public Index {
@@ -71,4 +71,4 @@ class STLUnorderedIndex : public Index {
 
 using STLUnorderedIndexForTwoIntegerColumn = STLUnorderedIndex<GenericKey<8>, RID, GenericComparator<8>>;
 
-}  // namespace bustub
+}  // namespace vdbms

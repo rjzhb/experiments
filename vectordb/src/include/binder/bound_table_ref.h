@@ -7,7 +7,7 @@
 
 #include "common/macros.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Table reference types.
@@ -50,10 +50,10 @@ class BoundTableRef {
   TableReferenceType type_{TableReferenceType::INVALID};
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::BoundTableRef, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::BoundTableRef, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const T &x, FormatCtx &ctx) const {
@@ -62,7 +62,7 @@ struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::BoundTableRef,
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::BoundTableRef, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::BoundTableRef, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::unique_ptr<T> &x, FormatCtx &ctx) const {
@@ -71,33 +71,33 @@ struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustu
 };
 
 template <>
-struct fmt::formatter<bustub::TableReferenceType> : formatter<string_view> {
+struct fmt::formatter<vdbms::TableReferenceType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::TableReferenceType c, FormatContext &ctx) const {
+  auto format(vdbms::TableReferenceType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::TableReferenceType::INVALID:
+      case vdbms::TableReferenceType::INVALID:
         name = "Invalid";
         break;
-      case bustub::TableReferenceType::BASE_TABLE:
+      case vdbms::TableReferenceType::BASE_TABLE:
         name = "BaseTable";
         break;
-      case bustub::TableReferenceType::JOIN:
+      case vdbms::TableReferenceType::JOIN:
         name = "Join";
         break;
-      case bustub::TableReferenceType::CROSS_PRODUCT:
+      case vdbms::TableReferenceType::CROSS_PRODUCT:
         name = "CrossProduct";
         break;
-      case bustub::TableReferenceType::EMPTY:
+      case vdbms::TableReferenceType::EMPTY:
         name = "Empty";
         break;
-      case bustub::TableReferenceType::EXPRESSION_LIST:
+      case vdbms::TableReferenceType::EXPRESSION_LIST:
         name = "ExpressionList";
         break;
-      case bustub::TableReferenceType::SUBQUERY:
+      case vdbms::TableReferenceType::SUBQUERY:
         name = "Subquery";
         break;
-      case bustub::TableReferenceType::CTE:
+      case vdbms::TableReferenceType::CTE:
         name = "CTE";
         break;
       default:

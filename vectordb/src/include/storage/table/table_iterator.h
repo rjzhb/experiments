@@ -9,7 +9,7 @@
 #include "concurrency/transaction.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 class TableHeap;
 
@@ -45,4 +45,4 @@ class TableIterator {
   RID stop_at_rid_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

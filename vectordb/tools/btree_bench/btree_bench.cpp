@@ -32,10 +32,10 @@ auto ClockMs() -> uint64_t {
   return static_cast<uint64_t>(tm.tv_sec * 1000) + static_cast<uint64_t>(tm.tv_usec / 1000);
 }
 
-static const size_t BUSTUB_READ_THREAD = 4;
-static const size_t BUSTUB_WRITE_THREAD = 2;
+static const size_t vdbms_READ_THREAD = 4;
+static const size_t vdbms_WRITE_THREAD = 2;
 static const size_t LRU_K_SIZE = 4;
-static const size_t BUSTUB_BPM_SIZE = 256;
+static const size_t vdbms_BPM_SIZE = 256;
 static const size_t TOTAL_KEYS = 100000;
 static const size_t KEY_MODIFY_RANGE = 2048;
 
@@ -112,12 +112,12 @@ auto KeyWillChange(size_t key) -> bool { return key % 5 == 0; }
 
 // NOLINTNEXTLINE
 auto main(int argc, char **argv) -> int {
-  using bustub::AccessType;
-  using bustub::BufferPoolManager;
-  using bustub::DiskManagerUnlimitedMemory;
-  using bustub::page_id_t;
+  using vdbms::AccessType;
+  using vdbms::BufferPoolManager;
+  using vdbms::DiskManagerUnlimitedMemory;
+  using vdbms::page_id_t;
 
-  argparse::ArgumentParser program("bustub-btree-bench");
+  argparse::ArgumentParser program("vdbms-btree-bench");
   program.add_argument("--duration").help("run btree bench for n milliseconds");
 
   try {
@@ -134,23 +134,23 @@ auto main(int argc, char **argv) -> int {
   }
 
   auto disk_manager = std::make_unique<DiskManagerUnlimitedMemory>();
-  auto bpm = std::make_unique<BufferPoolManager>(BUSTUB_BPM_SIZE, disk_manager.get(), LRU_K_SIZE);
+  auto bpm = std::make_unique<BufferPoolManager>(vdbms_BPM_SIZE, disk_manager.get(), LRU_K_SIZE);
 
   fmt::print(stderr, "[info] total_keys={}, duration_ms={}, lru_k_size={}, bpm_size={}\n", TOTAL_KEYS, duration_ms,
-             LRU_K_SIZE, BUSTUB_BPM_SIZE);
+             LRU_K_SIZE, vdbms_BPM_SIZE);
 
-  auto key_schema = bustub::ParseCreateStatement("a bigint");
-  bustub::GenericComparator<8> comparator(key_schema.get());
+  auto key_schema = vdbms::ParseCreateStatement("a bigint");
+  vdbms::GenericComparator<8> comparator(key_schema.get());
 
   page_id_t page_id;
   auto header_page = bpm->NewPageGuarded(&page_id);
 
-  bustub::BPlusTree<bustub::GenericKey<8>, bustub::RID, bustub::GenericComparator<8>> index("foo_pk", page_id,
+  vdbms::BPlusTree<vdbms::GenericKey<8>, vdbms::RID, vdbms::GenericComparator<8>> index("foo_pk", page_id,
                                                                                             bpm.get(), comparator);
 
   for (size_t key = 0; key < TOTAL_KEYS; key++) {
-    bustub::GenericKey<8> index_key;
-    bustub::RID rid;
+    vdbms::GenericKey<8> index_key;
+    vdbms::RID rid;
     uint32_t value = key;
     rid.Set(value, value);
     index_key.SetFromInteger(key);
@@ -164,19 +164,19 @@ auto main(int argc, char **argv) -> int {
 
   std::vector<std::thread> threads;
 
-  for (size_t thread_id = 0; thread_id < BUSTUB_READ_THREAD; thread_id++) {
+  for (size_t thread_id = 0; thread_id < vdbms_READ_THREAD; thread_id++) {
     threads.emplace_back(std::thread([thread_id, &index, duration_ms, &total_metrics] {
       BTreeMetrics metrics(fmt::format("read  {:>2}", thread_id), duration_ms);
       metrics.Begin();
 
-      size_t key_start = TOTAL_KEYS / BUSTUB_READ_THREAD * thread_id;
-      size_t key_end = TOTAL_KEYS / BUSTUB_READ_THREAD * (thread_id + 1);
+      size_t key_start = TOTAL_KEYS / vdbms_READ_THREAD * thread_id;
+      size_t key_end = TOTAL_KEYS / vdbms_READ_THREAD * (thread_id + 1);
       std::random_device r;
       std::default_random_engine gen(r());
       std::uniform_int_distribution<size_t> dis(key_start, key_end - 1);
 
-      bustub::GenericKey<8> index_key;
-      std::vector<bustub::RID> rids;
+      vdbms::GenericKey<8> index_key;
+      std::vector<vdbms::RID> rids;
 
       while (!metrics.ShouldFinish()) {
         auto base_key = dis(gen);
@@ -210,19 +210,19 @@ auto main(int argc, char **argv) -> int {
     }));
   }
 
-  for (size_t thread_id = 0; thread_id < BUSTUB_WRITE_THREAD; thread_id++) {
+  for (size_t thread_id = 0; thread_id < vdbms_WRITE_THREAD; thread_id++) {
     threads.emplace_back(std::thread([thread_id, &index, duration_ms, &total_metrics] {
       BTreeMetrics metrics(fmt::format("write {:>2}", thread_id), duration_ms);
       metrics.Begin();
 
-      size_t key_start = TOTAL_KEYS / BUSTUB_WRITE_THREAD * thread_id;
-      size_t key_end = TOTAL_KEYS / BUSTUB_WRITE_THREAD * (thread_id + 1);
+      size_t key_start = TOTAL_KEYS / vdbms_WRITE_THREAD * thread_id;
+      size_t key_end = TOTAL_KEYS / vdbms_WRITE_THREAD * (thread_id + 1);
       std::random_device r;
       std::default_random_engine gen(r());
       std::uniform_int_distribution<size_t> dis(key_start, key_end - 1);
 
-      bustub::GenericKey<8> index_key;
-      bustub::RID rid;
+      vdbms::GenericKey<8> index_key;
+      vdbms::RID rid;
 
       bool do_insert = false;
 

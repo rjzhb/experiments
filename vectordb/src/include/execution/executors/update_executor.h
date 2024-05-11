@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // update_executor.h
 //
@@ -22,7 +22,7 @@
 #include "storage/table/tuple.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * UpdateExecutor executes an update on a table.
@@ -67,4 +67,4 @@ class UpdateExecutor : public AbstractExecutor {
   /** The child executor to obtain value from */
   std::unique_ptr<AbstractExecutor> child_executor_;
 };
-}  // namespace bustub
+}  // namespace vdbms

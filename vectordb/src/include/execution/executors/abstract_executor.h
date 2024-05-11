@@ -3,7 +3,7 @@
 #include "execution/executor_context.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 class ExecutorContext;
 /**
  * The AbstractExecutor implements the Volcano tuple-at-a-time iterator model.
@@ -45,4 +45,4 @@ class AbstractExecutor {
   /** The executor context in which the executor runs */
   ExecutorContext *exec_ctx_;
 };
-}  // namespace bustub
+}  // namespace vdbms

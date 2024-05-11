@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // nested_index_join_executor.h
 //
@@ -25,7 +25,7 @@
 #include "storage/table/tmp_tuple.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * IndexJoinExecutor executes index join operations.
@@ -51,4 +51,4 @@ class NestIndexJoinExecutor : public AbstractExecutor {
   /** The nested index join plan node. */
   const NestedIndexJoinPlanNode *plan_;
 };
-}  // namespace bustub
+}  // namespace vdbms

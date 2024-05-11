@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_header_page.cpp
 //
@@ -15,10 +15,10 @@
 #include <unordered_map>
 #include "common/logger.h"
 
-namespace bustub {
+namespace vdbms {
 auto HashTableDirectoryPage::GetPageId() const -> page_id_t { return page_id_; }
 
-void HashTableDirectoryPage::SetPageId(bustub::page_id_t page_id) { page_id_ = page_id; }
+void HashTableDirectoryPage::SetPageId(vdbms::page_id_t page_id) { page_id_ = page_id; }
 
 auto HashTableDirectoryPage::GetLSN() const -> lsn_t { return lsn_; }
 
@@ -111,4 +111,4 @@ void HashTableDirectoryPage::PrintDirectory() {
   LOG_DEBUG("================ END DIRECTORY ================");
 }
 
-}  // namespace bustub
+}  // namespace vdbms

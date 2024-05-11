@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // linear_probe_hash_table.h
 //
@@ -22,7 +22,7 @@
 #include "storage/page/hash_table_block_page.h"
 #include "storage/page/hash_table_header_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define HASH_TABLE_TYPE LinearProbeHashTable<KeyType, ValueType, KeyComparator>
 
@@ -104,4 +104,4 @@ class LinearProbeHashTable {
   HashFunction<KeyType> hash_fn_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

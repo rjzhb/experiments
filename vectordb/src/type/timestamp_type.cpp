@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // timestamp_type.cpp
 //
@@ -17,7 +17,7 @@
 #include "type/value_factory.h"
 #include "type/varlen_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 TimestampType::TimestampType() : Type(TypeId::TIMESTAMP) {}
 
@@ -160,4 +160,4 @@ auto TimestampType::CastAs(const Value &val, const TypeId type_id) const -> Valu
   throw Exception("TIMESTAMP is not coercable to " + Type::GetInstance(type_id)->ToString(val));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

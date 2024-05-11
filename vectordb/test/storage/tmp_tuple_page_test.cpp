@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // tmp_tuple_page_test.cpp
 //
@@ -16,7 +16,7 @@
 #include "storage/page/tmp_tuple_page.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE
 TEST(TmpTuplePageTest, DISABLED_BasicTest) {
@@ -26,11 +26,11 @@ TEST(TmpTuplePageTest, DISABLED_BasicTest) {
 
   TmpTuplePage page{};
   page_id_t page_id = 15445;
-  page.Init(page_id, BUSTUB_PAGE_SIZE);
+  page.Init(page_id, vdbms_PAGE_SIZE);
 
   char *data = page.GetData();
   ASSERT_EQ(*reinterpret_cast<page_id_t *>(data), page_id);
-  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + sizeof(page_id_t) + sizeof(lsn_t)), BUSTUB_PAGE_SIZE);
+  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + sizeof(page_id_t) + sizeof(lsn_t)), vdbms_PAGE_SIZE);
 
   std::vector<Column> columns;
   columns.emplace_back("A", TypeId::INTEGER);
@@ -43,9 +43,9 @@ TEST(TmpTuplePageTest, DISABLED_BasicTest) {
   TmpTuple tmp_tuple(INVALID_PAGE_ID, 0);
   page.Insert(tuple, &tmp_tuple);
 
-  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + sizeof(page_id_t) + sizeof(lsn_t)), BUSTUB_PAGE_SIZE - 8);
-  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + BUSTUB_PAGE_SIZE - 8), 4);
-  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + BUSTUB_PAGE_SIZE - 4), 123);
+  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + sizeof(page_id_t) + sizeof(lsn_t)), vdbms_PAGE_SIZE - 8);
+  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + vdbms_PAGE_SIZE - 8), 4);
+  ASSERT_EQ(*reinterpret_cast<uint32_t *>(data + vdbms_PAGE_SIZE - 4), 123);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

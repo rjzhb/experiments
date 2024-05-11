@@ -37,7 +37,7 @@
 #include "execution/plans/window_plan.h"
 #include "storage/index/generic_key.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto ExecutorFactory::CreateExecutor(ExecutorContext *exec_ctx, const AbstractPlanNodeRef &plan)
     -> std::unique_ptr<AbstractExecutor> {
@@ -190,4 +190,4 @@ auto ExecutorFactory::CreateExecutor(ExecutorContext *exec_ctx, const AbstractPl
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

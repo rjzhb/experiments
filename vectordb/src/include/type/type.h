@@ -5,7 +5,7 @@
 
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Value;
 
@@ -100,4 +100,4 @@ class Type {
   // Singleton instances.
   static Type *k_types[10];
 };
-}  // namespace bustub
+}  // namespace vdbms

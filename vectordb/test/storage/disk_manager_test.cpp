@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // disk_manager_test.cpp
 //
@@ -16,7 +16,7 @@
 #include "gtest/gtest.h"
 #include "storage/disk/disk_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 class DiskManagerTest : public ::testing::Test {
  protected:
@@ -35,8 +35,8 @@ class DiskManagerTest : public ::testing::Test {
 
 // NOLINTNEXTLINE
 TEST_F(DiskManagerTest, ReadWritePageTest) {
-  char buf[BUSTUB_PAGE_SIZE] = {0};
-  char data[BUSTUB_PAGE_SIZE] = {0};
+  char buf[vdbms_PAGE_SIZE] = {0};
+  char data[vdbms_PAGE_SIZE] = {0};
   std::string db_file("test.db");
   auto dm = DiskManager(db_file);
   std::strncpy(data, "A test string.", sizeof(data));
@@ -75,4 +75,4 @@ TEST_F(DiskManagerTest, ReadWriteLogTest) {
 // NOLINTNEXTLINE
 TEST_F(DiskManagerTest, ThrowBadFileTest) { EXPECT_THROW(DiskManager("dev/null\\/foo/bar/baz/test.db"), Exception); }
 
-}  // namespace bustub
+}  // namespace vdbms

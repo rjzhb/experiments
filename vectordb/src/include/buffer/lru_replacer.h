@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // lru_replacer.h
 //
@@ -19,7 +19,7 @@
 #include "buffer/replacer.h"
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * LRUReplacer implements the Least Recently Used replacement policy.
@@ -49,4 +49,4 @@ class LRUReplacer : public Replacer {
   // TODO(student): implement me!
 };
 
-}  // namespace bustub
+}  // namespace vdbms

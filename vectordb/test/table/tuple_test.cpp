@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // tuple_test.cpp
 //
@@ -22,7 +22,7 @@
 #include "storage/table/table_heap.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 // NOLINTNEXTLINE
 TEST(TupleTest, DISABLED_TableHeapTest) {
   // test1: parse create sql statement
@@ -61,4 +61,4 @@ TEST(TupleTest, DISABLED_TableHeapTest) {
   delete disk_manager;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

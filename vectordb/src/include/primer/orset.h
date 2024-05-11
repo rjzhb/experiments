@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace bustub {
+namespace vdbms {
 
 /** @brief Unique ID type. */
 using uid_t = int64_t;
@@ -62,4 +62,4 @@ class ORSet {
   // TODO(student): Add your private memeber variables to represent ORSet.
 };
 
-}  // namespace bustub
+}  // namespace vdbms

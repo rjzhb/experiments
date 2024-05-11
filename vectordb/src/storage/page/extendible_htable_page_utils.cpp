@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_page_utils.cpp
 //
@@ -16,7 +16,7 @@
 #include "storage/page/extendible_htable_directory_page.h"
 #include "storage/page/extendible_htable_header_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 void ExtendibleHTableHeaderPage::PrintHeader() const {
   LOG_DEBUG("======== HEADER (max_depth_: %u) ========", max_depth_);
@@ -66,7 +66,7 @@ void ExtendibleHTableDirectoryPage::VerifyIntegrity() const {
     uint32_t curr_ld = local_depths_[curr_idx];
 
     // Verify: (1) All LD <= GD.
-    BUSTUB_ASSERT(curr_ld <= global_depth_, "there exists a local depth greater than the global depth");
+    vdbms_ASSERT(curr_ld <= global_depth_, "there exists a local depth greater than the global depth");
 
     ++page_id_to_count[curr_page_id];
 
@@ -75,7 +75,7 @@ void ExtendibleHTableDirectoryPage::VerifyIntegrity() const {
       LOG_WARN("Verify Integrity: curr_local_depth: %u, old_local_depth %u, for page_id: %u", curr_ld, old_ld,
                curr_page_id);
       PrintDirectory();
-      BUSTUB_ASSERT(curr_ld == page_id_to_ld[curr_page_id],
+      vdbms_ASSERT(curr_ld == page_id_to_ld[curr_page_id],
                     "local depth is not the same at each index with same bucket page id");
     } else {
       page_id_to_ld[curr_page_id] = curr_ld;
@@ -94,7 +94,7 @@ void ExtendibleHTableDirectoryPage::VerifyIntegrity() const {
       LOG_WARN("Verify Integrity: curr_count: %u, required_count %u, for page_id: %u", curr_count, required_count,
                curr_page_id);
       PrintDirectory();
-      BUSTUB_ASSERT(curr_count == required_count, "a bucket does not have precisely 2^(GD - LD) pointers to it");
+      vdbms_ASSERT(curr_count == required_count, "a bucket does not have precisely 2^(GD - LD) pointers to it");
     }
     it++;
   }
@@ -107,4 +107,4 @@ template class ExtendibleHTableBucketPage<GenericKey<16>, RID, GenericComparator
 template class ExtendibleHTableBucketPage<GenericKey<32>, RID, GenericComparator<32>>;
 template class ExtendibleHTableBucketPage<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

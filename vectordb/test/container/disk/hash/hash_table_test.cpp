@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_test.cpp
 //
@@ -19,7 +19,7 @@
 // #include "gtest/gtest.h"
 // #include "murmur3/MurmurHash3.h"
 
-// namespace bustub {
+// namespace vdbms {
 
 // // NOLINTNEXTLINE
 
@@ -117,4 +117,4 @@
 //   delete bpm;
 // }
 
-// }  // namespace bustub
+// }  // namespace vdbms

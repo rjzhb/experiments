@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // boolean_type.cpp
 //
@@ -15,7 +15,7 @@
 #include <string>
 #include "type/boolean_type.h"
 
-namespace bustub {
+namespace vdbms {
 #define BOOLEAN_COMPARE_FUNC(OP) GetCmpBool(left.value_.boolean_ OP right.CastAs(TypeId::BOOLEAN).value_.boolean_)
 
 BooleanType::BooleanType() : Type(TypeId::BOOLEAN) {}
@@ -112,4 +112,4 @@ auto BooleanType::CastAs(const Value &val, const TypeId type_id) const -> Value 
   }
   throw Exception("BOOLEAN is not coercable to " + Type::TypeIdToString(type_id));
 }
-}  // namespace bustub
+}  // namespace vdbms

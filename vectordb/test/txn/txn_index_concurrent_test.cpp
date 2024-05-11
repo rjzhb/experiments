@@ -5,14 +5,14 @@
 #include <random>
 #include <string>
 #include <thread>  // NOLINT
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/macros.h"
 #include "concurrency/transaction.h"
 #include "execution/execution_common.h"
 #include "fmt/core.h"
 #include "txn_common.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTBEGIN(bugprone-unchecked-optional-access)
 
@@ -22,8 +22,8 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentInsertTest) {  // NOLINT
   };
   const int trials = 50;
   for (int n = 0; n < trials; n++) {
-    auto bustub = std::make_unique<BustubInstance>();
-    Execute(*bustub, "CREATE TABLE maintable(a int primary key, b int)");
+    auto vdbms = std::make_unique<vdbmsInstance>();
+    Execute(*vdbms, "CREATE TABLE maintable(a int primary key, b int)");
     std::vector<std::thread> insert_threads;
     const int thread_cnt = 8;
     const int number_cnt = 80;
@@ -33,16 +33,16 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentInsertTest) {  // NOLINT
     fmt::println(stderr, "trial {}: running with {} threads with {} rows", n + 1, thread_cnt, number_cnt);
     global_disable_execution_exception_print.store(true);
     for (int thread = 0; thread < thread_cnt; thread++) {
-      insert_threads.emplace_back([&bustub, thread, generate_sql, &result_mutex, &operation_result]() {
+      insert_threads.emplace_back([&vdbms, thread, generate_sql, &result_mutex, &operation_result]() {
         NoopWriter writer;
         std::vector<bool> result;
         result.reserve(number_cnt);
         for (int i = 0; i < number_cnt; i++) {
           auto sql = generate_sql(thread, i);
-          auto *txn = bustub->txn_manager_->Begin();
-          if (bustub->ExecuteSqlTxn(sql, writer, txn)) {
+          auto *txn = vdbms->txn_manager_->Begin();
+          if (vdbms->ExecuteSqlTxn(sql, writer, txn)) {
             result.push_back(true);
-            BUSTUB_ENSURE(bustub->txn_manager_->Commit(txn), "cannot commit??");
+            vdbms_ENSURE(vdbms->txn_manager_->Commit(txn), "cannot commit??");
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
           } else {
             result.push_back(false);
@@ -84,14 +84,14 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentInsertTest) {  // NOLINT
         std::terminate();
       }
     }
-    auto query_txn = BeginTxn(*bustub, "query_txn");
-    WithTxn(query_txn, QueryShowResult(*bustub, _var, _txn, "SELECT * FROM maintable", expected_rows));
-    auto entry = TableHeapEntry(*bustub, bustub->catalog_->GetTable("maintable"));
+    auto query_txn = BeginTxn(*vdbms, "query_txn");
+    WithTxn(query_txn, QueryShowResult(*vdbms, _var, _txn, "SELECT * FROM maintable", expected_rows));
+    auto entry = TableHeapEntry(*vdbms, vdbms->catalog_->GetTable("maintable"));
     fmt::println(stderr, "{} entries in the table heap", entry);
     if (n == trials - 1) {
       SimpleStreamWriter writer(std::cerr);
       fmt::println(stderr, "--- the following data might be manually inspected by TAs ---");
-      bustub->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
+      vdbms->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
     }
   }
 }
@@ -119,14 +119,14 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateTest) {  // NOLINT
   };
   const int trials = 50;
   for (int n = 0; n < trials; n++) {
-    auto bustub = std::make_unique<BustubInstance>();
-    EnsureIndexScan(*bustub);
-    Execute(*bustub, "CREATE TABLE maintable(a int primary key, b int)");
+    auto vdbms = std::make_unique<vdbmsInstance>();
+    EnsureIndexScan(*vdbms);
+    Execute(*vdbms, "CREATE TABLE maintable(a int primary key, b int)");
     std::vector<std::thread> update_threads;
     const int thread_cnt = 8;
     const int number_cnt = 20;
-    Execute(*bustub, generate_insert_sql(number_cnt), false);
-    TableHeapEntryNoMoreThan(*bustub, bustub->catalog_->GetTable("maintable"), number_cnt);
+    Execute(*vdbms, generate_insert_sql(number_cnt), false);
+    TableHeapEntryNoMoreThan(*vdbms, vdbms->catalog_->GetTable("maintable"), number_cnt);
     update_threads.reserve(thread_cnt);
     std::map<int, std::vector<bool>> operation_result;
     std::mutex result_mutex;
@@ -135,28 +135,28 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateTest) {  // NOLINT
                  number_cnt, add_delete_insert);
     global_disable_execution_exception_print.store(true);
     for (int thread = 0; thread < thread_cnt; thread++) {
-      update_threads.emplace_back([add_delete_insert, &bustub, thread, generate_sql, generate_select_sql,
+      update_threads.emplace_back([add_delete_insert, &vdbms, thread, generate_sql, generate_select_sql,
                                    generate_delete_sql, generate_txn_insert_sql, &result_mutex, &operation_result]() {
         NoopWriter writer;
         std::vector<bool> result;
         result.reserve(number_cnt);
         for (int i = 0; i < number_cnt; i++) {
           auto sql = generate_sql(thread, i);
-          auto *txn = bustub->txn_manager_->Begin();
-          if (!bustub->ExecuteSqlTxn(sql, writer, txn)) {
+          auto *txn = vdbms->txn_manager_->Begin();
+          if (!vdbms->ExecuteSqlTxn(sql, writer, txn)) {
             result.push_back(false);
             continue;
           }
           if (add_delete_insert) {
             StringVectorWriter data_writer;
-            BUSTUB_ENSURE(bustub->ExecuteSqlTxn(generate_select_sql(i), data_writer, txn), "cannot retrieve data");
-            BUSTUB_ENSURE(data_writer.values_.size() == 1, "more than 1 row fetched??");
+            vdbms_ENSURE(vdbms->ExecuteSqlTxn(generate_select_sql(i), data_writer, txn), "cannot retrieve data");
+            vdbms_ENSURE(data_writer.values_.size() == 1, "more than 1 row fetched??");
             const auto b_val = std::stoi(data_writer.values_[0][0]);
-            BUSTUB_ENSURE(bustub->ExecuteSqlTxn(generate_delete_sql(i), data_writer, txn), "cannot delete data");
-            BUSTUB_ENSURE(bustub->ExecuteSqlTxn(generate_txn_insert_sql(b_val, i), data_writer, txn),
+            vdbms_ENSURE(vdbms->ExecuteSqlTxn(generate_delete_sql(i), data_writer, txn), "cannot delete data");
+            vdbms_ENSURE(vdbms->ExecuteSqlTxn(generate_txn_insert_sql(b_val, i), data_writer, txn),
                           "cannot insert data");
           }
-          BUSTUB_ENSURE(bustub->txn_manager_->Commit(txn), "cannot commit??");
+          vdbms_ENSURE(vdbms->txn_manager_->Commit(txn), "cannot commit??");
           result.push_back(true);
           std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
@@ -181,13 +181,13 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateTest) {  // NOLINT
       }
       expected_rows.push_back({i, winner});
     }
-    auto query_txn = BeginTxn(*bustub, "query_txn");
-    WithTxn(query_txn, QueryShowResult(*bustub, _var, _txn, "SELECT * FROM maintable", expected_rows));
-    TableHeapEntryNoMoreThan(*bustub, bustub->catalog_->GetTable("maintable"), number_cnt);
+    auto query_txn = BeginTxn(*vdbms, "query_txn");
+    WithTxn(query_txn, QueryShowResult(*vdbms, _var, _txn, "SELECT * FROM maintable", expected_rows));
+    TableHeapEntryNoMoreThan(*vdbms, vdbms->catalog_->GetTable("maintable"), number_cnt);
     if (n == trials - 1 || n == trials - 2) {
       SimpleStreamWriter writer(std::cerr);
       fmt::println(stderr, "--- the following data might be manually inspected by TAs ---");
-      bustub->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
+      vdbms->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
     }
   }
 }
@@ -209,19 +209,19 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateAbortTest) {  // NOLINT
   const int trials = 10;
   const int operation_cnt = 100;
   for (int n = 0; n < trials; n++) {
-    auto bustub = std::make_unique<BustubInstance>();
-    EnsureIndexScan(*bustub);
-    Execute(*bustub, "CREATE TABLE maintable(a int primary key, b int)");
+    auto vdbms = std::make_unique<vdbmsInstance>();
+    EnsureIndexScan(*vdbms);
+    Execute(*vdbms, "CREATE TABLE maintable(a int primary key, b int)");
     std::vector<std::thread> update_threads;
-    Execute(*bustub, generate_insert_sql(number_cnt), false);
-    TableHeapEntryNoMoreThan(*bustub, bustub->catalog_->GetTable("maintable"), number_cnt);
+    Execute(*vdbms, generate_insert_sql(number_cnt), false);
+    TableHeapEntryNoMoreThan(*vdbms, vdbms->catalog_->GetTable("maintable"), number_cnt);
     update_threads.reserve(thread_cnt);
     std::map<int, std::vector<int>> operation_result;
     std::mutex result_mutex;
     fmt::println(stderr, "trial {}: running with {} threads with {} rows ", n + 1, thread_cnt, number_cnt);
     global_disable_execution_exception_print.store(true);
     for (int thread = 0; thread < thread_cnt; thread++) {
-      update_threads.emplace_back([&bustub, thread, generate_sql, &result_mutex, &operation_result]() {
+      update_threads.emplace_back([&vdbms, thread, generate_sql, &result_mutex, &operation_result]() {
         NoopWriter writer;
         std::vector<int> result(number_cnt, 0);
         std::random_device dev;
@@ -234,20 +234,20 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateAbortTest) {  // NOLINT
             x = dist(rng);
             y = dist(rng);
           } while (x == y);
-          auto *txn = bustub->txn_manager_->Begin();
+          auto *txn = vdbms->txn_manager_->Begin();
           auto sql = generate_sql(x);
-          if (!bustub->ExecuteSqlTxn(sql, writer, txn)) {
-            bustub->txn_manager_->Abort(txn);
+          if (!vdbms->ExecuteSqlTxn(sql, writer, txn)) {
+            vdbms->txn_manager_->Abort(txn);
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
             continue;
           }
           sql = generate_sql(y);
-          if (!bustub->ExecuteSqlTxn(sql, writer, txn)) {
-            bustub->txn_manager_->Abort(txn);
+          if (!vdbms->ExecuteSqlTxn(sql, writer, txn)) {
+            vdbms->txn_manager_->Abort(txn);
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
             continue;
           }
-          BUSTUB_ENSURE(bustub->txn_manager_->Commit(txn), "cannot commit??");
+          vdbms_ENSURE(vdbms->txn_manager_->Commit(txn), "cannot commit??");
           result[x] += 1;
           result[y] += 1;
         }
@@ -273,18 +273,18 @@ TEST(TxnIndexTest, DISABLED_IndexConcurrentUpdateAbortTest) {  // NOLINT
         std::terminate();
       }
     }
-    auto *table_info = bustub->catalog_->GetTable("maintable");
-    auto query_txn = BeginTxn(*bustub, "query_txn");
-    WithTxn(query_txn, QueryShowResult(*bustub, _var, _txn, "SELECT * FROM maintable", expected_rows));
-    TableHeapEntryNoMoreThan(*bustub, table_info, number_cnt);
+    auto *table_info = vdbms->catalog_->GetTable("maintable");
+    auto query_txn = BeginTxn(*vdbms, "query_txn");
+    WithTxn(query_txn, QueryShowResult(*vdbms, _var, _txn, "SELECT * FROM maintable", expected_rows));
+    TableHeapEntryNoMoreThan(*vdbms, table_info, number_cnt);
     if (n >= trials - 2) {
       SimpleStreamWriter writer(std::cerr);
       fmt::println(stderr, "--- the following data might be manually inspected by TAs ---");
-      bustub->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
+      vdbms->ExecuteSqlTxn("SELECT * FROM maintable", writer, query_txn);
     }
   }
 }
 
 // NOLINTEND(bugprone-unchecked-optional-access))
 
-}  // namespace bustub
+}  // namespace vdbms

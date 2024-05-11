@@ -4,7 +4,7 @@
 #include "fmt/format.h"
 #include "fmt/ranges.h"
 
-namespace bustub {
+namespace vdbms {
 
 IndexStatement::IndexStatement(std::string index_name, std::unique_ptr<BoundBaseTableRef> table,
                                std::vector<std::unique_ptr<BoundColumnRef>> cols, std::string index_type,
@@ -22,4 +22,4 @@ auto IndexStatement::ToString() const -> std::string {
                      index_name_, *table_, cols_, index_type_, fmt::join(col_options_, ","), fmt::join(options_, ","));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

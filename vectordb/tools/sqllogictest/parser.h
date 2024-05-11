@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// BusTub SQLLogicTest parser is a C++ replication of risinglightdb/sqllogictest-rs.
+// vdbms SQLLogicTest parser is a C++ replication of risinglightdb/sqllogictest-rs.
 // SQLLogicTest is SQLite's testing framework.
 
 #pragma once
@@ -23,7 +23,7 @@
 #include <vector>
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Location {
  public:
@@ -126,12 +126,12 @@ class SQLLogicTestParser {
   static auto Parse(const std::string &script) -> std::vector<std::unique_ptr<Record>>;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::Location> : formatter<string_view> {
+struct fmt::formatter<vdbms::Location> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(const bustub::Location &c, FormatContext &ctx) const {
+  auto format(const vdbms::Location &c, FormatContext &ctx) const {
     if (c.parent_ != nullptr) {
       return formatter<string_view>::format(fmt::format("{}:{} in {}", c.file_, c.line_, c.parent_), ctx);
     }
@@ -140,44 +140,44 @@ struct fmt::formatter<bustub::Location> : formatter<string_view> {
 };
 
 template <>
-struct fmt::formatter<std::shared_ptr<bustub::Location>> : formatter<string_view> {
+struct fmt::formatter<std::shared_ptr<vdbms::Location>> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(const std::shared_ptr<bustub::Location> &c, FormatContext &ctx) const {
+  auto format(const std::shared_ptr<vdbms::Location> &c, FormatContext &ctx) const {
     return formatter<string_view>::format(fmt::format("{}", *c), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::Record, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::Record, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const bustub::Record &x, FormatCtx &ctx) const {
+  auto format(const vdbms::Record &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x.ToString(), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::Record, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::Record, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const std::unique_ptr<bustub::Record> &x, FormatCtx &ctx) const {
+  auto format(const std::unique_ptr<vdbms::Record> &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x->ToString(), ctx);
   }
 };
 
 template <>
-struct fmt::formatter<bustub::SortMode> : formatter<string_view> {
+struct fmt::formatter<vdbms::SortMode> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::SortMode c, FormatContext &ctx) const {
+  auto format(vdbms::SortMode c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::SortMode::INVALID:
+      case vdbms::SortMode::INVALID:
         name = "Invalid";
         break;
-      case bustub::SortMode::NOSORT:
+      case vdbms::SortMode::NOSORT:
         name = "NoSort";
         break;
-      case bustub::SortMode::ROWSORT:
+      case vdbms::SortMode::ROWSORT:
         name = "RowSort";
         break;
       default:

@@ -2,7 +2,7 @@
 #include <exception>
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Watermark::AddTxn(timestamp_t read_ts) -> void {
   if (read_ts < commit_ts_) {
@@ -16,4 +16,4 @@ auto Watermark::RemoveTxn(timestamp_t read_ts) -> void {
   // TODO(fall2023): implement me!
 }
 
-}  // namespace bustub
+}  // namespace vdbms

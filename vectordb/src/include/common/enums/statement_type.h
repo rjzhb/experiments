@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // statement_type.h
 //
@@ -15,7 +15,7 @@
 #include "common/config.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 //===--------------------------------------------------------------------===//
 // Statement Types
@@ -35,48 +35,48 @@ enum class StatementType : uint8_t {
   TRANSACTION_STATEMENT,    // txn statement type
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::StatementType> : formatter<string_view> {
+struct fmt::formatter<vdbms::StatementType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::StatementType c, FormatContext &ctx) const {
+  auto format(vdbms::StatementType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::StatementType::INVALID_STATEMENT:
+      case vdbms::StatementType::INVALID_STATEMENT:
         name = "Invalid";
         break;
-      case bustub::StatementType::SELECT_STATEMENT:
+      case vdbms::StatementType::SELECT_STATEMENT:
         name = "Select";
         break;
-      case bustub::StatementType::INSERT_STATEMENT:
+      case vdbms::StatementType::INSERT_STATEMENT:
         name = "Insert";
         break;
-      case bustub::StatementType::UPDATE_STATEMENT:
+      case vdbms::StatementType::UPDATE_STATEMENT:
         name = "Update";
         break;
-      case bustub::StatementType::CREATE_STATEMENT:
+      case vdbms::StatementType::CREATE_STATEMENT:
         name = "Create";
         break;
-      case bustub::StatementType::DELETE_STATEMENT:
+      case vdbms::StatementType::DELETE_STATEMENT:
         name = "Delete";
         break;
-      case bustub::StatementType::EXPLAIN_STATEMENT:
+      case vdbms::StatementType::EXPLAIN_STATEMENT:
         name = "Explain";
         break;
-      case bustub::StatementType::DROP_STATEMENT:
+      case vdbms::StatementType::DROP_STATEMENT:
         name = "Drop";
         break;
-      case bustub::StatementType::INDEX_STATEMENT:
+      case vdbms::StatementType::INDEX_STATEMENT:
         name = "Index";
         break;
-      case bustub::StatementType::VARIABLE_SHOW_STATEMENT:
+      case vdbms::StatementType::VARIABLE_SHOW_STATEMENT:
         name = "VariableShow";
         break;
-      case bustub::StatementType::VARIABLE_SET_STATEMENT:
+      case vdbms::StatementType::VARIABLE_SET_STATEMENT:
         name = "VariableSet";
         break;
-      case bustub::StatementType::TRANSACTION_STATEMENT:
+      case vdbms::StatementType::TRANSACTION_STATEMENT:
         name = "Transaction";
         break;
     }

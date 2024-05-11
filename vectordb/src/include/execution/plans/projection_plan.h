@@ -10,7 +10,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * ProjectionPlanNode 表示投影操作。
@@ -34,7 +34,7 @@ class ProjectionPlanNode : public AbstractPlanNode {
 
   /** @return 子计划节点 */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-	BUSTUB_ASSERT(GetChildren().size() == 1, "Projection should have exactly one child plan.");
+	vdbms_ASSERT(GetChildren().size() == 1, "Projection should have exactly one child plan.");
 	return GetChildAt(0);
   }
 
@@ -45,7 +45,7 @@ class ProjectionPlanNode : public AbstractPlanNode {
 
   static auto RenameSchema(const Schema &schema, const std::vector<std::string> &col_names) -> Schema;
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(ProjectionPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(ProjectionPlanNode);
 
   std::vector<AbstractExpressionRef> expressions_;
 
@@ -53,4 +53,4 @@ class ProjectionPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

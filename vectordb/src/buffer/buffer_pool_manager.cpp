@@ -9,7 +9,7 @@
 #include "storage/page/page.h"
 #include "storage/page/page_guard.h"
 
-namespace bustub {
+namespace vdbms {
 
 BufferPoolManager::BufferPoolManager(size_t pool_size, DiskManager *disk_manager, size_t replacer_k,
                                      LogManager *log_manager) {}
@@ -61,4 +61,4 @@ auto BufferPoolManager::NewPageGuarded(page_id_t *page_id) -> BasicPageGuard {
   UNIMPLEMENTED("page guard not supported");
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>BusTub B+Tree Printer</title>
+    <title>vdbms B+Tree Printer</title>
     <!-- jQuery -->
     <script src="https://unpkg.com/jquery@3.x.x/dist/jquery.min.js"></script>
     <!-- jQuery Terminal -->
@@ -40,7 +40,7 @@
 
     .terminal::after {
         content: "";
-        background-image: url("bustub.svg");
+        background-image: url("vdbms.svg");
         opacity: 0.02;
         top: -50%;
         left: -50%;
@@ -69,17 +69,17 @@
     }
 </style>
 
-<script src="bustub-wasm-bpt-printer.js"></script>
+<script src="vdbms-wasm-bpt-printer.js"></script>
 
 <script type="text/javascript">
-    const BUSTUB_PUBLIC_VERSION_VAR = "${BUSTUB_PUBLIC_VERSION}"
-    const BUSTUB_PRIVATE_VERSION_VAR = "${BUSTUB_PRIVATE_VERSION}"
-    const BUSTUB_BUILD_TIME_VAR = "${BUSTUB_BUILD_TIME}"
+    const vdbms_PUBLIC_VERSION_VAR = "${vdbms_PUBLIC_VERSION}"
+    const vdbms_PRIVATE_VERSION_VAR = "${vdbms_PRIVATE_VERSION}"
+    const vdbms_BUILD_TIME_VAR = "${vdbms_BUILD_TIME}"
     const viz = new Viz()
 
     Module['onRuntimeInitialized'] = function () {
-        const initialize = Module.cwrap('BustubInit', 'number', ['number', 'number'])
-        const executeQuery = Module.cwrap('BustubApplyCommand', 'number', ['string', 'number', 'number'])
+        const initialize = Module.cwrap('vdbmsInit', 'number', ['number', 'number'])
+        const executeQuery = Module.cwrap('vdbmsApplyCommand', 'number', ['string', 'number', 'number'])
         window.executeQuery = (x) => {
             const bufferSize = 64 * 1024
             let output = "\0".repeat(bufferSize)
@@ -114,7 +114,7 @@
                 this.echo(helpMessage)
             } else {
                 if (!window.initialize) {
-                    this.echo("BusTub shell is still initializing, please wait.")
+                    this.echo("vdbms shell is still initializing, please wait.")
                 } else if (!initialized) {
                     const [x, y] = line.split(" ")
                     const [px, py] = [parseInt(x), parseInt(y)]
@@ -127,7 +127,7 @@
                     const [retCode, result] = executeQuery(line)
                     if (retCode == 0) {
                         viz.renderSVGElement(result).then((svgXml) => {
-                            id = `bustub-svg-${svgid}`
+                            id = `vdbms-svg-${svgid}`
                             svgXml.id = id
                             svgid += 1
                             const div = document.createElement("div")
@@ -150,12 +150,12 @@
             }
         }, {
             greetings:
-                `Welcome to the BusTub B+ Tree Printer shell! \u{1F68C}\u{1F6C1}
+                `Welcome to the vdbms B+ Tree Printer shell! \u{1F68C}\u{1F6C1}
 
-BusTub is a relational database management system built at Carnegie Mellon University for the Introduction to Database Systems (15-445/645) course. This system was developed for educational purposes and should not be used in production environments. [[!;;;;https://github.com/cmu-db/bustub]BusTub on GitHub] [[!;;;;https://15445.courses.cs.cmu.edu/]Course Website] [[!;;;;https://github.com/cmu-db/bustub/issues/new]Report Bugs]
+vdbms is a relational database management system built at Carnegie Mellon University for the Introduction to Database Systems (15-445/645) course. This system was developed for educational purposes and should not be used in production environments. [[!;;;;https://github.com/cmu-db/vdbms]vdbms on GitHub] [[!;;;;https://15445.courses.cs.cmu.edu/]Course Website] [[!;;;;https://github.com/cmu-db/vdbms/issues/new]Report Bugs]
 
 ${helpMessage}
-This is BusTub reference solution running in your browser. Solution Version: ${BUSTUB_PRIVATE_VERSION_VAR}, BusTub Version: ${BUSTUB_PUBLIC_VERSION_VAR}, built at ${BUSTUB_BUILD_TIME_VAR}.
+This is vdbms reference solution running in your browser. Solution Version: ${vdbms_PRIVATE_VERSION_VAR}, vdbms Version: ${vdbms_PUBLIC_VERSION_VAR}, built at ${vdbms_BUILD_TIME_VAR}.
 `,
             prompt: () => initialized ? "[[b;;]printer> ]" : "leaf_max_size and internal_max_size? (e.g., 3 3) "
         })

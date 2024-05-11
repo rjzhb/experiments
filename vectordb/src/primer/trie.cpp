@@ -2,7 +2,7 @@
 #include <string_view>
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <class T>
 auto Trie::Get(std::string_view key) const -> const T * {
@@ -56,4 +56,4 @@ template auto Trie::Get(std::string_view key) const -> const Integer *;
 template auto Trie::Put(std::string_view key, MoveBlocked value) const -> Trie;
 template auto Trie::Get(std::string_view key) const -> const MoveBlocked *;
 
-}  // namespace bustub
+}  // namespace vdbms

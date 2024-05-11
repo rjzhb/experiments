@@ -15,7 +15,7 @@
 #include "type/value.h"
 #include "type/varlen_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 //===--------------------------------------------------------------------===//
 // Value Factory
@@ -40,7 +40,7 @@ class ValueFactory {
   static inline auto GetDecimalValue(double value) -> Value { return {TypeId::DECIMAL, value}; }
 
   static inline auto GetBooleanValue(CmpBool value) -> Value {
-    return {TypeId::BOOLEAN, value == CmpBool::CmpNull ? BUSTUB_BOOLEAN_NULL : static_cast<int8_t>(value)};
+    return {TypeId::BOOLEAN, value == CmpBool::CmpNull ? vdbms_BOOLEAN_NULL : static_cast<int8_t>(value)};
   }
 
   static inline auto GetBooleanValue(bool value) -> Value { return {TypeId::BOOLEAN, static_cast<int8_t>(value)}; }
@@ -72,22 +72,22 @@ class ValueFactory {
     Value ret_value;
     switch (type_id) {
       case TypeId::BOOLEAN:
-        ret_value = GetBooleanValue(BUSTUB_BOOLEAN_NULL);
+        ret_value = GetBooleanValue(vdbms_BOOLEAN_NULL);
         break;
       case TypeId::TINYINT:
-        ret_value = GetTinyIntValue(BUSTUB_INT8_NULL);
+        ret_value = GetTinyIntValue(vdbms_INT8_NULL);
         break;
       case TypeId::SMALLINT:
-        ret_value = GetSmallIntValue(BUSTUB_INT16_NULL);
+        ret_value = GetSmallIntValue(vdbms_INT16_NULL);
         break;
       case TypeId::INTEGER:
-        ret_value = GetIntegerValue(BUSTUB_INT32_NULL);
+        ret_value = GetIntegerValue(vdbms_INT32_NULL);
         break;
       case TypeId::BIGINT:
-        ret_value = GetBigIntValue(BUSTUB_INT64_NULL);
+        ret_value = GetBigIntValue(vdbms_INT64_NULL);
         break;
       case TypeId::DECIMAL:
-        ret_value = GetDecimalValue(BUSTUB_DECIMAL_NULL);
+        ret_value = GetDecimalValue(vdbms_DECIMAL_NULL);
         break;
       case TypeId::VARCHAR:
         ret_value = GetVarcharValue(nullptr, false, nullptr);
@@ -126,7 +126,7 @@ class ValueFactory {
   static inline auto CastAsBigInt(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::BIGINT)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetBigIntValue(static_cast<int64_t>(BUSTUB_INT64_NULL));
+        return ValueFactory::GetBigIntValue(static_cast<int64_t>(vdbms_INT64_NULL));
       }
       switch (value.GetTypeId()) {
         case TypeId::TINYINT:
@@ -138,8 +138,8 @@ class ValueFactory {
         case TypeId::BIGINT:
           return ValueFactory::GetBigIntValue(value.GetAs<int64_t>());
         case TypeId::DECIMAL: {
-          if (value.GetAs<double>() > static_cast<double>(BUSTUB_INT64_MAX) ||
-              value.GetAs<double>() < static_cast<double>(BUSTUB_INT64_MIN)) {
+          if (value.GetAs<double>() > static_cast<double>(vdbms_INT64_MAX) ||
+              value.GetAs<double>() < static_cast<double>(vdbms_INT64_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetBigIntValue(static_cast<int64_t>(value.GetAs<double>()));
@@ -154,7 +154,7 @@ class ValueFactory {
           } catch (std::invalid_argument &e) {
             throw Exception("Invalid input syntax for bigint: \'" + str + "\'");
           }
-          if (bigint > BUSTUB_INT64_MAX || bigint < BUSTUB_INT64_MIN) {
+          if (bigint > vdbms_INT64_MAX || bigint < vdbms_INT64_MIN) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetBigIntValue(bigint);
@@ -169,7 +169,7 @@ class ValueFactory {
   static inline auto CastAsInteger(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::INTEGER)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetIntegerValue(BUSTUB_INT32_NULL);
+        return ValueFactory::GetIntegerValue(vdbms_INT32_NULL);
       }
       switch (value.GetTypeId()) {
         case TypeId::TINYINT:
@@ -179,15 +179,15 @@ class ValueFactory {
         case TypeId::INTEGER:
           return ValueFactory::GetIntegerValue(value.GetAs<int32_t>());
         case TypeId::BIGINT: {
-          if (value.GetAs<int64_t>() > static_cast<int64_t>(BUSTUB_INT32_MAX) ||
-              value.GetAs<int64_t>() < static_cast<int64_t>(BUSTUB_INT32_MIN)) {
+          if (value.GetAs<int64_t>() > static_cast<int64_t>(vdbms_INT32_MAX) ||
+              value.GetAs<int64_t>() < static_cast<int64_t>(vdbms_INT32_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetIntegerValue(static_cast<int32_t>(value.GetAs<int64_t>()));
         }
         case TypeId::DECIMAL: {
-          if (value.GetAs<double>() > static_cast<double>(BUSTUB_INT32_MAX) ||
-              value.GetAs<double>() < static_cast<double>(BUSTUB_INT32_MIN)) {
+          if (value.GetAs<double>() > static_cast<double>(vdbms_INT32_MAX) ||
+              value.GetAs<double>() < static_cast<double>(vdbms_INT32_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetIntegerValue(static_cast<int32_t>(value.GetAs<double>()));
@@ -203,7 +203,7 @@ class ValueFactory {
             throw Exception("Invalid input syntax for integer: \'" + str + "\'");
           }
 
-          if (integer > BUSTUB_INT32_MAX || integer < BUSTUB_INT32_MIN) {
+          if (integer > vdbms_INT32_MAX || integer < vdbms_INT32_MIN) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetIntegerValue(integer);
@@ -218,7 +218,7 @@ class ValueFactory {
   static inline auto CastAsSmallInt(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::SMALLINT)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetSmallIntValue(static_cast<int16_t>(BUSTUB_INT16_NULL));
+        return ValueFactory::GetSmallIntValue(static_cast<int16_t>(vdbms_INT16_NULL));
       }
       switch (value.GetTypeId()) {
         case TypeId::TINYINT:
@@ -226,22 +226,22 @@ class ValueFactory {
         case TypeId::SMALLINT:
           return ValueFactory::GetSmallIntValue(value.GetAs<int16_t>());
         case TypeId::INTEGER: {
-          if (value.GetAs<int32_t>() > static_cast<int32_t>(BUSTUB_INT16_MAX) ||
-              value.GetAs<int32_t>() < static_cast<int32_t>(BUSTUB_INT16_MIN)) {
+          if (value.GetAs<int32_t>() > static_cast<int32_t>(vdbms_INT16_MAX) ||
+              value.GetAs<int32_t>() < static_cast<int32_t>(vdbms_INT16_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetSmallIntValue(static_cast<int16_t>(value.GetAs<int32_t>()));
         }
         case TypeId::BIGINT: {
-          if (value.GetAs<int64_t>() > static_cast<int64_t>(BUSTUB_INT16_MAX) ||
-              value.GetAs<int64_t>() < static_cast<int64_t>(BUSTUB_INT16_MIN)) {
+          if (value.GetAs<int64_t>() > static_cast<int64_t>(vdbms_INT16_MAX) ||
+              value.GetAs<int64_t>() < static_cast<int64_t>(vdbms_INT16_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetSmallIntValue(static_cast<int16_t>(value.GetAs<int64_t>()));
         }
         case TypeId::DECIMAL: {
-          if (value.GetAs<double>() > static_cast<double>(BUSTUB_INT16_MAX) ||
-              value.GetAs<double>() < static_cast<double>(BUSTUB_INT16_MIN)) {
+          if (value.GetAs<double>() > static_cast<double>(vdbms_INT16_MAX) ||
+              value.GetAs<double>() < static_cast<double>(vdbms_INT16_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetSmallIntValue(static_cast<int16_t>(value.GetAs<double>()));
@@ -256,7 +256,7 @@ class ValueFactory {
           } catch (std::invalid_argument &e) {
             throw Exception("Invalid input syntax for smallint: \'" + str + "\'");
           }
-          if (smallint < BUSTUB_INT16_MIN) {
+          if (smallint < vdbms_INT16_MIN) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetSmallIntValue(smallint);
@@ -271,35 +271,35 @@ class ValueFactory {
   static inline auto CastAsTinyInt(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::TINYINT)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetTinyIntValue(BUSTUB_INT8_NULL);
+        return ValueFactory::GetTinyIntValue(vdbms_INT8_NULL);
       }
       switch (value.GetTypeId()) {
         case TypeId::TINYINT:
           return ValueFactory::GetTinyIntValue(value.GetAs<int8_t>());
         case TypeId::SMALLINT: {
-          if (value.GetAs<int16_t>() > static_cast<int16_t>(BUSTUB_INT8_MAX) ||
-              value.GetAs<int16_t>() < static_cast<int16_t>(BUSTUB_INT8_MIN)) {
+          if (value.GetAs<int16_t>() > static_cast<int16_t>(vdbms_INT8_MAX) ||
+              value.GetAs<int16_t>() < static_cast<int16_t>(vdbms_INT8_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetTinyIntValue(static_cast<int8_t>(value.GetAs<int16_t>()));
         }
         case TypeId::INTEGER: {
-          if (value.GetAs<int32_t>() > static_cast<int32_t>(BUSTUB_INT8_MAX) ||
-              value.GetAs<int32_t>() < static_cast<int32_t>(BUSTUB_INT8_MIN)) {
+          if (value.GetAs<int32_t>() > static_cast<int32_t>(vdbms_INT8_MAX) ||
+              value.GetAs<int32_t>() < static_cast<int32_t>(vdbms_INT8_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetTinyIntValue(static_cast<int8_t>(value.GetAs<int32_t>()));
         }
         case TypeId::BIGINT: {
-          if (value.GetAs<int64_t>() > static_cast<int64_t>(BUSTUB_INT8_MAX) ||
-              value.GetAs<int64_t>() < static_cast<int64_t>(BUSTUB_INT8_MIN)) {
+          if (value.GetAs<int64_t>() > static_cast<int64_t>(vdbms_INT8_MAX) ||
+              value.GetAs<int64_t>() < static_cast<int64_t>(vdbms_INT8_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetTinyIntValue(static_cast<int8_t>(value.GetAs<int64_t>()));
         }
         case TypeId::DECIMAL: {
-          if (value.GetAs<double>() > static_cast<double>(BUSTUB_INT8_MAX) ||
-              value.GetAs<double>() < static_cast<double>(BUSTUB_INT8_MIN)) {
+          if (value.GetAs<double>() > static_cast<double>(vdbms_INT8_MAX) ||
+              value.GetAs<double>() < static_cast<double>(vdbms_INT8_MIN)) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetTinyIntValue(static_cast<int8_t>(value.GetAs<double>()));
@@ -314,7 +314,7 @@ class ValueFactory {
           } catch (std::invalid_argument &e) {
             throw Exception("Invalid input syntax for tinyint: \'" + str + "\'");
           }
-          if (tinyint < BUSTUB_INT8_MIN) {
+          if (tinyint < vdbms_INT8_MIN) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetTinyIntValue(tinyint);
@@ -329,7 +329,7 @@ class ValueFactory {
   static inline auto CastAsDecimal(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::DECIMAL)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetDecimalValue(static_cast<double>(BUSTUB_DECIMAL_NULL));
+        return ValueFactory::GetDecimalValue(static_cast<double>(vdbms_DECIMAL_NULL));
       }
       switch (value.GetTypeId()) {
         case TypeId::TINYINT:
@@ -352,7 +352,7 @@ class ValueFactory {
           } catch (std::invalid_argument &e) {
             throw Exception("Invalid input syntax for decimal: \'" + str + "\'");
           }
-          if (res > BUSTUB_DECIMAL_MAX || res < BUSTUB_DECIMAL_MIN) {
+          if (res > vdbms_DECIMAL_MAX || res < vdbms_DECIMAL_MIN) {
             throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
           }
           return ValueFactory::GetDecimalValue(res);
@@ -388,7 +388,7 @@ class ValueFactory {
   static inline auto CastAsTimestamp(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::TIMESTAMP)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetTimestampValue(BUSTUB_TIMESTAMP_NULL);
+        return ValueFactory::GetTimestampValue(vdbms_TIMESTAMP_NULL);
       }
       switch (value.GetTypeId()) {
         case TypeId::TIMESTAMP:
@@ -468,7 +468,7 @@ class ValueFactory {
   static inline auto CastAsBoolean(const Value &value) -> Value {
     if (Type::GetInstance(TypeId::BOOLEAN)->IsCoercableFrom(value.GetTypeId())) {
       if (value.IsNull()) {
-        return ValueFactory::GetBooleanValue(BUSTUB_BOOLEAN_NULL);
+        return ValueFactory::GetBooleanValue(vdbms_BOOLEAN_NULL);
       }
       switch (value.GetTypeId()) {
         case TypeId::BOOLEAN:
@@ -492,4 +492,4 @@ class ValueFactory {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

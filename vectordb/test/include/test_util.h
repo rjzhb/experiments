@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // test_util.h
 //
@@ -25,7 +25,7 @@
 #include "common/logger.h"
 #include "common/util/string_util.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto ParseCreateStatement(const std::string &sql_base) -> std::unique_ptr<Schema> {
   std::string::size_type n;
@@ -91,4 +91,4 @@ auto ParseCreateStatement(const std::string &sql_base) -> std::unique_ptr<Schema
   return std::make_unique<Schema>(v);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

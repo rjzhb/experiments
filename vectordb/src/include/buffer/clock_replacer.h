@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // clock_replacer.h
 //
@@ -19,7 +19,7 @@
 #include "buffer/replacer.h"
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * ClockReplacer implements the clock replacement policy, which approximates the Least Recently Used policy.
@@ -49,4 +49,4 @@ class ClockReplacer : public Replacer {
   // TODO(student): implement me!
 };
 
-}  // namespace bustub
+}  // namespace vdbms

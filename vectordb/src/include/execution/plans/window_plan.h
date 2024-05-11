@@ -13,7 +13,7 @@
 #include "fmt/format.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** WindowFunctionType enumerates all the possible window functions in our system */
 enum class WindowFunctionType { CountStarAggregate, CountAggregate, SumAggregate, MinAggregate, MaxAggregate, Rank };
@@ -66,13 +66,13 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
 
   /** @return the child of this aggregation plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-	BUSTUB_ASSERT(GetChildren().size() == 1, "Window Aggregation expected to only have one child.");
+	vdbms_ASSERT(GetChildren().size() == 1, "Window Aggregation expected to only have one child.");
 	return GetChildAt(0);
   }
 
   static auto InferWindowSchema(const std::vector<AbstractExpressionRef> &columns) -> Schema;
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(WindowFunctionPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(WindowFunctionPlanNode);
 
   struct WindowFunction {
 	AbstractExpressionRef function_;
@@ -90,12 +90,12 @@ class WindowFunctionPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template<>
-struct fmt::formatter<bustub::WindowFunctionPlanNode::WindowFunction> : formatter<std::string> {
+struct fmt::formatter<vdbms::WindowFunctionPlanNode::WindowFunction> : formatter<std::string> {
   template<typename FormatContext>
-  auto format(const bustub::WindowFunctionPlanNode::WindowFunction &x, FormatContext &ctx) const {
+  auto format(const vdbms::WindowFunctionPlanNode::WindowFunction &x, FormatContext &ctx) const {
 	return formatter<std::string>::format(fmt::format("{{ function_arg={}, type={}, partition_by={}, order_by={} }}",
 													  x.function_, x.type_, x.partition_by_, x.order_by_),
 										  ctx);
@@ -103,10 +103,10 @@ struct fmt::formatter<bustub::WindowFunctionPlanNode::WindowFunction> : formatte
 };
 
 template<>
-struct fmt::formatter<bustub::WindowFunctionType> : formatter<std::string> {
+struct fmt::formatter<vdbms::WindowFunctionType> : formatter<std::string> {
   template<typename FormatContext>
-  auto format(bustub::WindowFunctionType c, FormatContext &ctx) const {
-	using bustub::WindowFunctionType;
+  auto format(vdbms::WindowFunctionType c, FormatContext &ctx) const {
+	using vdbms::WindowFunctionType;
 	std::string name = "unknown";
 	switch (c) {
 	  case WindowFunctionType::CountStarAggregate:name = "count_star";

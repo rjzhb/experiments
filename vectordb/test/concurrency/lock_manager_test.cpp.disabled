@@ -12,7 +12,7 @@
 
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 /*
  * This test is only a sanity check. Please do not rely on this test
@@ -322,4 +322,4 @@ void AbortTest1() {
 
 TEST(LockManagerTest, DISABLED_RowAbortTest1) { AbortTest1(); }  // NOLINT
 
-}  // namespace bustub
+}  // namespace vdbms

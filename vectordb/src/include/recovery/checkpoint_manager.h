@@ -6,7 +6,7 @@
 #include "concurrency/transaction_manager.h"
 #include "recovery/log_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * CheckpointManager creates consistent checkpoints by blocking all other transactions temporarily.
@@ -30,4 +30,4 @@ class CheckpointManager {
   BufferPoolManager *buffer_pool_manager_ __attribute__((__unused__));
 };
 
-}  // namespace bustub
+}  // namespace vdbms

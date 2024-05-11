@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/insert_statement.h
 //
@@ -21,7 +21,7 @@
 #include "common/enums/statement_type.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class UpdateStatement : public BoundStatement {
  public:
@@ -38,4 +38,4 @@ class UpdateStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

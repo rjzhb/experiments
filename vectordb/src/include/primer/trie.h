@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-namespace bustub {
+namespace vdbms {
 
 /// A special type that will block the move constructor and move assignment operator. Used in TrieStore tests.
 class MoveBlocked {
@@ -133,4 +133,4 @@ class Trie {
   auto GetRoot() const -> std::shared_ptr<const TrieNode> { return root_; }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

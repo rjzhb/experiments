@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // nested_index_join_plan.h
 //
@@ -24,7 +24,7 @@
 #include "execution/plans/abstract_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * NestedIndexJoinPlanNode is used to represent performing a nested index join between two tables
@@ -68,7 +68,7 @@ class NestedIndexJoinPlanNode : public AbstractPlanNode {
   /** @return Schema with needed columns in from the inner table */
   auto InnerTableSchema() const -> const Schema & { return *inner_table_schema_; }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(NestedIndexJoinPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(NestedIndexJoinPlanNode);
 
   /** The nested index join predicate. */
   AbstractExpressionRef key_predicate_;
@@ -87,4 +87,4 @@ class NestedIndexJoinPlanNode : public AbstractPlanNode {
                        key_predicate_, index_name_, index_table_name_);
   }
 };
-}  // namespace bustub
+}  // namespace vdbms

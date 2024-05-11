@@ -8,7 +8,7 @@
 #include "common/config.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 /** The type of the log record. */
 enum class LogRecordType {
   INVALID = 0,
@@ -167,6 +167,6 @@ class LogRecord {
   page_id_t prev_page_id_{INVALID_PAGE_ID};
   page_id_t page_id_{INVALID_PAGE_ID};
   static const int HEADER_SIZE = 20;
-};  // namespace bustub
+};  // namespace vdbms
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_join_executor.cpp
 //
@@ -12,7 +12,7 @@
 
 #include "execution/executors/hash_join_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 HashJoinExecutor::HashJoinExecutor(ExecutorContext *exec_ctx, const HashJoinPlanNode *plan,
                                    std::unique_ptr<AbstractExecutor> &&left_child,
@@ -20,7 +20,7 @@ HashJoinExecutor::HashJoinExecutor(ExecutorContext *exec_ctx, const HashJoinPlan
     : AbstractExecutor(exec_ctx) {
   if (!(plan->GetJoinType() == JoinType::LEFT || plan->GetJoinType() == JoinType::INNER)) {
     // Note for 2023 Fall: You ONLY need to implement left join and inner join.
-    throw bustub::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
+    throw vdbms::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
   }
 }
 
@@ -28,4 +28,4 @@ void HashJoinExecutor::Init() { throw NotImplementedException("HashJoinExecutor 
 
 auto HashJoinExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

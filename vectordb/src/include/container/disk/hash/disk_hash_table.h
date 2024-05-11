@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table.h
 //
@@ -19,7 +19,7 @@
 #include "concurrency/transaction.h"
 #include "storage/page/hash_table_page_defs.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename KeyType, typename ValueType, typename KeyComparator>
 class DiskHashTable {
@@ -54,4 +54,4 @@ class DiskHashTable {
   virtual auto GetValue(Transaction *transaction, const KeyType &key, std::vector<ValueType> *result) -> bool = 0;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // clock_replacer_test.cpp
 //
@@ -17,7 +17,7 @@
 #include "buffer/clock_replacer.h"
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 TEST(ClockReplacerTest, DISABLED_SampleTest) {
   ClockReplacer clock_replacer(7);
@@ -59,4 +59,4 @@ TEST(ClockReplacerTest, DISABLED_SampleTest) {
   EXPECT_EQ(4, value);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

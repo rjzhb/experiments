@@ -17,7 +17,7 @@
 
 #pragma once
 
-namespace bustub {
+namespace vdbms {
 
 enum class CheckOption : uint8_t {
   ENABLE_NLJ_CHECK = 0,
@@ -33,4 +33,4 @@ class CheckOptions {
   std::unordered_set<CheckOption> check_options_set_;
 };
 
-};  // namespace bustub
+};  // namespace vdbms

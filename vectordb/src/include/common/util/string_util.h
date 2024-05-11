@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // string_util.h
 //
@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * StringUtil provides INEFFICIENT utility functions for working with strings. They should only be used for debugging.
@@ -127,4 +127,4 @@ class StringUtil {
       -> std::string;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

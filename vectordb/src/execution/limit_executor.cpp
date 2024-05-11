@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // limit_executor.cpp
 //
@@ -12,7 +12,7 @@
 
 #include "execution/executors/limit_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 LimitExecutor::LimitExecutor(ExecutorContext *exec_ctx, const LimitPlanNode *plan,
                              std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -22,4 +22,4 @@ void LimitExecutor::Init() { throw NotImplementedException("LimitExecutor is not
 
 auto LimitExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

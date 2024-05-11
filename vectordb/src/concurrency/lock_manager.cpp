@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // lock_manager.cpp
 //
@@ -16,7 +16,7 @@
 #include "concurrency/transaction.h"
 #include "concurrency/transaction_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto LockManager::LockTable(Transaction *txn, LockMode lock_mode, const table_oid_t &oid) -> bool { return true; }
 
@@ -53,4 +53,4 @@ void LockManager::RunCycleDetection() {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

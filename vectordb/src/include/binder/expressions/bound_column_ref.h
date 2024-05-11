@@ -10,7 +10,7 @@
 #include "binder/bound_expression.h"
 #include "common/macros.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound column reference, e.g., `y.x` in the SELECT list.
@@ -36,4 +36,4 @@ class BoundColumnRef : public BoundExpression {
   /** The name of the column. */
   std::vector<std::string> col_name_;
 };
-}  // namespace bustub
+}  // namespace vdbms

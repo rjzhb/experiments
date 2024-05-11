@@ -3,7 +3,7 @@
 
 #include "execution/executors/aggregation_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 AggregationExecutor::AggregationExecutor(ExecutorContext *exec_ctx, const AggregationPlanNode *plan,
 										 std::unique_ptr<AbstractExecutor> &&child)
@@ -42,4 +42,4 @@ auto AggregationExecutor::Next(Tuple *tuple, RID *rid) -> bool {
 
 auto AggregationExecutor::GetChildExecutor() const -> const AbstractExecutor * { return child_.get(); }
 
-}  // namespace bustub
+}  // namespace vdbms

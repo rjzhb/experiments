@@ -1,5 +1,5 @@
 add_library(
-        bustub_optimizer
+        vdbms_optimizer
         OBJECT
         eliminate_true_filter.cpp
         merge_projection.cpp
@@ -16,5 +16,5 @@ add_library(
         vector_index_scan.cpp)
 
 set(ALL_OBJECT_FILES
-        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_optimizer>
+        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_optimizer>
         PARENT_SCOPE)

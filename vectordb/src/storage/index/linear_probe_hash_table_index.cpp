@@ -2,7 +2,7 @@
 
 #include "storage/index/linear_probe_hash_table_index.h"
 
-namespace bustub {
+namespace vdbms {
 /*
  * Constructor
  */
@@ -46,4 +46,4 @@ template class LinearProbeHashTableIndex<GenericKey<16>, RID, GenericComparator<
 template class LinearProbeHashTableIndex<GenericKey<32>, RID, GenericComparator<32>>;
 template class LinearProbeHashTableIndex<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

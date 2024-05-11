@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // tinyint_type.cpp
 //
@@ -18,7 +18,7 @@
 #include "common/exception.h"
 #include "type/tinyint_type.h"
 
-namespace bustub {
+namespace vdbms {
 #define TINYINT_COMPARE_FUNC(OP)                                          \
   switch (right.GetTypeId()) {                                            \
     case TypeId::TINYINT:                                                 \
@@ -156,7 +156,7 @@ auto TinyintType::Modulo(const Value &left, const Value &right) const -> Value {
 auto TinyintType::Sqrt(const Value &val) const -> Value {
   assert(val.CheckInteger());
   if (val.IsNull()) {
-    return {TypeId::DECIMAL, BUSTUB_DECIMAL_NULL};
+    return {TypeId::DECIMAL, vdbms_DECIMAL_NULL};
   }
 
   if (val.value_.tinyint_ < 0) {
@@ -170,15 +170,15 @@ auto TinyintType::Sqrt(const Value &val) const -> Value {
 auto TinyintType::OperateNull(const Value &left __attribute__((unused)), const Value &right) const -> Value {
   switch (right.GetTypeId()) {
     case TypeId::TINYINT:
-      return {TypeId::TINYINT, static_cast<int8_t>(BUSTUB_INT8_NULL)};
+      return {TypeId::TINYINT, static_cast<int8_t>(vdbms_INT8_NULL)};
     case TypeId::SMALLINT:
-      return {TypeId::SMALLINT, static_cast<int16_t>(BUSTUB_INT16_NULL)};
+      return {TypeId::SMALLINT, static_cast<int16_t>(vdbms_INT16_NULL)};
     case TypeId::INTEGER:
-      return {TypeId::INTEGER, static_cast<int32_t>(BUSTUB_INT32_NULL)};
+      return {TypeId::INTEGER, static_cast<int32_t>(vdbms_INT32_NULL)};
     case TypeId::BIGINT:
-      return {TypeId::BIGINT, static_cast<int64_t>(BUSTUB_INT64_NULL)};
+      return {TypeId::BIGINT, static_cast<int64_t>(vdbms_INT64_NULL)};
     case TypeId::DECIMAL:
-      return {TypeId::DECIMAL, static_cast<double>(BUSTUB_DECIMAL_NULL)};
+      return {TypeId::DECIMAL, static_cast<double>(vdbms_DECIMAL_NULL)};
     default:
       break;
   }
@@ -285,31 +285,31 @@ auto TinyintType::CastAs(const Value &val, const TypeId type_id) const -> Value 
   switch (type_id) {
     case TypeId::TINYINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT8_NULL};
+        return {type_id, vdbms_INT8_NULL};
       }
       return Copy(val);
     }
     case TypeId::SMALLINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT16_NULL};
+        return {type_id, vdbms_INT16_NULL};
       }
       return {type_id, static_cast<int16_t>(val.GetAs<int8_t>())};
     }
     case TypeId::INTEGER: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT32_NULL};
+        return {type_id, vdbms_INT32_NULL};
       }
       return {type_id, static_cast<int32_t>(val.GetAs<int8_t>())};
     }
     case TypeId::BIGINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT64_NULL};
+        return {type_id, vdbms_INT64_NULL};
       }
       return {type_id, static_cast<int64_t>(val.GetAs<int8_t>())};
     }
     case TypeId::DECIMAL: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_DECIMAL_NULL};
+        return {type_id, vdbms_DECIMAL_NULL};
       }
       return {type_id, static_cast<double>(val.GetAs<int8_t>())};
     }
@@ -324,4 +324,4 @@ auto TinyintType::CastAs(const Value &val, const TypeId type_id) const -> Value 
   }
   throw Exception("tinyint is not coercable to " + Type::TypeIdToString(type_id));
 }
-}  // namespace bustub
+}  // namespace vdbms

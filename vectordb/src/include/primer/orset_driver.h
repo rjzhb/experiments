@@ -4,7 +4,7 @@
 #include <vector>
 #include "primer/orset.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** @brief Unique ID type. */
 using uid_t = int64_t;
@@ -131,4 +131,4 @@ class ORSetDriver {
   uid_t next_uid_ = 0;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -13,7 +13,7 @@
 #include "optimizer/optimizer.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::RewriteExpressionForJoin(const AbstractExpressionRef &expr, size_t left_column_cnt,
                                          size_t right_column_cnt) -> AbstractExpressionRef {
@@ -23,7 +23,7 @@ auto Optimizer::RewriteExpressionForJoin(const AbstractExpressionRef &expr, size
   }
   if (const auto *column_value_expr = dynamic_cast<const ColumnValueExpression *>(expr.get());
       column_value_expr != nullptr) {
-    BUSTUB_ENSURE(column_value_expr->GetTupleIdx() == 0, "tuple_idx cannot be value other than 0 before this stage.")
+    vdbms_ENSURE(column_value_expr->GetTupleIdx() == 0, "tuple_idx cannot be value other than 0 before this stage.")
     auto col_idx = column_value_expr->GetColIdx();
     if (col_idx < left_column_cnt) {
       return std::make_shared<ColumnValueExpression>(0, col_idx, column_value_expr->GetReturnType());
@@ -31,7 +31,7 @@ auto Optimizer::RewriteExpressionForJoin(const AbstractExpressionRef &expr, size
     if (col_idx >= left_column_cnt && col_idx < left_column_cnt + right_column_cnt) {
       return std::make_shared<ColumnValueExpression>(1, col_idx - left_column_cnt, column_value_expr->GetReturnType());
     }
-    throw bustub::Exception("col_idx not in range");
+    throw vdbms::Exception("col_idx not in range");
   }
   return expr->CloneWithChildren(children);
 }
@@ -53,12 +53,12 @@ auto Optimizer::OptimizeMergeFilterNLJ(const AbstractPlanNodeRef &plan) -> Abstr
   if (optimized_plan->GetType() == PlanType::Filter) {
     const auto &filter_plan = dynamic_cast<const FilterPlanNode &>(*optimized_plan);
     // Has exactly one child
-    BUSTUB_ENSURE(optimized_plan->children_.size() == 1, "Filter with multiple children?? Impossible!");
+    vdbms_ENSURE(optimized_plan->children_.size() == 1, "Filter with multiple children?? Impossible!");
     const auto &child_plan = optimized_plan->children_[0];
     if (child_plan->GetType() == PlanType::NestedLoopJoin) {
       const auto &nlj_plan = dynamic_cast<const NestedLoopJoinPlanNode &>(*child_plan);
       // Has exactly two children
-      BUSTUB_ENSURE(child_plan->GetChildren().size() == 2, "NLJ should have exactly 2 children.");
+      vdbms_ENSURE(child_plan->GetChildren().size() == 2, "NLJ should have exactly 2 children.");
 
       if (IsPredicateTrue(nlj_plan.Predicate())) {
         // Only rewrite when NLJ has always true predicate.
@@ -74,4 +74,4 @@ auto Optimizer::OptimizeMergeFilterNLJ(const AbstractPlanNodeRef &plan) -> Abstr
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 #include "buffer/clock_replacer.h"
 
-namespace bustub {
+namespace vdbms {
 
 ClockReplacer::ClockReplacer(size_t num_pages) {}
 
@@ -14,4 +14,4 @@ void ClockReplacer::Unpin(frame_id_t frame_id) {}
 
 auto ClockReplacer::Size() -> size_t { return 0; }
 
-}  // namespace bustub
+}  // namespace vdbms

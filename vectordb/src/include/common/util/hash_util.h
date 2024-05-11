@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_util.h
 //
@@ -20,7 +20,7 @@
 #include "common/macros.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 using hash_t = std::size_t;
 
@@ -102,4 +102,4 @@ class HashUtil {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

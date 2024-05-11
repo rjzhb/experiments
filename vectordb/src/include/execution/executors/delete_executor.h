@@ -9,7 +9,7 @@
 #include "execution/plans/delete_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * DeletedExecutor executes a delete on a table.
@@ -54,4 +54,4 @@ class DeleteExecutor : public AbstractExecutor {
   std::vector<IndexInfo *> table_indexes_;
   bool is_end_{false};
 };
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // column_value_expression.h
 //
@@ -21,7 +21,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * ColumnValueExpression maintains the tuple index and column index relative to a particular schema or join.
  */
@@ -52,7 +52,7 @@ class ColumnValueExpression : public AbstractExpression {
   /** @return the string representation of the plan node and its children */
   auto ToString() const -> std::string override { return fmt::format("#{}.{}", tuple_idx_, col_idx_); }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(ColumnValueExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(ColumnValueExpression);
 
  private:
   /** Tuple index 0 = left side of join, tuple index 1 = right side of join */
@@ -60,4 +60,4 @@ class ColumnValueExpression : public AbstractExpression {
   /** Column index refers to the index within the schema of the tuple, e.g. schema {A,B,C} has indexes {0,1,2} */
   uint32_t col_idx_;
 };
-}  // namespace bustub
+}  // namespace vdbms

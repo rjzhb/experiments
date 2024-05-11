@@ -3,7 +3,7 @@
 
 #include "binder/statement/create_statement.h"
 
-namespace bustub {
+namespace vdbms {
 
 CreateStatement::CreateStatement(std::string table, std::vector<Column> columns, std::vector<std::string> primary_key)
     : BoundStatement(StatementType::CREATE_STATEMENT),
@@ -15,4 +15,4 @@ auto CreateStatement::ToString() const -> std::string {
   return fmt::format("BoundCreate {{\n  table={}\n  columns={}\n  primary_key={}\n}}", table_, columns_, primary_key_);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

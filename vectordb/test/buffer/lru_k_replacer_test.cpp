@@ -14,7 +14,7 @@
 
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 TEST(LRUKReplacerTest, DISABLED_SampleTest) {
   LRUKReplacer lru_replacer(7, 2);
@@ -95,4 +95,4 @@ TEST(LRUKReplacerTest, DISABLED_SampleTest) {
   ASSERT_EQ(false, lru_replacer.Evict(&value));
   ASSERT_EQ(0, lru_replacer.Size());
 }
-}  // namespace bustub
+}  // namespace vdbms

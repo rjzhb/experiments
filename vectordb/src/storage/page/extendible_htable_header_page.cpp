@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_header_page.cpp
 //
@@ -14,7 +14,7 @@
 
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 void ExtendibleHTableHeaderPage::Init(uint32_t max_depth) {
   throw NotImplementedException("ExtendibleHTableHeaderPage is not implemented");
@@ -30,4 +30,4 @@ void ExtendibleHTableHeaderPage::SetDirectoryPageId(uint32_t directory_idx, page
 
 auto ExtendibleHTableHeaderPage::MaxSize() const -> uint32_t { return 0; }
 
-}  // namespace bustub
+}  // namespace vdbms

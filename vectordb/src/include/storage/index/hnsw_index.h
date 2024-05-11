@@ -9,7 +9,7 @@
 #include "storage/index/index.h"
 #include "storage/index/vector_index.h"
 
-namespace bustub {
+namespace vdbms {
 
 struct NSW {
   using Vector = std::vector<double>;
@@ -77,4 +77,4 @@ class HNSWIndex : public VectorIndex {
   double m_l_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

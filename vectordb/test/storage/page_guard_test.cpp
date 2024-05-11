@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // page_guard_test.cpp
 //
@@ -20,7 +20,7 @@
 
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE
 TEST(PageGuardTest, DISABLED_SampleTest) {
@@ -53,4 +53,4 @@ TEST(PageGuardTest, DISABLED_SampleTest) {
   disk_manager->ShutDown();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

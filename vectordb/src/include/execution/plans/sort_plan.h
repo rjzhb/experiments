@@ -10,7 +10,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The SortPlanNode represents a sort operation. It will sort the input with
@@ -35,14 +35,14 @@ class SortPlanNode : public AbstractPlanNode {
 
   /** @return The child plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Sort should have exactly one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "Sort should have exactly one child plan.");
     return GetChildAt(0);
   }
 
   /** @return Get sort by expressions */
   auto GetOrderBy() const -> const std::vector<std::pair<OrderByType, AbstractExpressionRef>> & { return order_bys_; }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(SortPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(SortPlanNode);
 
   std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_bys_;
 
@@ -50,4 +50,4 @@ class SortPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

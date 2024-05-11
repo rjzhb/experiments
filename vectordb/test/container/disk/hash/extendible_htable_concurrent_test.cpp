@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_concurrent_test.cpp
 //
@@ -21,9 +21,9 @@
 #include "storage/disk/disk_manager_memory.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
-using bustub::DiskManagerUnlimitedMemory;
+using vdbms::DiskManagerUnlimitedMemory;
 
 //===----------------------------------------------------------------------===//
 // helper function to launch multiple threads
@@ -356,4 +356,4 @@ TEST(ExtendibleHTableConcurrentTest, DISABLED_MixTest2) {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

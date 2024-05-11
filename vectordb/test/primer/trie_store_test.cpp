@@ -12,7 +12,7 @@
 #include "primer/trie.h"
 #include "primer/trie_store.h"
 
-namespace bustub {
+namespace vdbms {
 
 using Integer = std::unique_ptr<uint32_t>;
 
@@ -143,4 +143,4 @@ TEST(TrieStoreTest, MixedConcurrentTest) {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

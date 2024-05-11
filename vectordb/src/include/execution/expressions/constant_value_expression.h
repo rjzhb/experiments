@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // constant_value_expression.h
 //
@@ -18,7 +18,7 @@
 
 #include "execution/expressions/abstract_expression.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * ConstantValueExpression represents constants.
  */
@@ -37,8 +37,8 @@ class ConstantValueExpression : public AbstractExpression {
   /** @return the string representation of the plan node and its children */
   auto ToString() const -> std::string override { return val_.ToString(); }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(ConstantValueExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(ConstantValueExpression);
 
   Value val_;
 };
-}  // namespace bustub
+}  // namespace vdbms

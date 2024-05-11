@@ -19,7 +19,7 @@
 #include "optimizer/optimizer.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::OptimizeOrderByAsIndexScan(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef {
   std::vector<AbstractPlanNodeRef> children;
@@ -49,7 +49,7 @@ auto Optimizer::OptimizeOrderByAsIndexScan(const AbstractPlanNodeRef &plan) -> A
     }
 
     // Has exactly one child
-    BUSTUB_ENSURE(optimized_plan->children_.size() == 1, "Sort with multiple children?? Impossible!");
+    vdbms_ENSURE(optimized_plan->children_.size() == 1, "Sort with multiple children?? Impossible!");
     const auto &child_plan = optimized_plan->children_[0];
 
     if (child_plan->GetType() == PlanType::SeqScan) {
@@ -70,4 +70,4 @@ auto Optimizer::OptimizeOrderByAsIndexScan(const AbstractPlanNodeRef &plan) -> A
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

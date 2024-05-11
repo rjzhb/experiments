@@ -20,7 +20,7 @@
 #include "storage/index/b_plus_tree.h"
 #include "storage/index/index.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define BPLUSTREE_INDEX_TYPE BPlusTreeIndex<KeyType, ValueType, KeyComparator>
 
@@ -48,7 +48,7 @@ class BPlusTreeIndex : public Index {
   std::shared_ptr<BPlusTree<KeyType, ValueType, KeyComparator>> container_;
 };
 
-/** We only support index table with one integer key for now in BusTub. Hardcode everything here. */
+/** We only support index table with one integer key for now in vdbms. Hardcode everything here. */
 
 constexpr static const auto TWO_INTEGER_SIZE_B_TREE = 8;
 using IntegerKeyType_BTree = GenericKey<TWO_INTEGER_SIZE_B_TREE>;
@@ -60,4 +60,4 @@ using BPlusTreeIndexIteratorForTwoIntegerColumn =
     IndexIterator<IntegerKeyType_BTree, IntegerValueType_BTree, IntegerComparatorType_BTree>;
 using IntegerHashFunctionType = HashFunction<IntegerKeyType_BTree>;
 
-}  // namespace bustub
+}  // namespace vdbms

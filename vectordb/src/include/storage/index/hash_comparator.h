@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_comparator.h
 //
@@ -12,7 +12,7 @@
 
 #pragma once
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * HashComparator is for comparing hash_t, it returns:
@@ -25,4 +25,4 @@ class HashComparator {
   inline auto operator()(const hash_t lhs, const hash_t rhs) -> int { return lhs < rhs ? -1 : (lhs > rhs ? 1 : 0); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -41,7 +41,7 @@
 #include "nodes/parsenodes.hpp"
 #include "type/decimal_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 void Binder::SaveParseTree(duckdb_libpgquery::PGList *tree) {
   std::vector<std::unique_ptr<BoundStatement>> statements;
@@ -114,4 +114,4 @@ auto Binder::BindWindowFrame(duckdb_libpgquery::PGWindowDef *window_spec, std::u
   return expr;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

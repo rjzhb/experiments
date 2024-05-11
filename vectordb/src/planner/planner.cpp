@@ -21,7 +21,7 @@
 #include "fmt/format.h"
 #include "planner/planner.h"
 
-namespace bustub {
+namespace vdbms {
 
 void Planner::PlanQuery(const BoundStatement &statement) {
   switch (statement.type_) {
@@ -61,9 +61,9 @@ auto Planner::MakeOutputSchema(const std::vector<std::pair<std::string, TypeId>>
 
 void PlannerContext::AddAggregation(std::unique_ptr<BoundExpression> expr) {
   if (!allow_aggregation_) {
-    throw bustub::Exception("AggCall not allowed in this position");
+    throw vdbms::Exception("AggCall not allowed in this position");
   }
   aggregations_.push_back(std::move(expr));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

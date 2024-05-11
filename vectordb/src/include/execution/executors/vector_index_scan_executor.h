@@ -12,7 +12,7 @@
 #include "storage/table/table_heap.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 class VectorIndexScanExecutor : public AbstractExecutor {
  public:
@@ -39,4 +39,4 @@ class VectorIndexScanExecutor : public AbstractExecutor {
   size_t cnt_{0};
 };
 
-}  // namespace bustub
+}  // namespace vdbms

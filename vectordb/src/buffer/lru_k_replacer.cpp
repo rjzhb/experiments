@@ -2,7 +2,7 @@
 #include "buffer/lru_k_replacer.h"
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 LRUKReplacer::LRUKReplacer(size_t num_frames, size_t k) : replacer_size_(num_frames), k_(k) {}
 
@@ -16,4 +16,4 @@ void LRUKReplacer::Remove(frame_id_t frame_id) {}
 
 auto LRUKReplacer::Size() -> size_t { return 0; }
 
-}  // namespace bustub
+}  // namespace vdbms

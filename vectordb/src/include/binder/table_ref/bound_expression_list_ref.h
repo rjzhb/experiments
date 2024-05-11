@@ -9,7 +9,7 @@
 #include "fmt/core.h"
 #include "type/type.h"
 
-namespace bustub {
+namespace vdbms {
 
 class BoundExpression;
 
@@ -32,4 +32,4 @@ class BoundExpressionListRef : public BoundTableRef {
   /** A unique identifier for this values list, so that planner / binder can work correctly. */
   std::string identifier_;
 };
-}  // namespace bustub
+}  // namespace vdbms

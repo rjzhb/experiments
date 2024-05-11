@@ -6,7 +6,7 @@
 
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 // TODO(Amadou): It does not look like nulls are supported. Add a null bitmap?
 Tuple::Tuple(std::vector<Value> values, const Schema *schema) {
@@ -16,7 +16,7 @@ Tuple::Tuple(std::vector<Value> values, const Schema *schema) {
   uint32_t tuple_size = schema->GetInlinedStorageSize();
   for (auto &i : schema->GetUnlinedColumns()) {
     auto len = values[i].GetStorageSize();
-    if (len == BUSTUB_VALUE_NULL) {
+    if (len == vdbms_VALUE_NULL) {
       len = 0;
     }
     tuple_size += sizeof(uint32_t) + len;
@@ -38,7 +38,7 @@ Tuple::Tuple(std::vector<Value> values, const Schema *schema) {
       // Serialize varchar value, in place (size+data).
       values[i].SerializeTo(data_.data() + offset);
       auto len = values[i].GetStorageSize();
-      if (len == BUSTUB_VALUE_NULL) {
+      if (len == vdbms_VALUE_NULL) {
         len = 0;
       }
       offset += sizeof(uint32_t) + len;
@@ -117,4 +117,4 @@ void Tuple::DeserializeFrom(const char *storage) {
   memcpy(this->data_.data(), storage + sizeof(int32_t), size);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

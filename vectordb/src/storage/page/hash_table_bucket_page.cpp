@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_bucket_page.cpp
 //
@@ -17,7 +17,7 @@
 #include "storage/index/hash_comparator.h"
 #include "storage/table/tmp_tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename KeyType, typename ValueType, typename KeyComparator>
 auto HASH_TABLE_BUCKET_TYPE::GetValue(KeyType key, KeyComparator cmp, std::vector<ValueType> *result) -> bool {
@@ -111,4 +111,4 @@ template class HashTableBucketPage<GenericKey<64>, RID, GenericComparator<64>>;
 
 // template class HashTableBucketPage<hash_t, TmpTuple, HashComparator>;
 
-}  // namespace bustub
+}  // namespace vdbms

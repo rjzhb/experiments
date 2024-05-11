@@ -9,7 +9,7 @@
 #include "common/exception.h"
 #include "type/type.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Schema;
 using SchemaRef = std::shared_ptr<const Schema>;
@@ -101,19 +101,19 @@ class Schema {
   std::vector<uint32_t> uninlined_columns_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::Schema, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::Schema, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const bustub::Schema &x, FormatCtx &ctx) const {
+  auto format(const vdbms::Schema &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x.ToString(), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<std::shared_ptr<T>, std::enable_if_t<std::is_base_of<bustub::Schema, T>::value, char>>
+struct fmt::formatter<std::shared_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::Schema, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::shared_ptr<T> &x, FormatCtx &ctx) const {
@@ -125,7 +125,7 @@ struct fmt::formatter<std::shared_ptr<T>, std::enable_if_t<std::is_base_of<bustu
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::Schema, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::Schema, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::unique_ptr<T> &x, FormatCtx &ctx) const {

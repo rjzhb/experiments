@@ -6,7 +6,7 @@
 #include "binder/bound_expression.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class BoundExpression;
 
@@ -24,4 +24,4 @@ class BoundConstant : public BoundExpression {
   /** The constant being bound. */
   Value val_;
 };
-}  // namespace bustub
+}  // namespace vdbms

@@ -4,7 +4,7 @@
 #include "storage/table/tmp_tuple.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 // To pass the test cases for this class, you must follow the existing TmpTuplePage format and implement the
 // existing functions exactly as they are! It may be helpful to look at TablePage.
@@ -33,4 +33,4 @@ class TmpTuplePage : public Page {
   static_assert(sizeof(page_id_t) == 4);
 };
 
-}  // namespace bustub
+}  // namespace vdbms

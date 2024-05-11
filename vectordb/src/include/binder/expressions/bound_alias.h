@@ -5,7 +5,7 @@
 #include <utility>
 #include "binder/bound_expression.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The alias in SELECT list, e.g. `SELECT count(x) AS y`, the `y` is an alias.
@@ -27,4 +27,4 @@ class BoundAlias : public BoundExpression {
   /** The actual expression */
   std::unique_ptr<BoundExpression> child_;
 };
-}  // namespace bustub
+}  // namespace vdbms

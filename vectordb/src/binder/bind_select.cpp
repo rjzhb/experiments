@@ -42,7 +42,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Binder::BindValuesList(duckdb_libpgquery::PGList *list) -> std::unique_ptr<BoundExpressionListRef> {
   std::vector<std::vector<std::unique_ptr<BoundExpression>>> all_values;
@@ -54,14 +54,14 @@ auto Binder::BindValuesList(duckdb_libpgquery::PGList *list) -> std::unique_ptr<
 
     if (!all_values.empty()) {
       if (all_values[0].size() != values.size()) {
-        throw bustub::Exception("values must have the same length");
+        throw vdbms::Exception("values must have the same length");
       }
     }
     all_values.push_back(std::move(values));
   }
 
   if (all_values.empty()) {
-    throw bustub::Exception("at least one row of values should be provided");
+    throw vdbms::Exception("at least one row of values should be provided");
   }
 
   return std::make_unique<BoundExpressionListRef>(std::move(all_values), "<unnamed>");
@@ -110,11 +110,11 @@ auto Binder::BindCTE(duckdb_libpgquery::PGWithClause *node) -> std::vector<std::
     auto cte = reinterpret_cast<duckdb_libpgquery::PGCommonTableExpr *>(cte_ele->data.ptr_value);
 
     if (cte->ctequery == nullptr || cte->ctequery->type != duckdb_libpgquery::T_PGSelectStmt) {
-      throw bustub::Exception("SELECT not found");
+      throw vdbms::Exception("SELECT not found");
     }
 
     if (cte->cterecursive || node->recursive) {
-      throw bustub::NotImplementedException("recursive CTE not supported");
+      throw vdbms::NotImplementedException("recursive CTE not supported");
     }
 
     auto subquery = BindSubquery(reinterpret_cast<duckdb_libpgquery::PGSelectStmt *>(cte->ctequery), cte->ctename);
@@ -168,7 +168,7 @@ auto Binder::BindSelect(duckdb_libpgquery::PGSelectStmt *pg_stmt) -> std::unique
 
   // Bind SELECT list.
   if (pg_stmt->targetList == nullptr) {
-    throw bustub::Exception("no select list");
+    throw vdbms::Exception("no select list");
   }
 
   auto select_list = BindSelectList(pg_stmt->targetList);
@@ -286,7 +286,7 @@ auto Binder::BindJoin(duckdb_libpgquery::PGJoinExpr *root) -> std::unique_ptr<Bo
       break;
     }
     default: {
-      throw bustub::Exception(fmt::format("Join type {} not supported", static_cast<int>(root->jointype)));
+      throw vdbms::Exception(fmt::format("Join type {} not supported", static_cast<int>(root->jointype)));
     }
   }
   auto left_table = BindTableRef(root->larg);
@@ -302,7 +302,7 @@ auto Binder::BindBaseTableRef(std::string table_name, std::optional<std::string>
     -> std::unique_ptr<BoundBaseTableRef> {
   auto table_info = catalog_.GetTable(table_name);
   if (table_info == nullptr) {
-    throw bustub::Exception(fmt::format("invalid table {}", table_name));
+    throw vdbms::Exception(fmt::format("invalid table {}", table_name));
   }
   return std::make_unique<BoundBaseTableRef>(std::move(table_name), table_info->oid_, std::move(alias),
                                              table_info->schema_);
@@ -341,7 +341,7 @@ auto Binder::BindTableRef(duckdb_libpgquery::PGNode *node) -> std::unique_ptr<Bo
       return BindRangeSubselect(reinterpret_cast<duckdb_libpgquery::PGRangeSubselect *>(node));
     }
     default:
-      throw bustub::Exception(fmt::format("unsupported node type: {}", Binder::NodeTagToString(node->type)));
+      throw vdbms::Exception(fmt::format("unsupported node type: {}", Binder::NodeTagToString(node->type)));
   }
 }
 
@@ -397,7 +397,7 @@ auto Binder::GetAllColumns(const BoundTableRef &scope) -> std::vector<std::uniqu
       UNREACHABLE("CTE not found");
     }
     default:
-      throw bustub::Exception("select * cannot be used with this TableReferenceType");
+      throw vdbms::Exception("select * cannot be used with this TableReferenceType");
   }
 }
 
@@ -416,13 +416,13 @@ auto Binder::BindSelectList(duckdb_libpgquery::PGList *list) -> std::vector<std:
     if (expr->type_ == ExpressionType::STAR) {
       // Process `SELECT *`.
       if (!select_list.empty()) {
-        throw bustub::Exception("select * cannot have other expressions in list");
+        throw vdbms::Exception("select * cannot have other expressions in list");
       }
       select_list = GetAllColumns(*scope_);
       is_select_star = true;
     } else {
       if (is_select_star) {
-        throw bustub::Exception("select * cannot have other expressions in list");
+        throw vdbms::Exception("select * cannot have other expressions in list");
       }
       if (expr->HasAggregation()) {
         has_agg = true;
@@ -435,7 +435,7 @@ auto Binder::BindSelectList(duckdb_libpgquery::PGList *list) -> std::vector<std:
   }
 
   if (has_agg && has_window_agg) {
-    throw bustub::Exception("cannot have both normal agg and window agg in same query");
+    throw vdbms::Exception("cannot have both normal agg and window agg in same query");
   }
 
   return select_list;
@@ -451,7 +451,7 @@ auto Binder::BindExpressionList(duckdb_libpgquery::PGList *list) -> std::vector<
     auto expr = BindExpression(target);
 
     if (expr->type_ == ExpressionType::STAR) {
-      throw bustub::Exception("unsupport * in expression list");
+      throw vdbms::Exception("unsupport * in expression list");
     }
 
     select_list.push_back(std::move(expr));
@@ -461,11 +461,11 @@ auto Binder::BindExpressionList(duckdb_libpgquery::PGList *list) -> std::vector<
 }
 
 auto Binder::BindConstant(duckdb_libpgquery::PGAConst *node) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(node, "nullptr");
+  vdbms_ASSERT(node, "nullptr");
   const auto &val = node->val;
   switch (val.type) {
     case duckdb_libpgquery::T_PGInteger: {
-      BUSTUB_ENSURE(val.val.ival <= BUSTUB_INT32_MAX, "value out of range");
+      vdbms_ENSURE(val.val.ival <= vdbms_INT32_MAX, "value out of range");
       return std::make_unique<BoundConstant>(ValueFactory::GetIntegerValue(static_cast<int32_t>(val.val.ival)));
     }
     case duckdb_libpgquery::T_PGFloat: {
@@ -482,17 +482,17 @@ auto Binder::BindConstant(duckdb_libpgquery::PGAConst *node) -> std::unique_ptr<
     default:
       break;
   }
-  throw bustub::Exception(fmt::format("unsupported pg value: {}", Binder::NodeTagToString(val.type)));
+  throw vdbms::Exception(fmt::format("unsupported pg value: {}", Binder::NodeTagToString(val.type)));
 }
 
 auto Binder::BindColumnRef(duckdb_libpgquery::PGColumnRef *node) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(node, "nullptr");
+  vdbms_ASSERT(node, "nullptr");
   auto fields = node->fields;
   auto head_node = static_cast<duckdb_libpgquery::PGNode *>(fields->head->data.ptr_value);
   switch (head_node->type) {
     case duckdb_libpgquery::T_PGString: {
       if (fields->length < 1) {
-        throw bustub::Exception("Unexpected field length");
+        throw vdbms::Exception("Unexpected field length");
       }
       std::vector<std::string> column_names;
       for (auto node = fields->head; node != nullptr; node = node->next) {
@@ -504,13 +504,13 @@ auto Binder::BindColumnRef(duckdb_libpgquery::PGColumnRef *node) -> std::unique_
       return BindStar(reinterpret_cast<duckdb_libpgquery::PGAStar *>(head_node));
     }
     default:
-      throw bustub::Exception(
+      throw vdbms::Exception(
           fmt::format("ColumnRef type {} not implemented!", Binder::NodeTagToString(head_node->type)));
   }
 }
 
 auto Binder::BindResTarget(duckdb_libpgquery::PGResTarget *root) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(root, "nullptr");
+  vdbms_ASSERT(root, "nullptr");
   auto expr = BindExpression(root->val);
   if (!expr) {
     return nullptr;
@@ -522,13 +522,13 @@ auto Binder::BindResTarget(duckdb_libpgquery::PGResTarget *root) -> std::unique_
 }
 
 auto Binder::BindStar(duckdb_libpgquery::PGAStar *node) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(node, "nullptr");
+  vdbms_ASSERT(node, "nullptr");
   return std::make_unique<BoundStar>();
 }
 
 auto Binder::BindWindowExpression(std::string func_name, std::vector<std::unique_ptr<BoundExpression>> children,
                                   duckdb_libpgquery::PGWindowDef *node) -> std::unique_ptr<BoundWindow> {
-  BUSTUB_ASSERT(node, "nullptr");
+  vdbms_ASSERT(node, "nullptr");
   auto partition_by = std::vector<std::unique_ptr<BoundExpression>>{};
   if (node->partitionClause != nullptr) {
     partition_by = BindExpressionList(node->partitionClause);
@@ -555,7 +555,7 @@ auto Binder::BindWindowExpression(std::string func_name, std::vector<std::unique
 }
 
 auto Binder::BindFuncCall(duckdb_libpgquery::PGFuncCall *root) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(root, "nullptr");
+  vdbms_ASSERT(root, "nullptr");
   auto name = root->funcname;
   auto function_name =
       StringUtil::Lower(reinterpret_cast<duckdb_libpgquery::PGValue *>(name->head->data.ptr_value)->val.str);
@@ -577,7 +577,7 @@ auto Binder::BindFuncCall(duckdb_libpgquery::PGFuncCall *root) -> std::unique_pt
 
     if (root->over != nullptr) {
       if (root->agg_distinct) {
-        throw bustub::Exception("DISTINCT is not supported in window functions");
+        throw vdbms::Exception("DISTINCT is not supported in window functions");
       }
 
       auto window = BindWindowExpression(function_name, std::move(children), root->over);
@@ -637,7 +637,7 @@ auto Binder::ResolveColumnRefFromBaseTableRef(const BoundBaseTableRef &table_ref
   }
 
   if (strip_resolved_expr != nullptr && direct_resolved_expr != nullptr) {
-    throw bustub::Exception(fmt::format("{} is ambiguous in table {}", fmt::join(col_name, "."), table_ref.table_));
+    throw vdbms::Exception(fmt::format("{} is ambiguous in table {}", fmt::join(col_name, "."), table_ref.table_));
   }
   if (strip_resolved_expr != nullptr) {
     return strip_resolved_expr;
@@ -692,7 +692,7 @@ auto Binder::ResolveColumnRefFromSubqueryRef(const BoundSubqueryRef &subquery_re
   }
 
   if (strip_resolved_expr != nullptr && direct_resolved_expr != nullptr) {
-    throw bustub::Exception(
+    throw vdbms::Exception(
         fmt::format("{} is ambiguous in subquery {}", fmt::join(col_name, "."), subquery_ref.alias_));
   }
   if (strip_resolved_expr != nullptr) {
@@ -747,16 +747,16 @@ auto Binder::ResolveColumnInternal(const BoundTableRef &table_ref, const std::ve
       UNREACHABLE("CTE not found");
     }
     default:
-      throw bustub::Exception("unsupported TableReferenceType");
+      throw vdbms::Exception("unsupported TableReferenceType");
   }
 }
 
 auto Binder::ResolveColumn(const BoundTableRef &scope, const std::vector<std::string> &col_name)
     -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(!scope.IsInvalid(), "invalid scope");
+  vdbms_ASSERT(!scope.IsInvalid(), "invalid scope");
   auto expr = ResolveColumnInternal(scope, col_name);
   if (!expr) {
-    throw bustub::Exception(fmt::format("column {} not found", fmt::join(col_name, ".")));
+    throw vdbms::Exception(fmt::format("column {} not found", fmt::join(col_name, ".")));
   }
   return expr;
 }
@@ -774,11 +774,11 @@ auto Binder::BindHaving(duckdb_libpgquery::PGNode *root) -> std::unique_ptr<Boun
 }
 
 auto Binder::BindAExpr(duckdb_libpgquery::PGAExpr *root) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(root, "nullptr");
+  vdbms_ASSERT(root, "nullptr");
   auto name = std::string((reinterpret_cast<duckdb_libpgquery::PGValue *>(root->name->head->data.ptr_value))->val.str);
 
   if (root->kind != duckdb_libpgquery::PG_AEXPR_OP) {
-    throw bustub::Exception("unsupported op in AExpr");
+    throw vdbms::Exception("unsupported op in AExpr");
   }
 
   std::unique_ptr<BoundExpression> left_expr = nullptr;
@@ -797,11 +797,11 @@ auto Binder::BindAExpr(duckdb_libpgquery::PGAExpr *root) -> std::unique_ptr<Boun
   if (!left_expr && right_expr) {
     return std::make_unique<BoundUnaryOp>(name, std::move(right_expr));
   }
-  throw bustub::Exception("unsupported AExpr: left == null while right != null");
+  throw vdbms::Exception("unsupported AExpr: left == null while right != null");
 }
 
 auto Binder::BindBoolExpr(duckdb_libpgquery::PGBoolExpr *root) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(root, "nullptr");
+  vdbms_ASSERT(root, "nullptr");
   switch (root->boolop) {
     case duckdb_libpgquery::PG_AND_EXPR:
     case duckdb_libpgquery::PG_OR_EXPR: {
@@ -817,9 +817,9 @@ auto Binder::BindBoolExpr(duckdb_libpgquery::PGBoolExpr *root) -> std::unique_pt
       auto exprs = BindExpressionList(root->args);
       if (exprs.size() <= 1) {
         if (root->boolop == duckdb_libpgquery::PG_AND_EXPR) {
-          throw bustub::Exception("AND should have at least 1 arg");
+          throw vdbms::Exception("AND should have at least 1 arg");
         }
-        throw bustub::Exception("OR should have at least 1 arg");
+        throw vdbms::Exception("OR should have at least 1 arg");
       }
       auto expr = std::make_unique<BoundBinaryOp>(op_name, std::move(exprs[0]), std::move(exprs[1]));
       for (size_t i = 2; i < exprs.size(); i++) {
@@ -830,7 +830,7 @@ auto Binder::BindBoolExpr(duckdb_libpgquery::PGBoolExpr *root) -> std::unique_pt
     case duckdb_libpgquery::PG_NOT_EXPR: {
       auto exprs = BindExpressionList(root->args);
       if (exprs.size() != 1) {
-        throw bustub::Exception("NOT should have 1 arg");
+        throw vdbms::Exception("NOT should have 1 arg");
       }
       return std::make_unique<BoundUnaryOp>("not", std::move(exprs[0]));
     }
@@ -839,7 +839,7 @@ auto Binder::BindBoolExpr(duckdb_libpgquery::PGBoolExpr *root) -> std::unique_pt
 }
 
 auto Binder::BindExpression(duckdb_libpgquery::PGNode *node) -> std::unique_ptr<BoundExpression> {
-  BUSTUB_ASSERT(node, "nullptr");
+  vdbms_ASSERT(node, "nullptr");
   switch (node->type) {
     case duckdb_libpgquery::T_PGColumnRef:
       return BindColumnRef(reinterpret_cast<duckdb_libpgquery::PGColumnRef *>(node));
@@ -858,7 +858,7 @@ auto Binder::BindExpression(duckdb_libpgquery::PGNode *node) -> std::unique_ptr<
     default:
       break;
   }
-  throw bustub::Exception(fmt::format("Expr of type {} not implemented", Binder::NodeTagToString(node->type)));
+  throw vdbms::Exception(fmt::format("Expr of type {} not implemented", Binder::NodeTagToString(node->type)));
 }
 
 auto Binder::BindLimitCount(duckdb_libpgquery::PGNode *root) -> std::unique_ptr<BoundExpression> {
@@ -946,4 +946,4 @@ auto Binder::BindSort(duckdb_libpgquery::PGList *list) -> std::vector<std::uniqu
 // End Copyright 2018-2022 Stichting DuckDB Foundation
 //===----------------------------------------------------------------------===//
 
-}  // namespace bustub
+}  // namespace vdbms

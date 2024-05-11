@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "binder/binder.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/exception.h"
 #include "common/util/string_util.h"
 #include "concurrency/transaction.h"
@@ -34,9 +34,9 @@ auto GetWidthOfUtf8(const void *beg, const void *end, size_t *width) -> int {
 auto main(int argc, char **argv) -> int {
   ft_set_u8strwid_func(&GetWidthOfUtf8); // 设置计算字符串宽度的函数
 
-  auto bustub = std::make_unique<bustub::BustubInstance>("test.db"); // 创建数据库实例
+  auto vdbms = std::make_unique<vdbms::vdbmsInstance>("test.db"); // 创建数据库实例
 
-  auto default_prompt = "bustub> "; // 默认提示符
+  auto default_prompt = "vdbms> "; // 默认提示符
   auto emoji_prompt = "\U0001f6c1> ";  // 浴缸emoji作为提示符
   bool use_emoji_prompt = false; // 是否使用emoji提示符
   bool disable_tty = false; // 是否禁用TTY
@@ -53,15 +53,15 @@ auto main(int argc, char **argv) -> int {
 	}
   }
 
-  bustub->GenerateMockTable(); // 生成模拟表
+  vdbms->GenerateMockTable(); // 生成模拟表
 
-  if (bustub->buffer_pool_manager_ != nullptr) {
-	bustub->GenerateTestTable(); // 生成测试表
+  if (vdbms->buffer_pool_manager_ != nullptr) {
+	vdbms->GenerateTestTable(); // 生成测试表
   }
 
-  bustub->EnableManagedTxn(); // 启用事务管理
+  vdbms->EnableManagedTxn(); // 启用事务管理
 
-  std::cout << "Welcome to the BusTub shell! Type \\help to learn more." << std::endl << std::endl;
+  std::cout << "Welcome to the vdbms shell! Type \\help to learn more." << std::endl << std::endl;
 
   linenoiseHistorySetMaxLen(1024); // 设置历史记录最大长度
   linenoiseSetMultiLine(1); // 启用多行输入
@@ -74,10 +74,10 @@ auto main(int argc, char **argv) -> int {
 	bool first_line = true;
 	while (true) {
 	  std::string context_prompt = prompt; // 设置当前提示符
-	  auto *txn = bustub->CurrentManagedTxn(); // 获取当前事务
+	  auto *txn = vdbms->CurrentManagedTxn(); // 获取当前事务
 	  if (txn != nullptr) {
 		// 根据事务状态设置提示符
-		if (txn->GetTransactionState() != bustub::TransactionState::RUNNING) {
+		if (txn->GetTransactionState() != vdbms::TransactionState::RUNNING) {
 		  context_prompt =
 			  fmt::format("txn{} ({})> ", txn->GetTransactionIdHumanReadable(), txn->GetTransactionState());
 		} else {
@@ -93,7 +93,7 @@ auto main(int argc, char **argv) -> int {
 		query += query_c_str; // 添加到查询字符串
 		linenoiseFree(query_c_str); // 释放内存
 		// 检查是否结束输入
-		if (bustub::StringUtil::EndsWith(query, ";") || bustub::StringUtil::StartsWith(query, "\\")) {
+		if (vdbms::StringUtil::EndsWith(query, ";") || vdbms::StringUtil::StartsWith(query, "\\")) {
 		  break;
 		}
 		query += " "; // 添加空格，准备下一行输入
@@ -106,7 +106,7 @@ auto main(int argc, char **argv) -> int {
 		  return 0; // 如果读取失败，则退出
 		}
 		query += query_line; // 添加到查询字符串
-		if (bustub::StringUtil::EndsWith(query, ";") || bustub::StringUtil::StartsWith(query, "\\")) {
+		if (vdbms::StringUtil::EndsWith(query, ";") || vdbms::StringUtil::StartsWith(query, "\\")) {
 		  break;
 		}
 		query += "\n"; // 添加换行符，准备下一行输入
@@ -120,13 +120,13 @@ auto main(int argc, char **argv) -> int {
 
 	// 尝试执行SQL查询
 	try {
-	  auto writer = bustub::FortTableWriter(); // 创建表格写入器
-	  bustub->ExecuteSql(query, writer); // 执行SQL查询
+	  auto writer = vdbms::FortTableWriter(); // 创建表格写入器
+	  vdbms->ExecuteSql(query, writer); // 执行SQL查询
 	  // 打印查询结果
 	  for (const auto &table : writer.tables_) {
 		std::cout << table << std::flush;
 	  }
-	} catch (bustub::Exception &ex) {
+	} catch (vdbms::Exception &ex) {
 	  std::cerr << ex.what() << std::endl; // 打印异常信息
 	}
   }

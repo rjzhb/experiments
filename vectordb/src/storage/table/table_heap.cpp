@@ -12,7 +12,7 @@
 #include "storage/page/table_page.h"
 #include "storage/table/table_heap.h"
 
-namespace bustub {
+namespace vdbms {
 
 // TableHeap 类的构造函数，初始化了表堆。
 // @param bpm 缓冲池管理器，用于页面的管理和I/O操作。
@@ -22,7 +22,7 @@ TableHeap::TableHeap(BufferPoolManager *bpm) : bpm_(bpm) {
   last_page_id_ = first_page_id_;  // 初始化时，第一个页面也是最后一个页面。
   auto first_page = reinterpret_cast<TablePage *>(guard->GetData());  // 将新页面的数据转换为TablePage类型。
   // 确保创建页面成功。
-  BUSTUB_ASSERT(first_page != nullptr,
+  vdbms_ASSERT(first_page != nullptr,
 				"Couldn't create a page for the table heap. Have you completed the buffer pool manager project?");
   first_page->Init();  // 初始化表页面。
 }
@@ -49,12 +49,12 @@ auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManag
 	  break;
 	}
 	// 如果当前页面没有元组并且无法插入新元组，那么新元组太大无法插入。
-	BUSTUB_ENSURE(page->GetNumTuples() != 0, "tuple is too large, cannot insert");
+	vdbms_ENSURE(page->GetNumTuples() != 0, "tuple is too large, cannot insert");
 
 	// 分配一个新的页面来存储无法在当前页面中插入的元组。
 	page_id_t next_page_id = INVALID_PAGE_ID;
 	auto npg = bpm_->NewPage(&next_page_id);  // 创建一个新的页面。
-	BUSTUB_ENSURE(next_page_id != INVALID_PAGE_ID, "cannot allocate page");
+	vdbms_ENSURE(next_page_id != INVALID_PAGE_ID, "cannot allocate page");
 
 	page->SetNextPageId(next_page_id);  // 将新页面设置为当前页面的下一个页面。
 
@@ -80,7 +80,7 @@ auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManag
   // 如果启用了锁管理器，则对新插入的元组加锁。
 #ifndef DISABLE_LOCK_MANAGER
   if (lock_mgr != nullptr) {
-    BUSTUB_ENSURE(lock_mgr->LockRow(txn, LockManager::LockMode::EXCLUSIVE, oid, RID{last_page_id, slot_id}),
+    vdbms_ENSURE(lock_mgr->LockRow(txn, LockManager::LockMode::EXCLUSIVE, oid, RID{last_page_id, slot_id}),
                   "failed to lock when inserting new tuple");
   }
 #endif
@@ -196,4 +196,4 @@ auto TableHeap::GetTupleMetaWithLockAcquired(RID rid, const TablePage *page) -> 
 
 
 
-}  // namespace bustub
+}  // namespace vdbms

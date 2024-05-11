@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_page_test.cpp
 //
@@ -20,7 +20,7 @@
 // #include "storage/page/hash_table_bucket_page.h"
 // #include "storage/page/hash_table_directory_page.h"
 
-// namespace bustub {
+// namespace vdbms {
 
 // // NOLINTNEXTLINE
 // TEST(HashTablePageTest, DISABLED_DirectoryPageSampleTest) {
@@ -113,4 +113,4 @@
 //   delete bpm;
 // }
 
-// }  // namespace bustub
+// }  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // topn_per_group_executor.h
 //
@@ -22,7 +22,7 @@
 #include "execution/plans/topn_per_group_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The TopNPerGroupExecutor executor executes a topn.
@@ -56,4 +56,4 @@ class TopNPerGroupExecutor : public AbstractExecutor {
   /** The child executor from which tuples are obtained */
   std::unique_ptr<AbstractExecutor> child_executor_;
 };
-}  // namespace bustub
+}  // namespace vdbms

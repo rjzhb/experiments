@@ -13,7 +13,7 @@
 #include "primer/trie_answer.h"
 #include "trie_debug_answer.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
 TEST(TrieDebugger, TestCase) {
   std::mt19937_64 gen(23333);
@@ -61,4 +61,4 @@ TEST(TrieDebugger, TestCase) {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

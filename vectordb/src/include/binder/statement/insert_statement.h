@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/insert_statement.h
 //
@@ -16,7 +16,7 @@
 #include "catalog/column.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class SelectStatement;
 
@@ -31,4 +31,4 @@ class InsertStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

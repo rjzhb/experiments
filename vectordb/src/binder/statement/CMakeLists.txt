@@ -1,5 +1,5 @@
 add_library(
-  bustub_statement
+  vdbms_statement
   OBJECT
   create_statement.cpp
   delete_statement.cpp
@@ -10,5 +10,5 @@ add_library(
   update_statement.cpp)
 
 set(ALL_OBJECT_FILES
-  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_statement>
+  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_statement>
   PARENT_SCOPE)

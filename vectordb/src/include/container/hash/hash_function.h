@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_function.h
 //
@@ -16,7 +16,7 @@
 
 #include "murmur3/MurmurHash3.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename KeyType>
 class HashFunction {
@@ -33,4 +33,4 @@ class HashFunction {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -6,15 +6,15 @@
 #include "binder/statement/set_show_statement.h"
 #include "common/exception.h"
 #include "nodes/parsenodes.hpp"
-namespace bustub {
+namespace vdbms {
 
 auto Binder::BindVariableSet(duckdb_libpgquery::PGVariableSetStmt *stmt) -> std::unique_ptr<VariableSetStatement> {
   auto expr = BindExpressionList(stmt->args);
   if (expr.size() != 1) {
-    throw bustub::NotImplementedException("Only exactly one arg is supported");
+    throw vdbms::NotImplementedException("Only exactly one arg is supported");
   }
   if (expr[0]->type_ != ExpressionType::CONSTANT) {
-    throw bustub::NotImplementedException("Only constant is supported");
+    throw vdbms::NotImplementedException("Only constant is supported");
   }
   const auto &const_expr = dynamic_cast<const BoundConstant &>(*expr[0]);
   return std::make_unique<VariableSetStatement>(stmt->name, const_expr.val_.ToString());
@@ -33,8 +33,8 @@ auto Binder::BindTransaction(duckdb_libpgquery::PGTransactionStmt *stmt) -> std:
     case duckdb_libpgquery::PG_TRANS_STMT_BEGIN:
       return std::make_unique<TransactionStatement>("begin");
     default:
-      throw bustub::NotImplementedException("unsupported txn statement kind");
+      throw vdbms::NotImplementedException("unsupported txn statement kind");
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

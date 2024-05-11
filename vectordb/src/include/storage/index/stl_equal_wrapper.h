@@ -1,6 +1,6 @@
 #pragma once
 
-namespace bustub {
+namespace vdbms {
 
 template <typename K, typename KC>
 class StlEqualWrapper {
@@ -12,4 +12,4 @@ class StlEqualWrapper {
   KC cmp_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

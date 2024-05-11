@@ -9,7 +9,7 @@
 #include "binder/bound_table_ref.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 class SelectStatement;
 
@@ -30,4 +30,4 @@ class BoundCTERef : public BoundTableRef {
   std::string alias_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

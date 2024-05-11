@@ -12,7 +12,7 @@
 #include "execution/plans/seq_scan_plan.h"
 #include "execution/plans/window_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto SeqScanPlanNode::InferScanSchema(const BoundBaseTableRef &table) -> Schema {
   std::vector<Column> schema;
@@ -46,7 +46,7 @@ auto ProjectionPlanNode::InferProjectionSchema(const std::vector<AbstractExpress
 auto ProjectionPlanNode::RenameSchema(const Schema &schema, const std::vector<std::string> &col_names) -> Schema {
   std::vector<Column> output;
   if (col_names.size() != schema.GetColumnCount()) {
-    throw bustub::Exception("mismatched number of columns");
+    throw vdbms::Exception("mismatched number of columns");
   }
   size_t idx = 0;
   for (const auto &column : schema.GetColumns()) {
@@ -80,4 +80,4 @@ auto WindowFunctionPlanNode::InferWindowSchema(const std::vector<AbstractExpress
   return Schema(output);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

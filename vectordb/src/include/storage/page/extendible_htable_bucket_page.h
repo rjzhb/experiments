@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_bucket_page.h
 //
@@ -33,12 +33,12 @@
 #include "storage/page/b_plus_tree_page.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 static constexpr uint64_t HTABLE_BUCKET_PAGE_METADATA_SIZE = sizeof(uint32_t) * 2;
 
 constexpr auto HTableBucketArraySize(uint64_t mapping_type_size) -> uint64_t {
-  return (BUSTUB_PAGE_SIZE - HTABLE_BUCKET_PAGE_METADATA_SIZE) / mapping_type_size;
+  return (vdbms_PAGE_SIZE - HTABLE_BUCKET_PAGE_METADATA_SIZE) / mapping_type_size;
 };
 
 /**
@@ -137,4 +137,4 @@ class ExtendibleHTableBucketPage {
   MappingType array_[HTableBucketArraySize(sizeof(MappingType))];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

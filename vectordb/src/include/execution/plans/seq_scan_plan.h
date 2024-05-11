@@ -10,7 +10,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The SeqScanPlanNode represents a sequential table scan operation.
@@ -39,7 +39,7 @@ class SeqScanPlanNode : public AbstractPlanNode {
 
   static auto InferScanSchema(const BoundBaseTableRef &table_ref) -> Schema;
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(SeqScanPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(SeqScanPlanNode);
 
   /** The table whose tuples should be scanned */
   table_oid_t table_oid_;
@@ -61,4 +61,4 @@ class SeqScanPlanNode : public AbstractPlanNode {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

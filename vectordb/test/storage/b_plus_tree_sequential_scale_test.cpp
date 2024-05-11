@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // b_plus_tree_sequential_scale_test.cpp
 //
@@ -20,9 +20,9 @@
 #include "storage/index/b_plus_tree.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
-using bustub::DiskManagerUnlimitedMemory;
+using vdbms::DiskManagerUnlimitedMemory;
 
 /**
  * This test should be passing with your Checkpoint 1 submission.
@@ -77,4 +77,4 @@ TEST(BPlusTreeTests, DISABLED_ScaleTest) {  // NOLINT
   delete transaction;
   delete bpm;
 }
-}  // namespace bustub
+}  // namespace vdbms

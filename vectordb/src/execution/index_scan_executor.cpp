@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // index_scan_executor.cpp
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 #include "execution/executors/index_scan_executor.h"
 
-namespace bustub {
+namespace vdbms {
 IndexScanExecutor::IndexScanExecutor(ExecutorContext *exec_ctx, const IndexScanPlanNode *plan)
     : AbstractExecutor(exec_ctx) {}
 
@@ -19,4 +19,4 @@ void IndexScanExecutor::Init() { throw NotImplementedException("IndexScanExecuto
 
 auto IndexScanExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

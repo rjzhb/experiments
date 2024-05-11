@@ -3,7 +3,7 @@
 #include "common/exception.h"
 #include "type/numeric_type.h"
 
-namespace bustub {
+namespace vdbms {
 // An integer value of the common sizes.
 class IntegerParentType : public NumericType {
  public:
@@ -160,4 +160,4 @@ auto IntegerParentType::ModuloValue(const Value &left, const Value &right) const
   return Value(right.GetTypeId(), quot2);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_hash_table_index.h
 //
@@ -21,7 +21,7 @@
 #include "container/hash/hash_function.h"
 #include "storage/index/index.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define HASH_TABLE_INDEX_TYPE ExtendibleHashTableIndex<KeyType, ValueType, KeyComparator>
 
@@ -53,4 +53,4 @@ using IntegerComparatorType = GenericComparator<TWO_INTEGER_SIZE>;
 using HashTableIndexForTwoIntegerColumn =
     ExtendibleHashTableIndex<IntegerKeyType, IntegerValueType, IntegerComparatorType>;
 
-}  // namespace bustub
+}  // namespace vdbms

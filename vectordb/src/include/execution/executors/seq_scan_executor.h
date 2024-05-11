@@ -9,7 +9,7 @@
 #include "storage/table/table_iterator.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The SeqScanExecutor executor executes a sequential table scan.
@@ -46,4 +46,4 @@ class SeqScanExecutor : public AbstractExecutor {
 
   std::unique_ptr<TableIterator> iter_{nullptr};
 };
-}  // namespace bustub
+}  // namespace vdbms

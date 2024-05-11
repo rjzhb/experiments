@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // decimal_type.cpp
 //
@@ -18,7 +18,7 @@
 #include "common/exception.h"
 #include "type/decimal_type.h"
 
-namespace bustub {
+namespace vdbms {
 #define DECIMAL_COMPARE_FUNC(OP)                                          \
   switch (right.GetTypeId()) {                                            \
     case TypeId::TINYINT:                                                 \
@@ -180,7 +180,7 @@ auto DecimalType::Max(const Value &left, const Value &right) const -> Value {
 auto DecimalType::Sqrt(const Value &val) const -> Value {
   assert(GetTypeId() == TypeId::DECIMAL);
   if (val.IsNull()) {
-    return {TypeId::DECIMAL, BUSTUB_DECIMAL_NULL};
+    return {TypeId::DECIMAL, vdbms_DECIMAL_NULL};
   }
   if (val.value_.decimal_ < 0) {
     throw Exception(ExceptionType::DECIMAL, "Cannot take square root of a negative number.");
@@ -190,7 +190,7 @@ auto DecimalType::Sqrt(const Value &val) const -> Value {
 
 auto DecimalType::OperateNull(const Value &left __attribute__((unused)),
                               const Value &right __attribute__((unused))) const -> Value {
-  return {TypeId::DECIMAL, BUSTUB_DECIMAL_NULL};
+  return {TypeId::DECIMAL, vdbms_DECIMAL_NULL};
 }
 
 auto DecimalType::CompareEquals(const Value &left, const Value &right) const -> CmpBool {
@@ -269,37 +269,37 @@ auto DecimalType::CastAs(const Value &val, const TypeId type_id) const -> Value 
   switch (type_id) {
     case TypeId::TINYINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT8_NULL};
+        return {type_id, vdbms_INT8_NULL};
       }
-      if (val.GetAs<double>() > BUSTUB_INT8_MAX || val.GetAs<double>() < BUSTUB_INT8_MIN) {
+      if (val.GetAs<double>() > vdbms_INT8_MAX || val.GetAs<double>() < vdbms_INT8_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int8_t>(val.GetAs<double>())};
     }
     case TypeId::SMALLINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT16_NULL};
+        return {type_id, vdbms_INT16_NULL};
       }
-      if (val.GetAs<double>() > BUSTUB_INT16_MAX || val.GetAs<double>() < BUSTUB_INT16_MIN) {
+      if (val.GetAs<double>() > vdbms_INT16_MAX || val.GetAs<double>() < vdbms_INT16_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int16_t>(val.GetAs<double>())};
     }
     case TypeId::INTEGER: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT32_NULL};
+        return {type_id, vdbms_INT32_NULL};
       }
-      if (val.GetAs<double>() > BUSTUB_INT32_MAX || val.GetAs<double>() < BUSTUB_INT32_MIN) {
+      if (val.GetAs<double>() > vdbms_INT32_MAX || val.GetAs<double>() < vdbms_INT32_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int32_t>(val.GetAs<double>())};
     }
     case TypeId::BIGINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT64_NULL};
+        return {type_id, vdbms_INT64_NULL};
       }
-      if (val.GetAs<double>() >= static_cast<double>(BUSTUB_INT64_MAX) ||
-          val.GetAs<double>() < static_cast<double>(BUSTUB_INT64_MIN)) {
+      if (val.GetAs<double>() >= static_cast<double>(vdbms_INT64_MAX) ||
+          val.GetAs<double>() < static_cast<double>(vdbms_INT64_MIN)) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int64_t>(val.GetAs<double>())};
@@ -336,4 +336,4 @@ auto DecimalType::DeserializeFrom(const char *storage) const -> Value {
 }
 
 auto DecimalType::Copy(const Value &val) const -> Value { return {TypeId::DECIMAL, val.value_.decimal_}; }
-}  // namespace bustub
+}  // namespace vdbms

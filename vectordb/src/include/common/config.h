@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // config.h
 //
@@ -19,7 +19,7 @@
 #define DISABLE_LOCK_MANAGER
 #define DISABLE_CHECKPOINT_MANAGER
 
-namespace bustub {
+namespace vdbms {
 
 /** Cycle detection is performed every CYCLE_DETECTION_INTERVAL milliseconds. */
 extern std::chrono::milliseconds cycle_detection_interval;
@@ -34,9 +34,9 @@ static constexpr int INVALID_PAGE_ID = -1;                                      
 static constexpr int INVALID_TXN_ID = -1;                                            // invalid transaction id
 static constexpr int INVALID_LSN = -1;                                               // invalid log sequence number
 static constexpr int HEADER_PAGE_ID = 0;                                             // the header page id
-static constexpr int BUSTUB_PAGE_SIZE = 4096;                                        // size of a data page in byte
+static constexpr int vdbms_PAGE_SIZE = 4096;                                        // size of a data page in byte
 static constexpr int BUFFER_POOL_SIZE = 10;                                          // size of buffer pool
-static constexpr int LOG_BUFFER_SIZE = ((BUFFER_POOL_SIZE + 1) * BUSTUB_PAGE_SIZE);  // size of a log buffer in byte
+static constexpr int LOG_BUFFER_SIZE = ((BUFFER_POOL_SIZE + 1) * vdbms_PAGE_SIZE);  // size of a log buffer in byte
 static constexpr int BUCKET_SIZE = 50;                                               // size of extendible hash bucket
 static constexpr int LRUK_REPLACER_K = 10;  // lookback window for lru-k replacer
 
@@ -51,4 +51,4 @@ const txn_id_t TXN_START_ID = 1LL << 62;  // first txn id
 
 static constexpr int VARCHAR_DEFAULT_LENGTH = 128;  // default length for varchar when constructing the column
 
-}  // namespace bustub
+}  // namespace vdbms

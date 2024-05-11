@@ -8,7 +8,7 @@
 #include "concurrency/transaction.h"
 #include "fmt/core.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound table ref type for single table. e.g., `SELECT x FROM y`, where `y` is `BoundBaseTableRef`.
@@ -48,4 +48,4 @@ class BoundBaseTableRef : public BoundTableRef {
   /** The schema of the table. */
   Schema schema_;
 };
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_util.h
 //
@@ -20,7 +20,7 @@
 #include "common/macros.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 using hash_t = std::size_t;
 
@@ -96,10 +96,10 @@ class HashUtil {
         return Hash<uint64_t>(&raw);
       }
       default: {
-        BUSTUB_ASSERT(false, "Unsupported type.");
+        vdbms_ASSERT(false, "Unsupported type.");
       }
     }
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

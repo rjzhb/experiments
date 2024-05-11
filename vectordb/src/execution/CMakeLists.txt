@@ -1,5 +1,5 @@
 add_library(
-        bustub_execution
+        vdbms_execution
         OBJECT
         aggregation_executor.cpp
         delete_executor.cpp
@@ -29,5 +29,5 @@ add_library(
 )
 
 set(ALL_OBJECT_FILES
-        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_execution>
+        ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_execution>
         PARENT_SCOPE)

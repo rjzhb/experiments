@@ -7,7 +7,7 @@
 
 #include "binder/bound_expression.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound binary operator, e.g., `a+b`.
@@ -34,4 +34,4 @@ class BoundBinaryOp : public BoundExpression {
   /** Right argument of the op. */
   std::unique_ptr<BoundExpression> rarg_;
 };
-}  // namespace bustub
+}  // namespace vdbms

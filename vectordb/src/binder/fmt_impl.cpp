@@ -13,7 +13,7 @@
 #include "fmt/format.h"
 #include "fmt/ranges.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto BoundFuncCall::ToString() const -> std::string { return fmt::format("{}({})", func_name_, args_); }
 
@@ -71,4 +71,4 @@ auto BoundWindow::ToString() const -> std::string {
                      StringUtil::IndentAllLines(fmt::format("[{}]", fmt::join(order_bys, ", ")), 2, true));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

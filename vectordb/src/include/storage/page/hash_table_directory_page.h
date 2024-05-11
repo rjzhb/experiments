@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_directory_page.h
 //
@@ -20,7 +20,7 @@
 #include "storage/index/generic_key.h"
 #include "storage/page/hash_table_page_defs.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  *
@@ -194,4 +194,4 @@ class HashTableDirectoryPage {
   page_id_t bucket_page_ids_[DIRECTORY_ARRAY_SIZE];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

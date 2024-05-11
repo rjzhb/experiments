@@ -7,7 +7,7 @@
 #include "execution/executor_context.h"
 #include "storage/table/table_heap.h"
 
-namespace bustub {
+namespace vdbms {
 
 static constexpr uint32_t TEST1_SIZE = 1000;
 static constexpr uint32_t TEST2_SIZE = 100;
@@ -111,4 +111,4 @@ class TableGenerator {
  private:
   ExecutorContext *exec_ctx_;
 };
-}  // namespace bustub
+}  // namespace vdbms

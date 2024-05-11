@@ -5,7 +5,7 @@
 #include "type/type_util.h"
 #include "type/varlen_type.h"
 
-namespace bustub {
+namespace vdbms {
 #define VARLEN_COMPARE_FUNC(OP)                                               \
   const char *str1 = left.GetData();                                          \
   uint32_t len1 = GetStorageSize(left) - 1;                                   \
@@ -116,7 +116,7 @@ auto VarlenType::ToString(const Value &val) const -> std::string {
   if (val.IsNull()) {
     return "varlen_null";
   }
-  if (len == BUSTUB_VARCHAR_MAX_LEN) {
+  if (len == vdbms_VARCHAR_MAX_LEN) {
     return "varlen_max";
   }
   if (len == 0) {
@@ -127,7 +127,7 @@ auto VarlenType::ToString(const Value &val) const -> std::string {
 
 void VarlenType::SerializeTo(const Value &val, char *storage) const {
   uint32_t len = GetStorageSize(val);
-  if (len == BUSTUB_VALUE_NULL) {
+  if (len == vdbms_VALUE_NULL) {
     memcpy(storage, &len, sizeof(uint32_t));
     return;
   }
@@ -138,7 +138,7 @@ void VarlenType::SerializeTo(const Value &val, char *storage) const {
 // Deserialize a value of the given type from the given storage space.
 auto VarlenType::DeserializeFrom(const char *storage) const -> Value {
   uint32_t len = *reinterpret_cast<const uint32_t *>(storage);
-  if (len == BUSTUB_VALUE_NULL) {
+  if (len == vdbms_VALUE_NULL) {
     return {type_id_, nullptr, len, false};
   }
   // set manage_data as true
@@ -170,7 +170,7 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
       } catch (std::out_of_range &e) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
-      if (tinyint < BUSTUB_INT8_MIN) {
+      if (tinyint < vdbms_INT8_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, tinyint};
@@ -183,7 +183,7 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
       } catch (std::out_of_range &e) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
-      if (smallint < BUSTUB_INT16_MIN) {
+      if (smallint < vdbms_INT16_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, smallint};
@@ -196,7 +196,7 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
       } catch (std::out_of_range &e) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
-      if (integer > BUSTUB_INT32_MAX || integer < BUSTUB_INT32_MIN) {
+      if (integer > vdbms_INT32_MAX || integer < vdbms_INT32_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, integer};
@@ -209,7 +209,7 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
       } catch (std::out_of_range &e) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
-      if (bigint > BUSTUB_INT64_MAX || bigint < BUSTUB_INT64_MIN) {
+      if (bigint > vdbms_INT64_MAX || bigint < vdbms_INT64_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, bigint};
@@ -222,7 +222,7 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
       } catch (std::out_of_range &e) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
-      if (res > BUSTUB_DECIMAL_MAX || res < BUSTUB_DECIMAL_MIN) {
+      if (res > vdbms_DECIMAL_MAX || res < vdbms_DECIMAL_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, res};
@@ -234,4 +234,4 @@ auto VarlenType::CastAs(const Value &value, const TypeId type_id) const -> Value
   }
   throw Exception("VARCHAR is not coercable to " + TypeIdToString(type_id));
 }
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // topn_check_executor.h
 //
@@ -19,7 +19,7 @@
 #include "execution/executors/topn_executor.h"
 #include "execution/plans/topn_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * TopNCheckExecutor checks the number of items in TopN executor container
@@ -64,4 +64,4 @@ class TopNCheckExecutor : public AbstractExecutor {
   TopNExecutor *topn_executor_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

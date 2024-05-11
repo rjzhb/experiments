@@ -1,14 +1,14 @@
-<img src="logo/bustub-whiteborder.svg" alt="BusTub Logo" height="200">
+<img src="logo/vdbms-whiteborder.svg" alt="vdbms Logo" height="200">
 
 -----------------
 
-[![Build Status](https://github.com/cmu-db/bustub/actions/workflows/cmake.yml/badge.svg)](https://github.com/cmu-db/bustub/actions/workflows/cmake.yml)
+[![Build Status](https://github.com/cmu-db/vdbms/actions/workflows/cmake.yml/badge.svg)](https://github.com/cmu-db/vdbms/actions/workflows/cmake.yml)
 
-BusTub is a relational database management system built at [Carnegie Mellon University](https://db.cs.cmu.edu) for the [Introduction to Database Systems](https://15445.courses.cs.cmu.edu) (15-445/645) course. This system was developed for educational purposes and should not be used in production environments.
+vdbms is a relational database management system built at [Carnegie Mellon University](https://db.cs.cmu.edu) for the [Introduction to Database Systems](https://15445.courses.cs.cmu.edu) (15-445/645) course. This system was developed for educational purposes and should not be used in production environments.
 
-BusTub supports basic SQL and comes with an interactive shell. You can get it running after finishing all the course projects.
+vdbms supports basic SQL and comes with an interactive shell. You can get it running after finishing all the course projects.
 
-<img src="logo/sql.png" alt="BusTub SQL" width="400">
+<img src="logo/sql.png" alt="vdbms SQL" width="400">
 
 **WARNING: IF YOU ARE A STUDENT IN THE CLASS, DO NOT DIRECTLY FORK THIS REPO. DO NOT PUSH PROJECT SOLUTIONS PUBLICLY. THIS IS AN ACADEMIC INTEGRITY VIOLATION AND CAN LEAD TO GETTING YOUR DEGREE REVOKED, EVEN AFTER YOU GRADUATE.**
 
@@ -18,49 +18,49 @@ We make the autograder for each assignment available to non-CMU students on Grad
 
 ## Cloning this Repository
 
-The following instructions are adapted from the Github documentation on [duplicating a repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/duplicating-a-repository). The procedure below walks you through creating a private BusTub repository that you can use for development.
+The following instructions are adapted from the Github documentation on [duplicating a repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/duplicating-a-repository). The procedure below walks you through creating a private vdbms repository that you can use for development.
 
-1. Go [here](https://github.com/new) to create a new repository under your account. Pick a name (e.g. `bustub-private`) and select **Private** for the repository visibility level.
-2. On your development machine, create a bare clone of the public BusTub repository:
+1. Go [here](https://github.com/new) to create a new repository under your account. Pick a name (e.g. `vdbms-private`) and select **Private** for the repository visibility level.
+2. On your development machine, create a bare clone of the public vdbms repository:
    ```
-   $ git clone --bare https://github.com/cmu-db/bustub.git bustub-public
+   $ git clone --bare https://github.com/cmu-db/vdbms.git vdbms-public
    ```
-3. Next, [mirror](https://git-scm.com/docs/git-push#Documentation/git-push.txt---mirror) the public BusTub repository to your own private BusTub repository. Suppose your GitHub name is `student` and your repository name is `bustub-private`. The procedure for mirroring the repository is then:
+3. Next, [mirror](https://git-scm.com/docs/git-push#Documentation/git-push.txt---mirror) the public vdbms repository to your own private vdbms repository. Suppose your GitHub name is `student` and your repository name is `vdbms-private`. The procedure for mirroring the repository is then:
    ```
-   $ cd bustub-public
+   $ cd vdbms-public
    
    # If you pull / push over HTTPS
-   $ git push https://github.com/student/bustub-private.git master
+   $ git push https://github.com/student/vdbms-private.git master
 
    # If you pull / push over SSH
-   $ git push git@github.com:student/bustub-private.git master
+   $ git push git@github.com:student/vdbms-private.git master
    ```
-   This copies everything in the public BusTub repository to your own private repository. You can now delete your local clone of the public repository:
+   This copies everything in the public vdbms repository to your own private repository. You can now delete your local clone of the public repository:
    ```
    $ cd ..
-   $ rm -rf bustub-public
+   $ rm -rf vdbms-public
    ```
 4. Clone your private repository to your development machine:
    ```
    # If you pull / push over HTTPS
-   $ git clone https://github.com/student/bustub-private.git
+   $ git clone https://github.com/student/vdbms-private.git
 
    # If you pull / push over SSH
-   $ git clone git@github.com:student/bustub-private.git
+   $ git clone git@github.com:student/vdbms-private.git
    ```
-5. Add the public BusTub repository as a second remote. This allows you to retrieve changes from the CMU-DB repository and merge them with your solution throughout the semester:
+5. Add the public vdbms repository as a second remote. This allows you to retrieve changes from the CMU-DB repository and merge them with your solution throughout the semester:
    ```
-   $ git remote add public https://github.com/cmu-db/bustub.git
+   $ git remote add public https://github.com/cmu-db/vdbms.git
    ```
    You can verify that the remote was added with the following command:
    ```
    $ git remote -v
-   origin	https://github.com/student/bustub-private.git (fetch)
-   origin	https://github.com/student/bustub-private.git (push)
-   public	https://github.com/cmu-db/bustub.git (fetch)
-   public	https://github.com/cmu-db/bustub.git (push)
+   origin	https://github.com/student/vdbms-private.git (fetch)
+   origin	https://github.com/student/vdbms-private.git (push)
+   public	https://github.com/cmu-db/vdbms.git (fetch)
+   public	https://github.com/cmu-db/vdbms.git (push)
    ```
-6. You can now pull in changes from the public BusTub repository as needed with:
+6. You can now pull in changes from the public vdbms repository as needed with:
    ```
    $ git pull public master
    ```
@@ -73,7 +73,7 @@ We suggest working on your projects in separate branches. If you do not understa
 
 ## Build
 
-We recommend developing BusTub on Ubuntu 22.04, or macOS (M1/M2/Intel). We do not support any other environments (i.e., do not open issues or come to office hours to debug them). We do not support WSL. The grading environment runs
+We recommend developing vdbms on Ubuntu 22.04, or macOS (M1/M2/Intel). We do not support any other environments (i.e., do not open issues or come to office hours to debug them). We do not support WSL. The grading environment runs
 Ubuntu 22.04.
 
 ### Linux (Recommended) / macOS (Development Only)
@@ -108,7 +108,7 @@ This enables [AddressSanitizer](https://github.com/google/sanitizers) by default
 If you want to use other sanitizers,
 
 ```
-$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER=thread ..
+$ cmake -DCMAKE_BUILD_TYPE=Debug -Dvdbms_SANITIZER=thread ..
 $ make -j`nproc`
 ```
 

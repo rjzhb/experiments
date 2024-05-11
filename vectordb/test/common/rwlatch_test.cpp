@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // rwlatch_test.cpp
 //
@@ -16,7 +16,7 @@
 #include "common/rwlatch.h"
 #include "gtest/gtest.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Counter {
  public:
@@ -57,4 +57,4 @@ TEST(RWLatchTest, BasicTest) {
   }
   EXPECT_EQ(counter.Read(), 55);
 }
-}  // namespace bustub
+}  // namespace vdbms

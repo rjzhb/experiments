@@ -7,7 +7,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The DeletePlanNode identifies a table from which tuples should be deleted.
@@ -35,11 +35,11 @@ class DeletePlanNode : public AbstractPlanNode {
 
   /** @return The child plan providing tuples to be deleted */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "delete should have at most one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "delete should have at most one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(DeletePlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(DeletePlanNode);
 
   /** The identifier of the table from which tuples are deleted */
   table_oid_t table_oid_;
@@ -48,4 +48,4 @@ class DeletePlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override { return fmt::format("Delete {{ table_oid={} }}", table_oid_); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

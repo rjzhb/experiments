@@ -15,7 +15,7 @@
 #pragma once
 #include "storage/page/b_plus_tree_leaf_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define INDEXITERATOR_TYPE IndexIterator<KeyType, ValueType, KeyComparator>
 
@@ -40,4 +40,4 @@ class IndexIterator {
   // add your own private member variables here
 };
 
-}  // namespace bustub
+}  // namespace vdbms

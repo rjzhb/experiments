@@ -11,7 +11,7 @@
 
 #include "storage/page/b_plus_tree_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 /*
  * Helper methods to get/set page type
@@ -40,4 +40,4 @@ void BPlusTreePage::SetMaxSize(int size) {}
  */
 auto BPlusTreePage::GetMinSize() const -> int { return 0; }
 
-}  // namespace bustub
+}  // namespace vdbms

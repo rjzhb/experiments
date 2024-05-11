@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // disk_extendible_hash_table_utils.cpp
 //
@@ -14,7 +14,7 @@
 
 #include "container/disk/hash/disk_extendible_hash_table.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Hash - simple helper to downcast MurmurHash's 64-bit hash to 32-bit
@@ -76,7 +76,7 @@ void DiskExtendibleHashTable<K, V, KC>::PrintHT() const {
 
 template <typename K, typename V, typename KC>
 void DiskExtendibleHashTable<K, V, KC>::VerifyIntegrity() const {
-  BUSTUB_ASSERT(header_page_id_ != INVALID_PAGE_ID, "header page id is invalid");
+  vdbms_ASSERT(header_page_id_ != INVALID_PAGE_ID, "header page id is invalid");
   BasicPageGuard header_guard = bpm_->FetchPageBasic(header_page_id_);
   auto *header = header_guard.As<ExtendibleHTableHeaderPage>();
 
@@ -103,4 +103,4 @@ template class DiskExtendibleHashTable<GenericKey<16>, RID, GenericComparator<16
 template class DiskExtendibleHashTable<GenericKey<32>, RID, GenericComparator<32>>;
 template class DiskExtendibleHashTable<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

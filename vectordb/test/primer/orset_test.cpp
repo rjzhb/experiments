@@ -7,7 +7,7 @@
 #include "gtest/gtest.h"
 #include "primer/orset_driver.h"
 
-namespace bustub {
+namespace vdbms {
 
 TEST(ORSetTest, AddRemoveTest) {
   const int n = 10;
@@ -264,4 +264,4 @@ TEST(ORSetDriverTest, NetworkLostTest) {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

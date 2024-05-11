@@ -5,7 +5,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * ExecutorFactory creates executors for arbitrary plan nodes.
  */
@@ -20,4 +20,4 @@ class ExecutorFactory {
   static auto CreateExecutor(ExecutorContext *exec_ctx, const AbstractPlanNodeRef &plan)
       -> std::unique_ptr<AbstractExecutor>;
 };
-}  // namespace bustub
+}  // namespace vdbms

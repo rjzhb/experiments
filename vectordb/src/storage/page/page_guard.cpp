@@ -1,7 +1,7 @@
 #include "storage/page/page_guard.h"
 #include "buffer/buffer_pool_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 BasicPageGuard::BasicPageGuard(BasicPageGuard &&that) noexcept {}
 
@@ -27,4 +27,4 @@ void WritePageGuard::Drop() {}
 
 WritePageGuard::~WritePageGuard() {}  // NOLINT
 
-}  // namespace bustub
+}  // namespace vdbms

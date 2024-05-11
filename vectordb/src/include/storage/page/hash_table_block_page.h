@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_block_page.h
 //
@@ -20,7 +20,7 @@
 #include "storage/index/int_comparator.h"
 #include "storage/page/hash_table_page_defs.h"
 
-namespace bustub {
+namespace vdbms {
 /**
  * Store indexed key and and value together within block page. Supports
  * non-unique keys.
@@ -147,4 +147,4 @@ class HashTableBlockPage {
   MappingType array_[1];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

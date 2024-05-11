@@ -5,7 +5,7 @@
 #include "common/exception.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename T>
 auto ORSet<T>::Contains(const T &elem) const -> bool {
@@ -47,4 +47,4 @@ auto ORSet<T>::ToString() const -> std::string {
 template class ORSet<int>;
 template class ORSet<std::string>;
 
-}  // namespace bustub
+}  // namespace vdbms

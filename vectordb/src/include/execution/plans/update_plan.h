@@ -8,7 +8,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The UpdatePlanNode identifies a table that should be updated.
@@ -38,11 +38,11 @@ class UpdatePlanNode : public AbstractPlanNode {
 
   /** @return The child plan providing tuples to be inserted */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "UPDATE should have exactly one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "UPDATE should have exactly one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(UpdatePlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(UpdatePlanNode);
 
   /** The table to be updated. */
   table_oid_t table_oid_;
@@ -54,4 +54,4 @@ class UpdatePlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

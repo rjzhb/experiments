@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // type.cpp
 //
@@ -24,7 +24,7 @@
 #include "type/varlen_type.h"
 #include "type/vector_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 Type *Type::k_types[] = {new Type(TypeId::INVALID),
                          new BooleanType(),
@@ -136,15 +136,15 @@ auto Type::GetMinValue(TypeId type_id) -> Value {
     case BOOLEAN:
       return {type_id, 0};
     case TINYINT:
-      return {type_id, BUSTUB_INT8_MIN};
+      return {type_id, vdbms_INT8_MIN};
     case SMALLINT:
-      return {type_id, BUSTUB_INT16_MIN};
+      return {type_id, vdbms_INT16_MIN};
     case INTEGER:
-      return {type_id, BUSTUB_INT32_MIN};
+      return {type_id, vdbms_INT32_MIN};
     case BIGINT:
-      return {type_id, BUSTUB_INT64_MIN};
+      return {type_id, vdbms_INT64_MIN};
     case DECIMAL:
-      return {type_id, BUSTUB_DECIMAL_MIN};
+      return {type_id, vdbms_DECIMAL_MIN};
     case TIMESTAMP:
       return {type_id, 0};
     case VARCHAR:
@@ -160,17 +160,17 @@ auto Type::GetMaxValue(TypeId type_id) -> Value {
     case BOOLEAN:
       return {type_id, 1};
     case TINYINT:
-      return {type_id, BUSTUB_INT8_MAX};
+      return {type_id, vdbms_INT8_MAX};
     case SMALLINT:
-      return {type_id, BUSTUB_INT16_MAX};
+      return {type_id, vdbms_INT16_MAX};
     case INTEGER:
-      return {type_id, BUSTUB_INT32_MAX};
+      return {type_id, vdbms_INT32_MAX};
     case BIGINT:
-      return {type_id, BUSTUB_INT64_MAX};
+      return {type_id, vdbms_INT64_MAX};
     case DECIMAL:
-      return {type_id, BUSTUB_DECIMAL_MAX};
+      return {type_id, vdbms_DECIMAL_MAX};
     case TIMESTAMP:
-      return {type_id, BUSTUB_TIMESTAMP_MAX};
+      return {type_id, vdbms_TIMESTAMP_MAX};
     case VARCHAR:
       return {type_id, nullptr, 0, false};
     default:
@@ -296,4 +296,4 @@ auto Type::GetStorageSize(const Value &val __attribute__((unused))) const -> uin
   throw NotImplementedException("GetStorageSize not implemented");
 }
 
-}  // namespace bustub
+}  // namespace vdbms

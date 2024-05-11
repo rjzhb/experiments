@@ -12,7 +12,7 @@
 #include "execution/plans/window_plan.h"
 #include "planner/planner.h"
 
-namespace bustub {
+namespace vdbms {
 // NOLINTNEXTLINE - weird error on clang-tidy.
 auto Planner::GetAggCallFromFactory(const std::string &func_name, std::vector<AbstractExpressionRef> args)
     -> std::tuple<AggregationType, std::vector<AbstractExpressionRef>> {
@@ -146,4 +146,4 @@ auto Planner::PlanFuncCall(const BoundFuncCall &expr, const std::vector<Abstract
   return GetFuncCallFromFactory(expr.func_name_, std::move(args));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

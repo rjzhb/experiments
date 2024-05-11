@@ -10,7 +10,7 @@
 #include "recovery/log_record.h"
 #include "storage/disk/disk_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * LogManager maintains a separate thread that is awakened whenever the log buffer is full or whenever a timeout
@@ -61,4 +61,4 @@ class LogManager {
   DiskManager *disk_manager_ __attribute__((__unused__));
 };
 
-}  // namespace bustub
+}  // namespace vdbms

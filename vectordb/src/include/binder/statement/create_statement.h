@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/create_statement.h
 //
@@ -17,7 +17,7 @@ namespace duckdb_libpgquery {
 struct PGCreateStmt;
 }  // namespace duckdb_libpgquery
 
-namespace bustub {
+namespace vdbms {
 
 class CreateStatement : public BoundStatement {
  public:
@@ -30,4 +30,4 @@ class CreateStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

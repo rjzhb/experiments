@@ -11,7 +11,7 @@
 #include "storage/table/tuple.h"
 #include "type/type.h"
 
-#define BUSTUB_EXPR_CLONE_WITH_CHILDREN(cname)                                                                   \
+#define vdbms_EXPR_CLONE_WITH_CHILDREN(cname)                                                                   \
   auto CloneWithChildren(std::vector<AbstractExpressionRef> children) const->std::unique_ptr<AbstractExpression> \
       override {                                                                                                 \
     auto expr = cname(*this);                                                                                    \
@@ -19,7 +19,7 @@
     return std::make_unique<cname>(std::move(expr));                                                             \
   }
 
-namespace bustub {
+namespace vdbms {
 
 class AbstractExpression;
 using AbstractExpressionRef = std::shared_ptr<AbstractExpression>;
@@ -80,10 +80,10 @@ class AbstractExpression {
   Column ret_type_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::AbstractExpression, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::AbstractExpression, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const T &x, FormatCtx &ctx) const {
@@ -92,7 +92,7 @@ struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::AbstractExpres
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::AbstractExpression, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::AbstractExpression, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::unique_ptr<T> &x, FormatCtx &ctx) const {
@@ -104,7 +104,7 @@ struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustu
 };
 
 template <typename T>
-struct fmt::formatter<std::shared_ptr<T>, std::enable_if_t<std::is_base_of<bustub::AbstractExpression, T>::value, char>>
+struct fmt::formatter<std::shared_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::AbstractExpression, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::shared_ptr<T> &x, FormatCtx &ctx) const {

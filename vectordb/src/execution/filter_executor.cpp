@@ -2,7 +2,7 @@
 #include "common/exception.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 FilterExecutor::FilterExecutor(ExecutorContext *exec_ctx, const FilterPlanNode *plan,
                                std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -31,4 +31,4 @@ auto FilterExecutor::Next(Tuple *tuple, RID *rid) -> bool {
   }
 }
 
-}  // namespace bustub
+}  // namespace vdbms

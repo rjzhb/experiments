@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // channel.h
 //
@@ -17,7 +17,7 @@
 #include <queue>
 #include <utility>
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Channels allow for safe sharing of data between threads. This is a multi-producer multi-consumer channel.
@@ -56,4 +56,4 @@ class Channel {
   std::condition_variable cv_;
   std::queue<T> q_;
 };
-}  // namespace bustub
+}  // namespace vdbms

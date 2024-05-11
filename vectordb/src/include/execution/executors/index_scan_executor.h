@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // index_scan_executor.h
 //
@@ -20,7 +20,7 @@
 #include "execution/plans/index_scan_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * IndexScanExecutor executes an index scan over a table.
@@ -45,4 +45,4 @@ class IndexScanExecutor : public AbstractExecutor {
   /** The index scan plan node to be executed. */
   const IndexScanPlanNode *plan_;
 };
-}  // namespace bustub
+}  // namespace vdbms

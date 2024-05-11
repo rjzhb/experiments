@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-namespace bustub {
+namespace vdbms {
 
 // Interface of a memory pool that can quickly allocate chunks of memory
 class AbstractPool {
@@ -26,4 +26,4 @@ class AbstractPool {
   virtual void Free(void *ptr) = 0;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

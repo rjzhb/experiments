@@ -1,8 +1,8 @@
 add_library(
-  bustub_recovery
+  vdbms_recovery
   OBJECT
   log_manager.cpp)
 
 set(ALL_OBJECT_FILES
-  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_recovery>
+  ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_recovery>
   PARENT_SCOPE)

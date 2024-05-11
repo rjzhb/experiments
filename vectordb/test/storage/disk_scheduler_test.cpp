@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // disk_manager_test.cpp
 //
@@ -19,14 +19,14 @@
 #include "storage/disk/disk_manager_memory.h"
 #include "storage/disk/disk_scheduler.h"
 
-namespace bustub {
+namespace vdbms {
 
-using bustub::DiskManagerUnlimitedMemory;
+using vdbms::DiskManagerUnlimitedMemory;
 
 // NOLINTNEXTLINE
 TEST(DiskSchedulerTest, DISABLED_ScheduleWriteReadPageTest) {
-  char buf[BUSTUB_PAGE_SIZE] = {0};
-  char data[BUSTUB_PAGE_SIZE] = {0};
+  char buf[vdbms_PAGE_SIZE] = {0};
+  char data[vdbms_PAGE_SIZE] = {0};
 
   auto dm = std::make_unique<DiskManagerUnlimitedMemory>();
   auto disk_scheduler = std::make_unique<DiskScheduler>(dm.get());
@@ -49,4 +49,4 @@ TEST(DiskSchedulerTest, DISABLED_ScheduleWriteReadPageTest) {
   dm->ShutDown();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

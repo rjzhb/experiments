@@ -15,7 +15,7 @@
 #include "buffer/buffer_pool_manager.h"
 #include "catalog/schema.h"
 #include "catalog/table_generator.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/config.h"
 #include "common/exception.h"
 #include "common/util/string_util.h"
@@ -38,14 +38,14 @@
 #include "storage/disk/disk_manager_memory.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
-auto BustubInstance::MakeExecutorContext(Transaction *txn, bool is_modify) -> std::unique_ptr<ExecutorContext> {
+auto vdbmsInstance::MakeExecutorContext(Transaction *txn, bool is_modify) -> std::unique_ptr<ExecutorContext> {
   return std::make_unique<ExecutorContext>(txn, catalog_.get(), buffer_pool_manager_.get(), txn_manager_.get(),
 										   lock_manager_.get(), is_modify);
 }
 
-BustubInstance::BustubInstance(const std::string &db_file_name, size_t bpm_size) {
+vdbmsInstance::vdbmsInstance(const std::string &db_file_name, size_t bpm_size) {
   enable_logging = false;
 
   // Storage related.
@@ -98,7 +98,7 @@ BustubInstance::BustubInstance(const std::string &db_file_name, size_t bpm_size)
   execution_engine_ = std::make_unique<ExecutionEngine>(buffer_pool_manager_.get(), txn_manager_.get(), catalog_.get());
 }
 
-BustubInstance::BustubInstance(size_t bpm_size) {
+vdbmsInstance::vdbmsInstance(size_t bpm_size) {
   enable_logging = false;
 
   // Storage related.
@@ -149,13 +149,13 @@ BustubInstance::BustubInstance(size_t bpm_size) {
   execution_engine_ = std::make_unique<ExecutionEngine>(buffer_pool_manager_.get(), txn_manager_.get(), catalog_.get());
 }
 
-void BustubInstance::CmdDbgMvcc(const std::vector<std::string> &params, ResultWriter &writer) {
+void vdbmsInstance::CmdDbgMvcc(const std::vector<std::string> &params, ResultWriter &writer) {
   if (params.size() != 2) {
 	writer.OneCell("please provide a table name");
 	return;
   }
   const auto &table = params[1];
-  writer.OneCell("please view the result in the BusTub console (or Chrome DevTools console), table=" + table);
+  writer.OneCell("please view the result in the vdbms console (or Chrome DevTools console), table=" + table);
   std::shared_lock<std::shared_mutex> lck(catalog_lock_);
   auto table_info = catalog_->GetTable(table);
   if (table_info == nullptr) {
@@ -165,7 +165,7 @@ void BustubInstance::CmdDbgMvcc(const std::vector<std::string> &params, ResultWr
   TxnMgrDbg("\\dbgmvcc", txn_manager_.get(), table_info, table_info->table_.get());
 }
 
-void BustubInstance::CmdDisplayTables(ResultWriter &writer) {
+void vdbmsInstance::CmdDisplayTables(ResultWriter &writer) {
   auto table_names = catalog_->GetTableNames();
   writer.BeginTable(false);
   writer.BeginHeader();
@@ -184,7 +184,7 @@ void BustubInstance::CmdDisplayTables(ResultWriter &writer) {
   writer.EndTable();
 }
 
-void BustubInstance::CmdDisplayIndices(ResultWriter &writer) {
+void vdbmsInstance::CmdDisplayIndices(ResultWriter &writer) {
   auto table_names = catalog_->GetTableNames();
   writer.BeginTable(false);
   writer.BeginHeader();
@@ -206,10 +206,10 @@ void BustubInstance::CmdDisplayIndices(ResultWriter &writer) {
   writer.EndTable();
 }
 
-void BustubInstance::WriteOneCell(const std::string &cell, ResultWriter &writer) { writer.OneCell(cell); }
+void vdbmsInstance::WriteOneCell(const std::string &cell, ResultWriter &writer) { writer.OneCell(cell); }
 
-void BustubInstance::CmdDisplayHelp(ResultWriter &writer) {
-  std::string help = R"(Welcome to the BusTub shell!
+void vdbmsInstance::CmdDisplayHelp(ResultWriter &writer) {
+  std::string help = R"(Welcome to the vdbms shell!
 
 \dt: show all tables
 \di: show all indices
@@ -220,7 +220,7 @@ void BustubInstance::CmdDisplayHelp(ResultWriter &writer) {
 \txn gc: run garbage collection
 \txn -1: exit txn mode
 
-BusTub shell currently only supports a small set of Postgres queries. We'll set
+vdbms shell currently only supports a small set of Postgres queries. We'll set
 up a doc describing the current status later. It will silently ignore some parts
 of the query, so it's normal that you'll get a wrong result when executing
 unsupported SQL queries. This shell will be able to run `create table` only
@@ -233,7 +233,7 @@ see the execution plan of your query.
 
 // 在数据库实例上执行给定的SQL语句。
 // 这个方法负责管理事务的生命周期（如果需要），并处理SQL执行过程中可能出现的异常。
-auto BustubInstance::ExecuteSql(const std::string &sql,
+auto vdbmsInstance::ExecuteSql(const std::string &sql,
 								ResultWriter &writer,
 								std::shared_ptr<CheckOptions> check_options) -> bool {
   // 检查当前是否有活动的事务。
@@ -254,7 +254,7 @@ auto BustubInstance::ExecuteSql(const std::string &sql,
 	}
 	// 返回SQL执行的结果。
 	return result;
-  } catch (bustub::Exception &ex) {
+  } catch (vdbms::Exception &ex) {
 	// 如果在SQL执行过程中发生异常，中止事务，并清理当前事务指针，然后重新抛出异常。
 	txn_manager_->Abort(txn);
 	current_txn_ = nullptr;
@@ -263,7 +263,7 @@ auto BustubInstance::ExecuteSql(const std::string &sql,
 }
 
 // 在特定事务环境下执行SQL语句，处理内部命令和标准SQL查询。
-auto BustubInstance::ExecuteSqlTxn(const std::string &sql,
+auto vdbmsInstance::ExecuteSqlTxn(const std::string &sql,
 								   ResultWriter &writer,
 								   Transaction *txn,
 								   std::shared_ptr<CheckOptions> check_options) -> bool {
@@ -301,7 +301,7 @@ auto BustubInstance::ExecuteSqlTxn(const std::string &sql,
   // 获取对目录的共享锁
   std::shared_lock<std::shared_mutex> l(catalog_lock_);
   // 绑定和解析SQL语句
-  bustub::Binder binder(*catalog_);
+  vdbms::Binder binder(*catalog_);
   binder.ParseAndSave(sql);
   l.unlock(); // 解锁目录
 
@@ -354,11 +354,11 @@ auto BustubInstance::ExecuteSqlTxn(const std::string &sql,
 	std::shared_lock<std::shared_mutex> l(catalog_lock_);
 
 	// 规划查询
-	bustub::Planner planner(*catalog_);
+	vdbms::Planner planner(*catalog_);
 	planner.PlanQuery(*statement);
 
 	// 优化查询
-	bustub::Optimizer optimizer(*catalog_, session_variables_);
+	vdbms::Optimizer optimizer(*catalog_, session_variables_);
 	auto optimized_plan = optimizer.Optimize(planner.plan_);
 
 	l.unlock(); // 解锁目录
@@ -398,11 +398,11 @@ auto BustubInstance::ExecuteSqlTxn(const std::string &sql,
 
 
 /**
- * FOR TEST ONLY. Generate test tables in this BusTub instance.
+ * FOR TEST ONLY. Generate test tables in this vdbms instance.
  * It's used in the shell to predefine some tables, as we don't support
  * create / drop table and insert for now. Should remove it in the future.
  */
-void BustubInstance::GenerateTestTable() {
+void vdbmsInstance::GenerateTestTable() {
   auto *txn = txn_manager_->Begin();
   auto exec_ctx = MakeExecutorContext(txn, false);
   TableGenerator gen{exec_ctx.get()};
@@ -415,11 +415,11 @@ void BustubInstance::GenerateTestTable() {
 }
 
 /**
- * FOR TEST ONLY. Generate test tables in this BusTub instance.
+ * FOR TEST ONLY. Generate test tables in this vdbms instance.
  * It's used in the shell to predefine some tables, as we don't support
  * create / drop table and insert for now. Should remove it in the future.
  */
-void BustubInstance::GenerateMockTable() {
+void vdbmsInstance::GenerateMockTable() {
   // The actual content generated by mock scan executors are described in `mock_scan_executor.cpp`.
   auto txn = txn_manager_->Begin();
 
@@ -432,22 +432,22 @@ void BustubInstance::GenerateMockTable() {
   txn_manager_->Commit(txn);
 }
 
-BustubInstance::~BustubInstance() {
+vdbmsInstance::~vdbmsInstance() {
   if (enable_logging) {
 	log_manager_->StopFlushThread();
   }
 }
 
-/** Enable managed txn mode on this BusTub instance, allowing statements like `BEGIN`. */
-void BustubInstance::EnableManagedTxn() { managed_txn_mode_ = true; }
+/** Enable managed txn mode on this vdbms instance, allowing statements like `BEGIN`. */
+void vdbmsInstance::EnableManagedTxn() { managed_txn_mode_ = true; }
 
 /** Get the current transaction. */
-auto BustubInstance::CurrentManagedTxn() -> Transaction * { return current_txn_; }
+auto vdbmsInstance::CurrentManagedTxn() -> Transaction * { return current_txn_; }
 
-void BustubInstance::CmdTxn(const std::vector<std::string> &params,
+void vdbmsInstance::CmdTxn(const std::vector<std::string> &params,
 							ResultWriter &writer) {
   if (!managed_txn_mode_) {
-	writer.OneCell("only supported in managed mode, please use bustub-shell");
+	writer.OneCell("only supported in managed mode, please use vdbms-shell");
 	return;
   }
   auto dump_current_txn = [&](const std::string &prefix) {
@@ -492,4 +492,4 @@ void BustubInstance::CmdTxn(const std::vector<std::string> &params,
   writer.OneCell("unsupported txn cmd.");
 }
 
-}  // namespace bustub
+}  // namespace vdbms

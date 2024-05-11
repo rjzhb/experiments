@@ -10,7 +10,7 @@
 #include "binder/bound_table_ref.h"
 #include "binder/statement/select_statement.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto SelectStatement::ToString() const -> std::string {
   return fmt::format(
@@ -21,4 +21,4 @@ auto SelectStatement::ToString() const -> std::string {
       StringUtil::IndentAllLines(fmt::format("{}", fmt::join(ctes_, ",\n")), 2, true));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

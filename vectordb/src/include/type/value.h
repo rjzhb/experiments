@@ -11,7 +11,7 @@
 #include "type/limits.h"
 #include "type/type.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Column;
 
@@ -37,7 +37,7 @@ class Value {
   friend class VectorType;
 
  public:
-  explicit Value(const TypeId type) : manage_data_(false), type_id_(type) { size_.len_ = BUSTUB_VALUE_NULL; }
+  explicit Value(const TypeId type) : manage_data_(false), type_id_(type) { size_.len_ = vdbms_VALUE_NULL; }
   // BOOLEAN and TINYINT
   Value(TypeId type, int8_t i);
   // DECIMAL
@@ -131,7 +131,7 @@ class Value {
 
   inline auto OperateNull(const Value &o) const -> Value { return Type::GetInstance(type_id_)->OperateNull(*this, o); }
   inline auto IsZero() const -> bool { return Type::GetInstance(type_id_)->IsZero(*this); }
-  inline auto IsNull() const -> bool { return size_.len_ == BUSTUB_VALUE_NULL; }
+  inline auto IsNull() const -> bool { return size_.len_ == vdbms_VALUE_NULL; }
 
   // Serialize this value into the given storage space. The inlined parameter
   // indicates whether we are allowed to inline this value into the storage
@@ -174,22 +174,22 @@ class Value {
   // The data type
   TypeId type_id_;
 };
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::Value, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::Value, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const bustub::Value &x, FormatCtx &ctx) const {
+  auto format(const vdbms::Value &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x.ToString(), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::Value, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::Value, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const std::unique_ptr<bustub::Value> &x, FormatCtx &ctx) const {
+  auto format(const std::unique_ptr<vdbms::Value> &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x->ToString(), ctx);
   }
 };

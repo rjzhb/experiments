@@ -28,7 +28,7 @@
 #include "storage/page/b_plus_tree_leaf_page.h"
 #include "storage/page/page_guard.h"
 
-namespace bustub {
+namespace vdbms {
 
 struct PrintableBPlusTree;
 
@@ -187,4 +187,4 @@ struct PrintableBPlusTree {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

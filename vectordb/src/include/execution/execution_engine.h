@@ -12,7 +12,7 @@
 #include "execution/plans/abstract_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The ExecutionEngine 类负责执行查询计划。
@@ -45,7 +45,7 @@ class ExecutionEngine {
 			   std::vector<Tuple> *result_set,
 			   Transaction *txn,
 			   ExecutorContext *exec_ctx) -> bool {
-	BUSTUB_ASSERT((txn == exec_ctx->GetTransaction()), "Invariant violation: Transaction mismatch.");
+	vdbms_ASSERT((txn == exec_ctx->GetTransaction()), "Invariant violation: Transaction mismatch.");
 
 	// 为抽象计划节点构造执行器
 	auto executor = ExecutorFactory::CreateExecutor(exec_ctx, plan);
@@ -77,7 +77,7 @@ class ExecutionEngine {
 	  auto casted_left_executor = dynamic_cast<const InitCheckExecutor *>(left_executor);
 	  auto casted_right_executor = dynamic_cast<const InitCheckExecutor *>(right_executor);
 	  // 断言检查初始化次数和下一次计数之间的关系
-	  BUSTUB_ASSERT(casted_right_executor->GetInitCount() + 1 >= casted_left_executor->GetNextCount(),
+	  vdbms_ASSERT(casted_right_executor->GetInitCount() + 1 >= casted_left_executor->GetNextCount(),
 					"NLJ check failed: Are you initializing the right executor every time there is a left tuple? "
 					"(off-by-one is acceptable)");
 	}
@@ -107,4 +107,4 @@ class ExecutionEngine {
   [[maybe_unused]] Catalog *catalog_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

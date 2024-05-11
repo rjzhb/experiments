@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // generic_key.h
 //
@@ -17,7 +17,7 @@
 #include "storage/table/tuple.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Generic key is used for indexing with opaque data.
@@ -103,4 +103,4 @@ class GenericComparator {
   Schema *key_schema_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

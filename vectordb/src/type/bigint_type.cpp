@@ -4,7 +4,7 @@
 #include <string>
 
 #include "type/bigint_type.h"
-namespace bustub {
+namespace vdbms {
 #define BIGINT_COMPARE_FUNC(OP)                                           \
   switch (right.GetTypeId()) {                                            \
     case TypeId::TINYINT:                                                 \
@@ -141,7 +141,7 @@ auto BigintType::Modulo(const Value &left, const Value &right) const -> Value {
 auto BigintType::Sqrt(const Value &val) const -> Value {
   assert(val.CheckInteger());
   if (val.IsNull()) {
-    return {TypeId::DECIMAL, BUSTUB_DECIMAL_NULL};
+    return {TypeId::DECIMAL, vdbms_DECIMAL_NULL};
   }
 
   if (val.value_.bigint_ < 0) {
@@ -156,9 +156,9 @@ auto BigintType::OperateNull(const Value &left __attribute__((unused)), const Va
     case TypeId::SMALLINT:
     case TypeId::INTEGER:
     case TypeId::BIGINT:
-      return {TypeId::BIGINT, static_cast<int64_t>(BUSTUB_INT64_NULL)};
+      return {TypeId::BIGINT, static_cast<int64_t>(vdbms_INT64_NULL)};
     case TypeId::DECIMAL:
-      return {TypeId::DECIMAL, static_cast<double>(BUSTUB_DECIMAL_NULL)};
+      return {TypeId::DECIMAL, static_cast<double>(vdbms_DECIMAL_NULL)};
     default:
       break;
   }
@@ -262,27 +262,27 @@ auto BigintType::CastAs(const Value &val, const TypeId type_id) const -> Value {
   switch (type_id) {
     case TypeId::TINYINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT8_NULL};
+        return {type_id, vdbms_INT8_NULL};
       }
-      if (val.GetAs<int64_t>() > BUSTUB_INT8_MAX || val.GetAs<int64_t>() < BUSTUB_INT8_MIN) {
+      if (val.GetAs<int64_t>() > vdbms_INT8_MAX || val.GetAs<int64_t>() < vdbms_INT8_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int8_t>(val.GetAs<int64_t>())};
     }
     case TypeId::SMALLINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT16_NULL};
+        return {type_id, vdbms_INT16_NULL};
       }
-      if (val.GetAs<int64_t>() > BUSTUB_INT16_MAX || val.GetAs<int64_t>() < BUSTUB_INT16_MIN) {
+      if (val.GetAs<int64_t>() > vdbms_INT16_MAX || val.GetAs<int64_t>() < vdbms_INT16_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int16_t>(val.GetAs<int64_t>())};
     }
     case TypeId::INTEGER: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT32_NULL};
+        return {type_id, vdbms_INT32_NULL};
       }
-      if (val.GetAs<int64_t>() > BUSTUB_INT32_MAX || val.GetAs<int64_t>() < BUSTUB_INT32_MIN) {
+      if (val.GetAs<int64_t>() > vdbms_INT32_MAX || val.GetAs<int64_t>() < vdbms_INT32_MIN) {
         throw Exception(ExceptionType::OUT_OF_RANGE, "Numeric value out of range.");
       }
       return {type_id, static_cast<int32_t>(val.GetAs<int64_t>())};
@@ -290,14 +290,14 @@ auto BigintType::CastAs(const Value &val, const TypeId type_id) const -> Value {
 
     case TypeId::BIGINT: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_INT64_NULL};
+        return {type_id, vdbms_INT64_NULL};
       }
       return Copy(val);
     }
 
     case TypeId::DECIMAL: {
       if (val.IsNull()) {
-        return {type_id, BUSTUB_DECIMAL_NULL};
+        return {type_id, vdbms_DECIMAL_NULL};
       }
       return {type_id, static_cast<double>(val.GetAs<int64_t>())};
     }
@@ -313,4 +313,4 @@ auto BigintType::CastAs(const Value &val, const TypeId type_id) const -> Value {
   }
   throw Exception("bigint is not coercable to " + Type::TypeIdToString(type_id));
 }
-}  // namespace bustub
+}  // namespace vdbms

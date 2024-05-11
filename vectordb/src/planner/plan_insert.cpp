@@ -22,7 +22,7 @@
 #include "planner/planner.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Planner::PlanInsert(const InsertStatement &statement) -> AbstractPlanNodeRef {
   // 规划插入操作
@@ -33,11 +33,11 @@ auto Planner::PlanInsert(const InsertStatement &statement) -> AbstractPlanNodeRe
   const auto &child_schema = select->OutputSchema().GetColumns();
   if (!std::equal(table_schema.cbegin(), table_schema.cend(), child_schema.cbegin(), child_schema.cend(),
 				  [](auto &&col1, auto &&col2) { return col1.GetType() == col2.GetType(); })) {
-	throw bustub::Exception("table schema mismatch");
+	throw vdbms::Exception("table schema mismatch");
   }
 
   // 创建插入操作的模式
-  auto insert_schema = std::make_shared<Schema>(std::vector{Column("__bustub_internal.insert_rows", TypeId::INTEGER)});
+  auto insert_schema = std::make_shared<Schema>(std::vector{Column("__vdbms_internal.insert_rows", TypeId::INTEGER)});
 
   // 返回插入操作的执行计划节点
   return std::make_shared<InsertPlanNode>(std::move(insert_schema), std::move(select), statement.table_->oid_);
@@ -48,7 +48,7 @@ auto Planner::PlanDelete(const DeleteStatement &statement) -> AbstractPlanNodeRe
   auto table = PlanTableRef(*statement.table_);
   auto [_, condition] = PlanExpression(*statement.expr_, {table});
   auto filter = std::make_shared<FilterPlanNode>(table->output_schema_, std::move(condition), std::move(table));
-  auto delete_schema = std::make_shared<Schema>(std::vector{Column("__bustub_internal.delete_rows", TypeId::INTEGER)});
+  auto delete_schema = std::make_shared<Schema>(std::vector{Column("__vdbms_internal.delete_rows", TypeId::INTEGER)});
 
   // 返回删除操作的执行计划节点
   return std::make_shared<DeletePlanNode>(std::move(delete_schema), std::move(filter), statement.table_->oid_);
@@ -82,12 +82,12 @@ auto Planner::PlanUpdate(const UpdateStatement &statement) -> AbstractPlanNodeRe
   }
 
   // 创建更新操作的模式
-  auto update_schema = std::make_shared<Schema>(std::vector{Column("__bustub_internal.update_rows", TypeId::INTEGER)});
+  auto update_schema = std::make_shared<Schema>(std::vector{Column("__vdbms_internal.update_rows", TypeId::INTEGER)});
 
   // 返回更新操作的执行计划节点
   return std::make_shared<UpdatePlanNode>(std::move(update_schema), std::move(filter), statement.table_->oid_,
 										  std::move(target_exprs));
 }
 
-}  // namespace bustub
+}  // namespace vdbms
 

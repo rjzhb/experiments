@@ -4,7 +4,7 @@
 #include "type/abstract_pool.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class TimestampType : public Type {
  public:
@@ -42,4 +42,4 @@ class TimestampType : public Type {
   auto CastAs(const Value &val, TypeId type_id) const -> Value override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

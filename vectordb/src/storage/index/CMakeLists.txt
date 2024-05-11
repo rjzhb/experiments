@@ -1,5 +1,5 @@
 add_library(
-    bustub_storage_index
+    vdbms_storage_index
     OBJECT
     b_plus_tree_index.cpp
     b_plus_tree.cpp
@@ -10,5 +10,5 @@ add_library(
     hnsw_index.cpp)
 
 set(ALL_OBJECT_FILES
-    ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:bustub_storage_disk>
+    ${ALL_OBJECT_FILES} $<TARGET_OBJECTS:vdbms_storage_disk>
     PARENT_SCOPE)

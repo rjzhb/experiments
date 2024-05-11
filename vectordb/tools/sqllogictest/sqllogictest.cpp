@@ -9,7 +9,7 @@
 #include <utility>
 
 #include "argparse/argparse.hpp"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/exception.h"
 #include "common/util/string_util.h"
 #include "execution/check_options.h"
@@ -22,7 +22,7 @@ auto SplitLines(const std::string &lines) -> std::vector<std::string> {
   std::vector<std::string> result;
   std::string line;
   while (std::getline(linestream, line, '\n')) {
-    bustub::StringUtil::RTrim(&line);
+    vdbms::StringUtil::RTrim(&line);
     if (!line.empty()) {
       result.emplace_back(std::exchange(line, std::string{}));
     }
@@ -30,11 +30,11 @@ auto SplitLines(const std::string &lines) -> std::vector<std::string> {
   return result;
 }
 
-auto ResultCompare(const std::string &produced_result, const std::string &expected_result, bustub::SortMode sort_mode,
+auto ResultCompare(const std::string &produced_result, const std::string &expected_result, vdbms::SortMode sort_mode,
                    bool dump_diff) -> bool {
   auto a_lines = SplitLines(produced_result);
   auto b_lines = SplitLines(expected_result);
-  if (sort_mode == bustub::SortMode::ROWSORT) {
+  if (sort_mode == vdbms::SortMode::ROWSORT) {
     std::sort(a_lines.begin(), a_lines.end());
     std::sort(b_lines.begin(), b_lines.end());
   }
@@ -42,7 +42,7 @@ auto ResultCompare(const std::string &produced_result, const std::string &expect
   if (!cmp_result && dump_diff) {
     std::ofstream r("result.log", std::ios_base::out | std::ios_base::trunc);
     if (!r) {
-      throw bustub::Exception("cannot open file");
+      throw vdbms::Exception("cannot open file");
     }
     for (const auto &x : a_lines) {
       r << x << std::endl;
@@ -51,7 +51,7 @@ auto ResultCompare(const std::string &produced_result, const std::string &expect
 
     std::ofstream e("expected.log", std::ios_base::out | std::ios_base::trunc);
     if (!e) {
-      throw bustub::Exception("cannot open file");
+      throw vdbms::Exception("cannot open file");
     }
     for (const auto &x : b_lines) {
       e << x << std::endl;
@@ -62,93 +62,93 @@ auto ResultCompare(const std::string &produced_result, const std::string &expect
   return cmp_result;
 }
 
-auto ProcessExtraOptions(const std::string &sql, bustub::BustubInstance &instance,
+auto ProcessExtraOptions(const std::string &sql, vdbms::vdbmsInstance &instance,
                          const std::vector<std::string> &extra_options, bool verbose,
-                         std::shared_ptr<bustub::CheckOptions> &check_options) -> bool {
+                         std::shared_ptr<vdbms::CheckOptions> &check_options) -> bool {
   for (const auto &opt : extra_options) {
-    if (bustub::StringUtil::StartsWith(opt, "ensure:")) {
+    if (vdbms::StringUtil::StartsWith(opt, "ensure:")) {
       std::stringstream result;
-      auto writer = bustub::SimpleStreamWriter(result);
+      auto writer = vdbms::SimpleStreamWriter(result);
       instance.ExecuteSql("explain " + sql, writer);
 
       if (opt == "ensure:index_scan") {
-        if (!bustub::StringUtil::Contains(result.str(), "IndexScan")) {
+        if (!vdbms::StringUtil::Contains(result.str(), "IndexScan")) {
           fmt::print("IndexScan not found\n");
           return false;
         }
       } else if (opt == "ensure:seq_scan") {
-        if (bustub::StringUtil::Contains(result.str(), "IndexScan") ||
-            bustub::StringUtil::ContainsAfter("OPTIMIZER", result.str(), "Filter")) {
+        if (vdbms::StringUtil::Contains(result.str(), "IndexScan") ||
+            vdbms::StringUtil::ContainsAfter("OPTIMIZER", result.str(), "Filter")) {
           fmt::print("SeqScan on not indexed columns\n");
           return false;
         }
       } else if (opt == "ensure:hash_join") {
-        if (bustub::StringUtil::Split(result.str(), "HashJoin").size() != 2 &&
-            !bustub::StringUtil::Contains(result.str(), "Filter")) {
+        if (vdbms::StringUtil::Split(result.str(), "HashJoin").size() != 2 &&
+            !vdbms::StringUtil::Contains(result.str(), "Filter")) {
           fmt::print("HashJoin not found\n");
           return false;
         }
       } else if (opt == "ensure:hash_join_no_filter") {
-        if (bustub::StringUtil::Split(result.str(), "HashJoin").size() != 2 ||
-            bustub::StringUtil::ContainsAfter("OPTIMIZER", result.str(), "Filter")) {
+        if (vdbms::StringUtil::Split(result.str(), "HashJoin").size() != 2 ||
+            vdbms::StringUtil::ContainsAfter("OPTIMIZER", result.str(), "Filter")) {
           fmt::print("Push all filters into HashJoin\n");
           return false;
         }
       } else if (opt == "ensure:hash_join*2") {
-        if (bustub::StringUtil::Split(result.str(), "HashJoin").size() != 3 &&
-            !bustub::StringUtil::Contains(result.str(), "Filter")) {
+        if (vdbms::StringUtil::Split(result.str(), "HashJoin").size() != 3 &&
+            !vdbms::StringUtil::Contains(result.str(), "Filter")) {
           fmt::print("HashJoin should appear exactly twice\n");
           return false;
         }
       } else if (opt == "ensure:hash_join*3") {
-        if (bustub::StringUtil::Split(result.str(), "HashJoin").size() != 4 &&
-            !bustub::StringUtil::Contains(result.str(), "Filter")) {
+        if (vdbms::StringUtil::Split(result.str(), "HashJoin").size() != 4 &&
+            !vdbms::StringUtil::Contains(result.str(), "Filter")) {
           fmt::print("HashJoin should appear exactly thrice\n");
           return false;
         }
       } else if (opt == "ensure:topn") {
-        if (!bustub::StringUtil::Contains(result.str(), "TopN")) {
+        if (!vdbms::StringUtil::Contains(result.str(), "TopN")) {
           fmt::print("TopN not found\n");
           return false;
         }
-        check_options->check_options_set_.emplace(bustub::CheckOption::ENABLE_TOPN_CHECK);
+        check_options->check_options_set_.emplace(vdbms::CheckOption::ENABLE_TOPN_CHECK);
       } else if (opt == "ensure:topn*2") {
-        if (bustub::StringUtil::Split(result.str(), "TopN").size() != 3) {
+        if (vdbms::StringUtil::Split(result.str(), "TopN").size() != 3) {
           fmt::print("TopN should appear exactly twice\n");
           return false;
         }
-        check_options->check_options_set_.emplace(bustub::CheckOption::ENABLE_TOPN_CHECK);
+        check_options->check_options_set_.emplace(vdbms::CheckOption::ENABLE_TOPN_CHECK);
       } else if (opt == "ensure:index_join") {
-        if (!bustub::StringUtil::Contains(result.str(), "NestedIndexJoin")) {
+        if (!vdbms::StringUtil::Contains(result.str(), "NestedIndexJoin")) {
           fmt::print("NestedIndexJoin not found\n");
           return false;
         }
       } else if (opt == "ensure:nlj_init_check") {
-        if (!bustub::StringUtil::Contains(result.str(), "NestedLoopJoin")) {
+        if (!vdbms::StringUtil::Contains(result.str(), "NestedLoopJoin")) {
           fmt::print("NestedLoopJoin not found\n");
           return false;
         }
-        check_options->check_options_set_.emplace(bustub::CheckOption::ENABLE_NLJ_CHECK);
+        check_options->check_options_set_.emplace(vdbms::CheckOption::ENABLE_NLJ_CHECK);
       } else {
-        throw bustub::NotImplementedException(fmt::format("unsupported extra option: {}", opt));
+        throw vdbms::NotImplementedException(fmt::format("unsupported extra option: {}", opt));
       }
-    } else if (bustub::StringUtil::StartsWith(opt, "timing")) {
-      auto args = bustub::StringUtil::Split(opt, ":");
+    } else if (vdbms::StringUtil::StartsWith(opt, "timing")) {
+      auto args = vdbms::StringUtil::Split(opt, ":");
       auto iter = args.cbegin() + 1;
       int repeat = 1;
       std::string label;
       for (; iter != args.cend(); iter++) {
-        if (bustub::StringUtil::StartsWith(*iter, "x")) {
+        if (vdbms::StringUtil::StartsWith(*iter, "x")) {
           repeat = std::stoi(std::string(iter->cbegin() + 1, iter->cend()));
-        } else if (bustub::StringUtil::StartsWith(*iter, ".")) {
+        } else if (vdbms::StringUtil::StartsWith(*iter, ".")) {
           label = std::string(iter->cbegin() + 1, iter->cend());
         } else {
-          throw bustub::NotImplementedException(fmt::format("unsupported arg: {}", *iter));
+          throw vdbms::NotImplementedException(fmt::format("unsupported arg: {}", *iter));
         }
       }
       std::vector<size_t> duration;
       for (int i = 0; i < repeat; i++) {
-        auto writer = bustub::NoopWriter();
+        auto writer = vdbms::NoopWriter();
         auto clock_start = std::chrono::system_clock::now();
         instance.ExecuteSql(sql, writer);
         auto clock_end = std::chrono::system_clock::now();
@@ -165,9 +165,9 @@ auto ProcessExtraOptions(const std::string &sql, bustub::BustubInstance &instanc
       fmt::print("\n");
       fmt::print(">>>END\n");
       std::fflush(stdout);
-    } else if (bustub::StringUtil::StartsWith(opt, "explain")) {
-      auto writer = bustub::SimpleStreamWriter(std::cout);
-      auto x = bustub::StringUtil::Split(opt, "explain:");
+    } else if (vdbms::StringUtil::StartsWith(opt, "explain")) {
+      auto writer = vdbms::SimpleStreamWriter(std::cout);
+      auto x = vdbms::StringUtil::Split(opt, "explain:");
       if (!x.empty() && !x[0].empty()) {
         instance.ExecuteSql(fmt::format("explain ({}) {}", x[0], sql), writer);
       } else {
@@ -175,7 +175,7 @@ auto ProcessExtraOptions(const std::string &sql, bustub::BustubInstance &instanc
       }
       std::cout << std::flush;
     } else {
-      throw bustub::NotImplementedException(fmt::format("unsupported extra option: {}", opt));
+      throw vdbms::NotImplementedException(fmt::format("unsupported extra option: {}", opt));
     }
 
     if (verbose) {
@@ -187,7 +187,7 @@ auto ProcessExtraOptions(const std::string &sql, bustub::BustubInstance &instanc
 }
 
 auto main(int argc, char **argv) -> int {  // NOLINT
-  argparse::ArgumentParser program("bustub-sqllogictest");
+  argparse::ArgumentParser program("vdbms-sqllogictest");
   program.add_argument("file").help("the sqllogictest file to run");
   program.add_argument("--verbose").help("increase output verbosity").default_value(false).implicit_value(true);
   program.add_argument("-d", "--diff").help("write diff file").default_value(false).implicit_value(true);
@@ -214,46 +214,46 @@ auto main(int argc, char **argv) -> int {  // NOLINT
   std::string script((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
   t.close();
 
-  auto result = bustub::SQLLogicTestParser::Parse(script);
+  auto result = vdbms::SQLLogicTestParser::Parse(script);
   if (result.empty()) {
     fmt::print("This is not tested this semester\n");
     return 0;
   }
 
-  std::unique_ptr<bustub::BustubInstance> bustub;
+  std::unique_ptr<vdbms::vdbmsInstance> vdbms;
 
   if (program.get<bool>("--in-memory")) {
-    bustub = std::make_unique<bustub::BustubInstance>();
+    vdbms = std::make_unique<vdbms::vdbmsInstance>();
   } else {
-    bustub = std::make_unique<bustub::BustubInstance>("test.db");
+    vdbms = std::make_unique<vdbms::vdbmsInstance>("test.db");
   }
 
-  bustub->GenerateMockTable();
+  vdbms->GenerateMockTable();
 
-  if (bustub->buffer_pool_manager_ != nullptr) {
-    bustub->GenerateTestTable();
+  if (vdbms->buffer_pool_manager_ != nullptr) {
+    vdbms->GenerateTestTable();
   }
 
   for (const auto &record : result) {
-    auto check_options = std::make_shared<bustub::CheckOptions>();
+    auto check_options = std::make_shared<vdbms::CheckOptions>();
     fmt::print("{}\n", record->loc_);
     switch (record->type_) {
-      case bustub::RecordType::HALT: {
+      case vdbms::RecordType::HALT: {
         if (verbose) {
           fmt::print("{}\n", record->ToString());
         }
         return 0;
       }
-      case bustub::RecordType::SLEEP: {
+      case vdbms::RecordType::SLEEP: {
         if (verbose) {
           fmt::print("{}\n", record->ToString());
         }
-        const auto &sleep = dynamic_cast<const bustub::SleepRecord &>(*record);
+        const auto &sleep = dynamic_cast<const vdbms::SleepRecord &>(*record);
         std::this_thread::sleep_for(std::chrono::seconds(sleep.seconds_));
         continue;
       }
-      case bustub::RecordType::STATEMENT: {
-        const auto &statement = dynamic_cast<const bustub::StatementRecord &>(*record);
+      case vdbms::RecordType::STATEMENT: {
+        const auto &statement = dynamic_cast<const vdbms::StatementRecord &>(*record);
         if (verbose) {
           fmt::print("{}\n", statement.sql_);
           if (!statement.extra_options_.empty()) {
@@ -261,14 +261,14 @@ auto main(int argc, char **argv) -> int {  // NOLINT
           }
         }
         try {
-          if (!ProcessExtraOptions(statement.sql_, *bustub, statement.extra_options_, verbose, check_options)) {
+          if (!ProcessExtraOptions(statement.sql_, *vdbms, statement.extra_options_, verbose, check_options)) {
             fmt::print("failed to process extra options\n");
             return 1;
           }
 
           std::stringstream result;
-          auto writer = bustub::SimpleStreamWriter(result, true);
-          bustub->ExecuteSql(statement.sql_, writer, check_options);
+          auto writer = vdbms::SimpleStreamWriter(result, true);
+          vdbms->ExecuteSql(statement.sql_, writer, check_options);
           if (verbose) {
             fmt::print("----\n{}\n", result.str());
           }
@@ -276,7 +276,7 @@ auto main(int argc, char **argv) -> int {  // NOLINT
             fmt::print("statement should error\n");
             return 1;
           }
-        } catch (bustub::Exception &ex) {
+        } catch (vdbms::Exception &ex) {
           if (!statement.is_error_) {
             fmt::print("unexpected error: {}", ex.what());
             return 1;
@@ -288,8 +288,8 @@ auto main(int argc, char **argv) -> int {  // NOLINT
         }
         continue;
       }
-      case bustub::RecordType::QUERY: {
-        const auto &query = dynamic_cast<const bustub::QueryRecord &>(*record);
+      case vdbms::RecordType::QUERY: {
+        const auto &query = dynamic_cast<const vdbms::QueryRecord &>(*record);
         if (verbose) {
           fmt::print("{}\n", query.sql_);
           if (!query.extra_options_.empty()) {
@@ -297,14 +297,14 @@ auto main(int argc, char **argv) -> int {  // NOLINT
           }
         }
         try {
-          if (!ProcessExtraOptions(query.sql_, *bustub, query.extra_options_, verbose, check_options)) {
+          if (!ProcessExtraOptions(query.sql_, *vdbms, query.extra_options_, verbose, check_options)) {
             fmt::print("failed to process extra options\n");
             return 1;
           }
 
           std::stringstream result;
-          auto writer = bustub::SimpleStreamWriter(result, true, " ");
-          bustub->ExecuteSql(query.sql_, writer, check_options);
+          auto writer = vdbms::SimpleStreamWriter(result, true, " ");
+          vdbms->ExecuteSql(query.sql_, writer, check_options);
           if (verbose) {
             fmt::print("--- YOUR RESULT ---\n{}\n", result.str());
           }
@@ -321,7 +321,7 @@ auto main(int argc, char **argv) -> int {  // NOLINT
             }
             return 1;
           }
-        } catch (bustub::Exception &ex) {
+        } catch (vdbms::Exception &ex) {
           fmt::print("unexpected error: {} \n", ex.what());
           return 1;
         }
@@ -329,7 +329,7 @@ auto main(int argc, char **argv) -> int {  // NOLINT
         continue;
       }
       default:
-        throw bustub::Exception("unsupported record");
+        throw vdbms::Exception("unsupported record");
     }
   }
 

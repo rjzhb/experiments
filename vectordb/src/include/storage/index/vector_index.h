@@ -6,7 +6,7 @@
 #include "storage/index/index.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class VectorIndex : public Index {
  public:
@@ -31,4 +31,4 @@ class VectorIndex : public Index {
   VectorExpressionType distance_fn_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

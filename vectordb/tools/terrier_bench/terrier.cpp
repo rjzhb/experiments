@@ -15,7 +15,7 @@
 
 #include "argparse/argparse.hpp"
 #include "binder/binder.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/exception.h"
 #include "common/util/string_util.h"
 #include "concurrency/transaction.h"
@@ -120,10 +120,10 @@ auto ParseBool(const std::string &str) -> bool {
   if (str == "yes" || str == "true") {
     return true;
   }
-  throw bustub::Exception(fmt::format("unexpected arg: {}", str));
+  throw vdbms::Exception(fmt::format("unexpected arg: {}", str));
 }
 
-auto ExtractOneCell(const bustub::StringVectorWriter &writer) -> std::string {
+auto ExtractOneCell(const vdbms::StringVectorWriter &writer) -> std::string {
   if (writer.values_.size() == 1) {
     if (writer.values_[0].size() == 1) {
       return writer.values_[0][0];
@@ -134,7 +134,7 @@ auto ExtractOneCell(const bustub::StringVectorWriter &writer) -> std::string {
 }
 
 void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64_t duration_ms,
-                        const bustub::IsolationLevel iso_lvl, bustub::BustubInstance *bustub,
+                        const vdbms::IsolationLevel iso_lvl, vdbms::vdbmsInstance *vdbms,
                         TerrierTotalMetrics &total_metrics) {
   const int max_transfer_amount = 1000;
   std::random_device r;
@@ -147,7 +147,7 @@ void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64
 
   while (!metrics.ShouldFinish()) {
     std::stringstream ss;
-    auto writer = bustub::StringVectorWriter();
+    auto writer = vdbms::StringVectorWriter();
     int terrier_a;
     int terrier_b;
     do {
@@ -155,13 +155,13 @@ void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64
       terrier_b = terrier_uniform_dist(gen);
     } while (terrier_a == terrier_b);
     int transfer_amount = money_transfer_dist(gen);
-    auto txn = bustub->txn_manager_->Begin(iso_lvl);
+    auto txn = vdbms->txn_manager_->Begin(iso_lvl);
     std::string query1 =
         fmt::format("UPDATE terriers SET token = token + {} WHERE terrier = {}", transfer_amount, terrier_a);
     std::string query2 =
         fmt::format("UPDATE terriers SET token = token - {} WHERE terrier = {}", transfer_amount, terrier_b);
-    if (!bustub->ExecuteSqlTxn(query1, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(query1, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
@@ -170,8 +170,8 @@ void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64
       fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
       exit(1);
     }
-    if (!bustub->ExecuteSqlTxn(query2, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(query2, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
@@ -180,7 +180,7 @@ void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64
       fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
       exit(1);
     }
-    if (!bustub->txn_manager_->Commit(txn)) {
+    if (!vdbms->txn_manager_->Commit(txn)) {
       metrics.TxnAborted();
       continue;
     }
@@ -192,7 +192,7 @@ void Bench1TaskTransfer(const int thread_id, const int terrier_num, const uint64
 }
 
 void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64_t duration_ms,
-                        const bustub::IsolationLevel iso_lvl, bustub::BustubInstance *bustub,
+                        const vdbms::IsolationLevel iso_lvl, vdbms::vdbmsInstance *vdbms,
                         TerrierTotalMetrics &total_metrics, std::atomic<int> &token_adjustment) {
   const int max_transfer_amount = 1000;
   std::random_device r;
@@ -206,7 +206,7 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
 
   while (!metrics.ShouldFinish()) {
     std::stringstream ss;
-    auto writer = bustub::StringVectorWriter();
+    auto writer = vdbms::StringVectorWriter();
     int terrier_a;
     int terrier_b;
     do {
@@ -214,17 +214,17 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
       terrier_b = terrier_uniform_dist(gen);
     } while (terrier_a == terrier_b);
     int transfer_amount = money_transfer_dist(gen);
-    auto txn = bustub->txn_manager_->Begin(iso_lvl);
+    auto txn = vdbms->txn_manager_->Begin(iso_lvl);
     std::string select1 = fmt::format("SELECT network FROM terriers WHERE terrier = {}", terrier_a);
     std::string select2 = fmt::format("SELECT network FROM terriers WHERE terrier = {}", terrier_b);
-    if (!bustub->ExecuteSqlTxn(select1, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(select1, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
     auto network1 = ExtractOneCell(writer);
-    if (!bustub->ExecuteSqlTxn(select2, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(select2, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
@@ -236,8 +236,8 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
     std::string transfer2 =
         fmt::format("UPDATE terriers SET token = token - {} WHERE terrier = {}", transfer_amount, terrier_b);
 
-    if (!bustub->ExecuteSqlTxn(transfer1, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(transfer1, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
@@ -246,8 +246,8 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
       fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
       exit(1);
     }
-    if (!bustub->ExecuteSqlTxn(transfer2, writer, txn)) {
-      bustub->txn_manager_->Abort(txn);
+    if (!vdbms->ExecuteSqlTxn(transfer2, writer, txn)) {
+      vdbms->txn_manager_->Abort(txn);
       metrics.TxnAborted();
       continue;
     }
@@ -258,7 +258,7 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
     }
     metrics.TxnCommitted();
 
-    if (!bustub->txn_manager_->Commit(txn)) {
+    if (!vdbms->txn_manager_->Commit(txn)) {
       metrics.TxnAborted();
       continue;
     }
@@ -273,7 +273,7 @@ void Bench2TaskTransfer(const int thread_id, const int terrier_num, const uint64
 }
 
 void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t duration_ms,
-                    const bustub::IsolationLevel iso_lvl, bustub::BustubInstance *bustub,
+                    const vdbms::IsolationLevel iso_lvl, vdbms::vdbmsInstance *vdbms,
                     TerrierTotalMetrics &total_metrics, std::atomic<int> &token_adjustment) {
   std::random_device r;
   std::default_random_engine gen(r());
@@ -289,7 +289,7 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
 
   while (!metrics.ShouldFinish()) {
     std::stringstream ss;
-    auto writer = bustub::StringVectorWriter();
+    auto writer = vdbms::StringVectorWriter();
     int join_action = join_action_dist(gen);
     int terrier;
     int join_target;
@@ -300,18 +300,18 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
 
     if (join_action == 0) {
       // join another terrier's network
-      auto txn = bustub->txn_manager_->Begin(iso_lvl);
+      auto txn = vdbms->txn_manager_->Begin(iso_lvl);
       std::string target_network_sql = fmt::format("SELECT network FROM terriers WHERE terrier = {}", join_target);
-      if (!bustub->ExecuteSqlTxn(target_network_sql, writer, txn)) {
-        bustub->txn_manager_->Abort(txn);
+      if (!vdbms->ExecuteSqlTxn(target_network_sql, writer, txn)) {
+        vdbms->txn_manager_->Abort(txn);
         metrics.TxnAborted();
         continue;
       }
       auto target_network = ExtractOneCell(writer);
       std::string join_sql = fmt::format("UPDATE terriers SET network = {}, token = token + {} WHERE terrier = {}",
                                          target_network, sign_bonus, terrier);
-      if (!bustub->ExecuteSqlTxn(join_sql, writer, txn)) {
-        bustub->txn_manager_->Abort(txn);
+      if (!vdbms->ExecuteSqlTxn(join_sql, writer, txn)) {
+        vdbms->txn_manager_->Abort(txn);
         metrics.TxnAborted();
         continue;
       }
@@ -320,7 +320,7 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
         fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
         exit(1);
       }
-      if (!bustub->txn_manager_->Commit(txn)) {
+      if (!vdbms->txn_manager_->Commit(txn)) {
         metrics.TxnAborted();
         continue;
       }
@@ -329,11 +329,11 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
       metrics.Report();
     } else if (join_action == 1) {
       // create a new network
-      auto txn = bustub->txn_manager_->Begin(iso_lvl);
+      auto txn = vdbms->txn_manager_->Begin(iso_lvl);
       std::string join_sql = fmt::format("UPDATE terriers SET network = {}, token = token - {} WHERE terrier = {}",
                                          join_target, sign_bonus, terrier);
-      if (!bustub->ExecuteSqlTxn(join_sql, writer, txn)) {
-        bustub->txn_manager_->Abort(txn);
+      if (!vdbms->ExecuteSqlTxn(join_sql, writer, txn)) {
+        vdbms->txn_manager_->Abort(txn);
         metrics.TxnAborted();
         continue;
       }
@@ -342,7 +342,7 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
         fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
         exit(1);
       }
-      if (!bustub->txn_manager_->Commit(txn)) {
+      if (!vdbms->txn_manager_->Commit(txn)) {
         metrics.TxnAborted();
         continue;
       }
@@ -352,22 +352,22 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
     }
     if (join_action == 2) {
       // trigger serializable verification by two txns join each other, one should abort
-      auto txn1 = bustub->txn_manager_->Begin(iso_lvl);
-      auto txn2 = bustub->txn_manager_->Begin(iso_lvl);
+      auto txn1 = vdbms->txn_manager_->Begin(iso_lvl);
+      auto txn2 = vdbms->txn_manager_->Begin(iso_lvl);
       auto terrier1 = terrier;
       auto terrier2 = join_target;
       std::string network1_sql = fmt::format("SELECT network FROM terriers WHERE terrier = {}", terrier2);
       std::string network2_sql = fmt::format("SELECT network FROM terriers WHERE terrier = {}", terrier1);
-      if (!bustub->ExecuteSqlTxn(network1_sql, writer, txn1)) {
-        bustub->txn_manager_->Abort(txn1);
-        bustub->txn_manager_->Abort(txn2);
+      if (!vdbms->ExecuteSqlTxn(network1_sql, writer, txn1)) {
+        vdbms->txn_manager_->Abort(txn1);
+        vdbms->txn_manager_->Abort(txn2);
         metrics.TxnAborted();
         continue;
       }
       auto network2 = ExtractOneCell(writer);
-      if (!bustub->ExecuteSqlTxn(network2_sql, writer, txn2)) {
-        bustub->txn_manager_->Abort(txn1);
-        bustub->txn_manager_->Abort(txn2);
+      if (!vdbms->ExecuteSqlTxn(network2_sql, writer, txn2)) {
+        vdbms->txn_manager_->Abort(txn1);
+        vdbms->txn_manager_->Abort(txn2);
         metrics.TxnAborted();
         continue;
       }
@@ -377,9 +377,9 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
                                           network2, sign_bonus, terrier1);
       std::string join2_sql = fmt::format("UPDATE terriers SET network = {}, token = token + {} WHERE terrier = {}",
                                           network1, sign_bonus, terrier2);
-      if (!bustub->ExecuteSqlTxn(join1_sql, writer, txn1)) {
-        bustub->txn_manager_->Abort(txn1);
-        bustub->txn_manager_->Abort(txn2);
+      if (!vdbms->ExecuteSqlTxn(join1_sql, writer, txn1)) {
+        vdbms->txn_manager_->Abort(txn1);
+        vdbms->txn_manager_->Abort(txn2);
         metrics.TxnAborted();
         continue;
       }
@@ -388,9 +388,9 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
         fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
         exit(1);
       }
-      if (!bustub->ExecuteSqlTxn(join2_sql, writer, txn2)) {
-        bustub->txn_manager_->Abort(txn1);
-        bustub->txn_manager_->Abort(txn2);
+      if (!vdbms->ExecuteSqlTxn(join2_sql, writer, txn2)) {
+        vdbms->txn_manager_->Abort(txn1);
+        vdbms->txn_manager_->Abort(txn2);
         metrics.TxnAborted();
         continue;
       }
@@ -399,13 +399,13 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
         fmt::print(stderr, "unexpected result when update \"{}\" != 1\n", result);
         exit(1);
       }
-      if (!bustub->txn_manager_->Commit(txn1)) {
-        bustub->txn_manager_->Abort(txn2);
+      if (!vdbms->txn_manager_->Commit(txn1)) {
+        vdbms->txn_manager_->Abort(txn2);
         metrics.TxnAborted();
         continue;
       }
       adjustment += sign_bonus;  // only one of them succeeded
-      if (!bustub->txn_manager_->Commit(txn2)) {
+      if (!vdbms->txn_manager_->Commit(txn2)) {
         metrics.TxnAborted();
         continue;
       }
@@ -418,8 +418,8 @@ void Bench2TaskJoin(const int thread_id, const int terrier_num, const uint64_t d
   total_metrics.ReportJoin(metrics.aborted_txn_cnt_, metrics.committed_txn_cnt_);
 }
 
-auto ComputeDbSize(bustub::BustubInstance *bustub, const std::string &table_name) {
-  auto table_info = bustub->catalog_->GetTable(table_name);
+auto ComputeDbSize(vdbms::vdbmsInstance *vdbms, const std::string &table_name) {
+  auto table_info = vdbms->catalog_->GetTable(table_name);
   auto iter = table_info->table_->MakeEagerIterator();
   int cnt = 0;
   while (!iter.IsEnd()) {
@@ -427,8 +427,8 @@ auto ComputeDbSize(bustub::BustubInstance *bustub, const std::string &table_name
     ++iter;
   }
   int undo_cnt = 0;
-  std::shared_lock<std::shared_mutex> lck(bustub->txn_manager_->txn_map_mutex_);
-  const auto map = bustub->txn_manager_->txn_map_;
+  std::shared_lock<std::shared_mutex> lck(vdbms->txn_manager_->txn_map_mutex_);
+  const auto map = vdbms->txn_manager_->txn_map_;
   lck.unlock();
   for (const auto &[_, txn] : map) {
     cnt += txn->GetUndoLogNum();
@@ -436,12 +436,12 @@ auto ComputeDbSize(bustub::BustubInstance *bustub, const std::string &table_name
   return cnt + undo_cnt;
 }
 
-void TaskComputeDbSize(const uint64_t duration_ms, std::atomic<int> &db_size, bustub::BustubInstance *bustub,
+void TaskComputeDbSize(const uint64_t duration_ms, std::atomic<int> &db_size, vdbms::vdbmsInstance *vdbms,
                        const std::string &table_name) {
   TerrierMetrics metrics("Compute Size", duration_ms);
   metrics.Begin();
   while (!metrics.ShouldFinish()) {
-    auto size = ComputeDbSize(bustub, table_name);
+    auto size = ComputeDbSize(vdbms, table_name);
     if (size > db_size.load()) {
       db_size.store(size);
     }
@@ -449,15 +449,15 @@ void TaskComputeDbSize(const uint64_t duration_ms, std::atomic<int> &db_size, bu
   }
 }
 
-void PrintPlan(bustub::BustubInstance &instance, const std::string &query, bool ensure_index_scan = true) {
+void PrintPlan(vdbms::vdbmsInstance &instance, const std::string &query, bool ensure_index_scan = true) {
   {
     std::stringstream ss;
-    bustub::SimpleStreamWriter writer_ss(ss);
+    vdbms::SimpleStreamWriter writer_ss(ss);
     auto *txn = instance.txn_manager_->Begin();
     instance.ExecuteSqlTxn("EXPLAIN (o) " + query, writer_ss, txn);
     fmt::println(stderr, "> {}\n[PLAN]\n{}", query, ss.str());
     if (ensure_index_scan) {
-      if (!bustub::StringUtil::Contains(ss.str(), "IndexScan")) {
+      if (!vdbms::StringUtil::Contains(ss.str(), "IndexScan")) {
         fmt::println(stderr, "ERROR: index scan not found in plan.");
         std::terminate();
       }
@@ -467,8 +467,8 @@ void PrintPlan(bustub::BustubInstance &instance, const std::string &query, bool 
 
 // NOLINTNEXTLINE
 auto main(int argc, char **argv) -> int {
-  const auto isolation_lvl = bustub::IsolationLevel::SNAPSHOT_ISOLATION;
-  argparse::ArgumentParser program("bustub-terrier-bench");
+  const auto isolation_lvl = vdbms::IsolationLevel::SNAPSHOT_ISOLATION;
+  argparse::ArgumentParser program("vdbms-terrier-bench");
   program.add_argument("--duration").help("run terrier bench for n milliseconds");
   program.add_argument("--terriers").help("number of terriers in the bench");
   program.add_argument("--threads").help("number of threads in the bench");
@@ -482,8 +482,8 @@ auto main(int argc, char **argv) -> int {
       .implicit_value(true)
       .help("run benchmark #2 (in serializable)");
 
-  size_t bustub_terrier_num = 10;
-  size_t bustub_thread_cnt = 2;
+  size_t vdbms_terrier_num = 10;
+  size_t vdbms_thread_cnt = 2;
   const size_t bpm_size = 4096;  // ensure benchmark does not hit BPM
   size_t commit_threshold = 100;
 
@@ -494,11 +494,11 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
-  auto bustub = std::make_unique<bustub::BustubInstance>(bpm_size);
-  auto writer = bustub::SimpleStreamWriter(std::cerr);
+  auto vdbms = std::make_unique<vdbms::vdbmsInstance>(bpm_size);
+  auto writer = vdbms::SimpleStreamWriter(std::cerr);
 
   if (program.present("--terriers")) {
-    bustub_terrier_num = std::stoi(program.get("--terriers"));
+    vdbms_terrier_num = std::stoi(program.get("--terriers"));
   }
 
   if (program.present("--commit-threshold")) {
@@ -506,7 +506,7 @@ auto main(int argc, char **argv) -> int {
   }
 
   if (program.present("--threads")) {
-    bustub_thread_cnt = std::stoi(program.get("--threads"));
+    vdbms_thread_cnt = std::stoi(program.get("--threads"));
   }
 
   uint64_t duration_ms = 30000;
@@ -516,8 +516,8 @@ auto main(int argc, char **argv) -> int {
   }
 
   fmt::println(stderr, "x: benchmark for {} ms", duration_ms);
-  fmt::println(stderr, "x: terrier_num={}", bustub_terrier_num);
-  fmt::println(stderr, "x: thread_cnt={}", bustub_thread_cnt);
+  fmt::println(stderr, "x: terrier_num={}", vdbms_terrier_num);
+  fmt::println(stderr, "x: thread_cnt={}", vdbms_thread_cnt);
 
   bool bench_1 = program.get<bool>("--bench-1");
   bool bench_2 = program.get<bool>("--bench-2");
@@ -529,27 +529,27 @@ auto main(int argc, char **argv) -> int {
   if (bench_1) {
     auto schema = "CREATE TABLE terriers(terrier int PRIMARY KEY, token int);";
     fmt::println(stderr, "x: create schema for benchmark #1");
-    bustub->ExecuteSql(schema, writer);
+    vdbms->ExecuteSql(schema, writer);
     fmt::println(stderr, "x: please ensure plans are correct for all queries");
-    PrintPlan(*bustub, "UPDATE terriers SET token = token + 1 WHERE terrier = 0");
-    PrintPlan(*bustub, "UPDATE terriers SET token = token - 1 WHERE terrier = 0");
-    PrintPlan(*bustub, "DELETE FROM terriers WHERE terrier = 0");
-    PrintPlan(*bustub, "INSERT INTO terriers VALUES (0, 0)", false);
-    PrintPlan(*bustub, "SELECT * from terriers", false);
+    PrintPlan(*vdbms, "UPDATE terriers SET token = token + 1 WHERE terrier = 0");
+    PrintPlan(*vdbms, "UPDATE terriers SET token = token - 1 WHERE terrier = 0");
+    PrintPlan(*vdbms, "DELETE FROM terriers WHERE terrier = 0");
+    PrintPlan(*vdbms, "INSERT INTO terriers VALUES (0, 0)", false);
+    PrintPlan(*vdbms, "SELECT * from terriers", false);
   }
   if (bench_2) {
     auto schema = "CREATE TABLE terriers(terrier int PRIMARY KEY, token int, network int);";
     fmt::println(stderr, "x: create schema for benchmark #2");
-    bustub->ExecuteSql(schema, writer);
+    vdbms->ExecuteSql(schema, writer);
     fmt::println(stderr, "x: please ensure plans are correct for all queries");
-    PrintPlan(*bustub, "UPDATE terriers SET token = token + 1 WHERE terrier = 0");
-    PrintPlan(*bustub, "UPDATE terriers SET token = token - 1 WHERE terrier = 0");
-    PrintPlan(*bustub, "UPDATE terriers SET network = 1, token = token + 1000 WHERE terrier = 0");
-    PrintPlan(*bustub, "UPDATE terriers SET network = 1, token = token - 1000 WHERE terrier = 0");
-    PrintPlan(*bustub, "SELECT network from terriers WHERE terrier = 0");
-    PrintPlan(*bustub, "DELETE FROM terriers WHERE terrier = 0");
-    PrintPlan(*bustub, "INSERT INTO terriers VALUES (0, 0, 0)", false);
-    PrintPlan(*bustub, "SELECT * from terriers", false);
+    PrintPlan(*vdbms, "UPDATE terriers SET token = token + 1 WHERE terrier = 0");
+    PrintPlan(*vdbms, "UPDATE terriers SET token = token - 1 WHERE terrier = 0");
+    PrintPlan(*vdbms, "UPDATE terriers SET network = 1, token = token + 1000 WHERE terrier = 0");
+    PrintPlan(*vdbms, "UPDATE terriers SET network = 1, token = token - 1000 WHERE terrier = 0");
+    PrintPlan(*vdbms, "SELECT network from terriers WHERE terrier = 0");
+    PrintPlan(*vdbms, "DELETE FROM terriers WHERE terrier = 0");
+    PrintPlan(*vdbms, "INSERT INTO terriers VALUES (0, 0, 0)", false);
+    PrintPlan(*vdbms, "SELECT * from terriers", false);
   }
 
   const int initial_token = 10000;
@@ -558,10 +558,10 @@ auto main(int argc, char **argv) -> int {
   // initialize data
   fmt::println(stderr, "x: initialize data");
   std::string query = "INSERT INTO terriers VALUES ";
-  for (size_t i = 0; i < bustub_terrier_num; i++) {
+  for (size_t i = 0; i < vdbms_terrier_num; i++) {
     if (bench_1) {
       query += fmt::format("({}, {})", i, initial_token);
-      if (i != bustub_terrier_num - 1) {
+      if (i != vdbms_terrier_num - 1) {
         query += ", ";
       } else {
         query += ";";
@@ -569,7 +569,7 @@ auto main(int argc, char **argv) -> int {
     }
     if (bench_2) {
       query += fmt::format("({}, {}, {})", i, initial_token, i);
-      if (i != bustub_terrier_num - 1) {
+      if (i != vdbms_terrier_num - 1) {
         query += ", ";
       } else {
         query += ";";
@@ -578,19 +578,19 @@ auto main(int argc, char **argv) -> int {
   }
 
   {
-    auto writer = bustub::StringVectorWriter();
-    auto txn = bustub->txn_manager_->Begin(isolation_lvl);
-    auto success = bustub->ExecuteSqlTxn(query, writer, txn);
-    BUSTUB_ENSURE(success, "txn not success");
-    BUSTUB_ENSURE(bustub->txn_manager_->Commit(txn), "cannot commit");
+    auto writer = vdbms::StringVectorWriter();
+    auto txn = vdbms->txn_manager_->Begin(isolation_lvl);
+    auto success = vdbms->ExecuteSqlTxn(query, writer, txn);
+    vdbms_ENSURE(success, "txn not success");
+    vdbms_ENSURE(vdbms->txn_manager_->Commit(txn), "cannot commit");
     auto result = ExtractOneCell(writer);
-    if (result != std::to_string(bustub_terrier_num)) {
+    if (result != std::to_string(vdbms_terrier_num)) {
       fmt::print(stderr, "unexpected result \"{}\" when insert\n", result);
       std::terminate();
     }
   }
 
-  bustub::global_disable_execution_exception_print.store(true);
+  vdbms::global_disable_execution_exception_print.store(true);
 
   fmt::println(stderr, "x: benchmark start");
 
@@ -599,25 +599,25 @@ auto main(int argc, char **argv) -> int {
 
   total_metrics.Begin();
 
-  for (size_t thread_id = 0; thread_id < bustub_thread_cnt; thread_id++) {
+  for (size_t thread_id = 0; thread_id < vdbms_thread_cnt; thread_id++) {
     if (bench_1) {
-      threads.emplace_back([thread_id, bustub_terrier_num, duration_ms, &bustub, &total_metrics]() {
-        Bench1TaskTransfer(thread_id, bustub_terrier_num, duration_ms, bustub::IsolationLevel::SNAPSHOT_ISOLATION,
-                           bustub.get(), total_metrics);
+      threads.emplace_back([thread_id, vdbms_terrier_num, duration_ms, &vdbms, &total_metrics]() {
+        Bench1TaskTransfer(thread_id, vdbms_terrier_num, duration_ms, vdbms::IsolationLevel::SNAPSHOT_ISOLATION,
+                           vdbms.get(), total_metrics);
       });
     }
     if (bench_2) {
       if (thread_id % 2 == 0) {
         threads.emplace_back(
-            [thread_id, bustub_terrier_num, duration_ms, &bustub, &total_metrics, &token_adjustment]() {
-              Bench2TaskJoin(thread_id, bustub_terrier_num, duration_ms, bustub::IsolationLevel::SERIALIZABLE,
-                             bustub.get(), total_metrics, token_adjustment);
+            [thread_id, vdbms_terrier_num, duration_ms, &vdbms, &total_metrics, &token_adjustment]() {
+              Bench2TaskJoin(thread_id, vdbms_terrier_num, duration_ms, vdbms::IsolationLevel::SERIALIZABLE,
+                             vdbms.get(), total_metrics, token_adjustment);
             });
       } else {
         threads.emplace_back(
-            [thread_id, bustub_terrier_num, duration_ms, &bustub, &total_metrics, &token_adjustment]() {
-              Bench2TaskTransfer(thread_id, bustub_terrier_num, duration_ms, bustub::IsolationLevel::SERIALIZABLE,
-                                 bustub.get(), total_metrics, token_adjustment);
+            [thread_id, vdbms_terrier_num, duration_ms, &vdbms, &total_metrics, &token_adjustment]() {
+              Bench2TaskTransfer(thread_id, vdbms_terrier_num, duration_ms, vdbms::IsolationLevel::SERIALIZABLE,
+                                 vdbms.get(), total_metrics, token_adjustment);
             });
       }
     }
@@ -626,7 +626,7 @@ auto main(int argc, char **argv) -> int {
   std::atomic<int> db_size(0);
 
   threads.emplace_back(
-      [duration_ms, &db_size, &bustub]() { TaskComputeDbSize(duration_ms, db_size, bustub.get(), "terriers"); });
+      [duration_ms, &db_size, &vdbms]() { TaskComputeDbSize(duration_ms, db_size, vdbms.get(), "terriers"); });
 
   for (auto &thread : threads) {
     thread.join();
@@ -635,10 +635,10 @@ auto main(int argc, char **argv) -> int {
   total_metrics.End();
 
   {
-    bustub::StringVectorWriter writer;
-    bustub->ExecuteSql("SELECT SUM(token) FROM terriers", writer);
+    vdbms::StringVectorWriter writer;
+    vdbms->ExecuteSql("SELECT SUM(token) FROM terriers", writer);
     auto cnt = std::stoi(ExtractOneCell(writer));
-    int expected = bustub_terrier_num * initial_token + token_adjustment;
+    int expected = vdbms_terrier_num * initial_token + token_adjustment;
     if (cnt != expected) {
       fmt::println(stderr, "inconsistent total tokens: expected {}, found {}", expected, cnt);
       exit(1);
@@ -646,9 +646,9 @@ auto main(int argc, char **argv) -> int {
   }
 
   {
-    bustub::SimpleStreamWriter writer(std::cerr);
+    vdbms::SimpleStreamWriter writer(std::cerr);
     fmt::println(stderr, "--- the following data might be manually inspected by TAs ---");
-    bustub->ExecuteSql("SELECT * FROM terriers LIMIT 100", writer);
+    vdbms->ExecuteSql("SELECT * FROM terriers LIMIT 100", writer);
   }
 
   if (db_size.load() == 0) {

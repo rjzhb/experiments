@@ -7,7 +7,7 @@
 #include "type/type_util.h"
 #include "type/vector_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 VectorType::VectorType() : Type(TypeId::VECTOR) {}
 
@@ -68,7 +68,7 @@ auto VectorType::ToString(const Value &val) const -> std::string {
   if (val.IsNull()) {
     return "vector_null";
   }
-  if (len == BUSTUB_VARCHAR_MAX_LEN) {
+  if (len == vdbms_VARCHAR_MAX_LEN) {
     return "vector_max";
   }
   if (len == 0) {
@@ -79,7 +79,7 @@ auto VectorType::ToString(const Value &val) const -> std::string {
 
 void VectorType::SerializeTo(const Value &val, char *storage) const {
   uint32_t len = GetStorageSize(val);
-  if (len == BUSTUB_VALUE_NULL) {
+  if (len == vdbms_VALUE_NULL) {
     memcpy(storage, &len, sizeof(uint32_t));
     return;
   }
@@ -90,7 +90,7 @@ void VectorType::SerializeTo(const Value &val, char *storage) const {
 // Deserialize a value of the given type from the given storage space.
 auto VectorType::DeserializeFrom(const char *storage) const -> Value {
   uint32_t len = *reinterpret_cast<const uint32_t *>(storage);
-  if (len == BUSTUB_VALUE_NULL) {
+  if (len == vdbms_VALUE_NULL) {
     return {type_id_, nullptr, len, false};
   }
   // set manage_data as true
@@ -102,4 +102,4 @@ auto VectorType::Copy(const Value &val) const -> Value { return {val}; }
 auto VectorType::CastAs(const Value &value, const TypeId type_id) const -> Value {
   UNIMPLEMENTED("vector type cast not supported");
 }
-}  // namespace bustub
+}  // namespace vdbms

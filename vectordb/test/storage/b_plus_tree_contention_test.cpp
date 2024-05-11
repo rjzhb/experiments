@@ -15,7 +15,7 @@
 #include "storage/index/b_plus_tree.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
 bool BPlusTreeLockBenchmarkCall(size_t num_threads, int leaf_node_size, bool with_global_mutex) {
   bool success = true;
@@ -168,4 +168,4 @@ TEST(BPlusTreeContentionTest, BPlusTreeContentionBenchmark2) {  // NOLINT
             << std::endl;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

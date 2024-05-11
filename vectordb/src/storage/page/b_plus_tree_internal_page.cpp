@@ -15,7 +15,7 @@
 #include "common/exception.h"
 #include "storage/page/b_plus_tree_internal_page.h"
 
-namespace bustub {
+namespace vdbms {
 /*****************************************************************************
  * HELPER METHODS AND UTILITIES
  *****************************************************************************/
@@ -52,4 +52,4 @@ template class BPlusTreeInternalPage<GenericKey<8>, page_id_t, GenericComparator
 template class BPlusTreeInternalPage<GenericKey<16>, page_id_t, GenericComparator<16>>;
 template class BPlusTreeInternalPage<GenericKey<32>, page_id_t, GenericComparator<32>>;
 template class BPlusTreeInternalPage<GenericKey<64>, page_id_t, GenericComparator<64>>;
-}  // namespace bustub
+}  // namespace vdbms

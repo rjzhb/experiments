@@ -5,7 +5,7 @@
 #include <vector>
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename CppType>
 auto TableGenerator::GenNumericValues(ColumnInsertMeta *col_meta, uint32_t count) -> std::vector<Value> {
@@ -78,7 +78,7 @@ void TableGenerator::FillTable(TableInfo *info, TableInsertMeta *table_meta) {
         entry.emplace_back(col[i]);
       }
       auto rid = info->table_->InsertTuple(TupleMeta{0, false}, Tuple(entry, &info->schema_));
-      BUSTUB_ENSURE(rid != std::nullopt, "Sequential insertion cannot fail");
+      vdbms_ENSURE(rid != std::nullopt, "Sequential insertion cannot fail");
       num_inserted++;
     }
   }
@@ -185,4 +185,4 @@ void TableGenerator::GenerateTestTables() {
     FillTable(info, &table_meta);
   }
 }
-}  // namespace bustub
+}  // namespace vdbms

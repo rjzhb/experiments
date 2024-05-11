@@ -19,7 +19,7 @@
 
 // #define NSW_ONLY  // only enable NSW code path without HNSW
 
-namespace bustub {
+namespace vdbms {
 HNSWIndex::HNSWIndex(std::unique_ptr<IndexMetadata> &&metadata, BufferPoolManager *buffer_pool_manager,
                      VectorExpressionType distance_fn, const std::vector<std::pair<std::string, int>> &options)
     : VectorIndex(std::move(metadata), distance_fn),
@@ -70,7 +70,7 @@ auto SelectNeighbors(const std::vector<double> &vec, const std::vector<size_t> &
 
 auto NSW::SearchLayer(const std::vector<double> &base_vector, size_t limit, const std::vector<size_t> &entry_points)
     -> std::vector<size_t> {
-  BUSTUB_ASSERT(limit > 0, "limit > 0");
+  vdbms_ASSERT(limit > 0, "limit > 0");
   std::vector<size_t> candidates;
   std::unordered_set<size_t> visited;
   std::priority_queue<std::pair<double, size_t>, std::vector<std::pair<double, size_t>>, std::greater<>> explore_q;
@@ -87,7 +87,7 @@ auto NSW::SearchLayer(const std::vector<double> &base_vector, size_t limit, cons
     if (dist > result_set.top().first) {
       break;
     }
-    BUSTUB_ASSERT(in_vertices_.size() <= 1 || !edges_[vertex].empty(), "not in the layer");
+    vdbms_ASSERT(in_vertices_.size() <= 1 || !edges_[vertex].empty(), "not in the layer");
     for (const auto &neighbor : edges_[vertex]) {
       if (visited.find(neighbor) == visited.end()) {
         visited.emplace(neighbor);
@@ -188,7 +188,7 @@ void HNSWIndex::InsertVectorEntry(const std::vector<double> &key, RID rid) {
   std::uniform_real_distribution<double> level_dist(0.0, 1.0);
   auto vertex_id = AddVertex(key, rid);
   int target_level = static_cast<int>(std::floor(-std::log(level_dist(generator_)) * m_l_));
-  BUSTUB_ASSERT(target_level >= 0, "invalid target level");
+  vdbms_ASSERT(target_level >= 0, "invalid target level");
   std::vector<size_t> nearest_elements;
   if (!layers_[0].in_vertices_.empty()) {
     std::vector<size_t> entry_points{layers_[layers_.size() - 1].DefaultEntryPoint()};
@@ -227,4 +227,4 @@ void HNSWIndex::InsertVectorEntry(const std::vector<double> &key, RID rid) {
 
 #endif
 
-}  // namespace bustub
+}  // namespace vdbms

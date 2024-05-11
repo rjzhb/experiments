@@ -10,7 +10,7 @@
 #include "storage/table/table_heap.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * InsertExecutor executes an insert on a table.
@@ -57,4 +57,4 @@ class InsertExecutor : public AbstractExecutor {
   bool emitted_{false};
 };
 
-}  // namespace bustub
+}  // namespace vdbms

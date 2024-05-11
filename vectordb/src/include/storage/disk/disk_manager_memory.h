@@ -18,7 +18,7 @@
 #include "fmt/core.h"
 #include "storage/disk/disk_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * DiskManagerMemory replicates the utility of DiskManager on memory. It is primarily used for
@@ -78,7 +78,7 @@ class DiskManagerUnlimitedMemory : public DiskManager {
     std::unique_lock<std::shared_mutex> l_page(ptr->second);
     l.unlock();
 
-    memcpy(ptr->first.data(), page_data, BUSTUB_PAGE_SIZE);
+    memcpy(ptr->first.data(), page_data, vdbms_PAGE_SIZE);
 
     PostProcessLatency(page_id);
   }
@@ -109,7 +109,7 @@ class DiskManagerUnlimitedMemory : public DiskManager {
     std::shared_lock<std::shared_mutex> l_page(ptr->second);
     l.unlock();
 
-    memcpy(page_data, ptr->first.data(), BUSTUB_PAGE_SIZE);
+    memcpy(page_data, ptr->first.data(), vdbms_PAGE_SIZE);
 
     PostProcessLatency(page_id);
   }
@@ -157,7 +157,7 @@ class DiskManagerUnlimitedMemory : public DiskManager {
   std::array<page_id_t, 4> recent_access_;
   uint64_t access_ptr_{0};
 
-  using Page = std::array<char, BUSTUB_PAGE_SIZE>;
+  using Page = std::array<char, vdbms_PAGE_SIZE>;
   using ProtectedPage = std::pair<Page, std::shared_mutex>;
 
   std::mutex mutex_;
@@ -165,4 +165,4 @@ class DiskManagerUnlimitedMemory : public DiskManager {
   std::vector<std::shared_ptr<ProtectedPage>> data_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

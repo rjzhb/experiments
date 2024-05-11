@@ -1,7 +1,7 @@
 #include "primer/trie_store.h"
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <class T>
 auto TrieStore::Get(std::string_view key) -> std::optional<ValueGuard<T>> {
@@ -45,4 +45,4 @@ template void TrieStore::Put(std::string_view key, Integer value);
 template auto TrieStore::Get(std::string_view key) -> std::optional<ValueGuard<MoveBlocked>>;
 template void TrieStore::Put(std::string_view key, MoveBlocked value);
 
-}  // namespace bustub
+}  // namespace vdbms

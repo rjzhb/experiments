@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // disk_extendible_hash_table.cpp
 //
@@ -28,7 +28,7 @@
 #include "storage/page/extendible_htable_header_page.h"
 #include "storage/page/page_guard.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename K, typename V, typename KC>
 DiskExtendibleHashTable<K, V, KC>::DiskExtendibleHashTable(const std::string &name, BufferPoolManager *bpm,
@@ -95,4 +95,4 @@ template class DiskExtendibleHashTable<GenericKey<8>, RID, GenericComparator<8>>
 template class DiskExtendibleHashTable<GenericKey<16>, RID, GenericComparator<16>>;
 template class DiskExtendibleHashTable<GenericKey<32>, RID, GenericComparator<32>>;
 template class DiskExtendibleHashTable<GenericKey<64>, RID, GenericComparator<64>>;
-}  // namespace bustub
+}  // namespace vdbms

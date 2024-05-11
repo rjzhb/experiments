@@ -12,7 +12,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "storage/page/tmp_tuple_page.h"
 
-namespace bustub {
+namespace vdbms {
 class AbstractExecutor;
 /**
  * ExecutorContext stores all the context necessary to run an executor.
@@ -80,7 +80,7 @@ class ExecutorContext {
   }
 
   void InitCheckOptions(std::shared_ptr<CheckOptions> &&check_options) {
-    BUSTUB_ASSERT(check_options, "nullptr");
+    vdbms_ASSERT(check_options, "nullptr");
     check_options_ = std::move(check_options);
   }
 
@@ -105,4 +105,4 @@ class ExecutorContext {
   bool is_delete_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

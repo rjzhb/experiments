@@ -6,7 +6,7 @@
 #include "common/config.h"
 #include "common/rwlatch.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Page is the basic unit of storage within the database system. Page provides a wrapper for actual data pages being
@@ -20,7 +20,7 @@ class Page {
  public:
   /** Constructor. Zeros out the page data. */
   Page() {
-    data_ = new char[BUSTUB_PAGE_SIZE];
+    data_ = new char[vdbms_PAGE_SIZE];
     ResetMemory();
   }
 
@@ -67,10 +67,10 @@ class Page {
 
  private:
   /** Zeroes out the data that is held within the page. */
-  inline void ResetMemory() { memset(data_, OFFSET_PAGE_START, BUSTUB_PAGE_SIZE); }
+  inline void ResetMemory() { memset(data_, OFFSET_PAGE_START, vdbms_PAGE_SIZE); }
 
   /** The actual data that is stored within a page. */
-  // Usually this should be stored as `char data_[BUSTUB_PAGE_SIZE]{};`. But to enable ASAN to detect page overflow,
+  // Usually this should be stored as `char data_[vdbms_PAGE_SIZE]{};`. But to enable ASAN to detect page overflow,
   // we store it as a ptr.
   char *data_;
   /** The ID of this page. */
@@ -83,4 +83,4 @@ class Page {
   ReaderWriterLatch rwlatch_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

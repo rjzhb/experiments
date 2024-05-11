@@ -5,7 +5,7 @@
 #include "common/macros.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * All types of expressions in binder.
@@ -46,10 +46,10 @@ class BoundExpression {
   ExpressionType type_{ExpressionType::INVALID};
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::BoundExpression, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::BoundExpression, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const T &x, FormatCtx &ctx) const {
@@ -58,7 +58,7 @@ struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::BoundExpressio
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::BoundExpression, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::BoundExpression, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
   auto format(const std::unique_ptr<T> &x, FormatCtx &ctx) const {
@@ -67,45 +67,45 @@ struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustu
 };
 
 template <>
-struct fmt::formatter<bustub::ExpressionType> : formatter<string_view> {
+struct fmt::formatter<vdbms::ExpressionType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::ExpressionType c, FormatContext &ctx) const {
+  auto format(vdbms::ExpressionType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::ExpressionType::INVALID:
+      case vdbms::ExpressionType::INVALID:
         name = "Invalid";
         break;
-      case bustub::ExpressionType::CONSTANT:
+      case vdbms::ExpressionType::CONSTANT:
         name = "Constant";
         break;
-      case bustub::ExpressionType::COLUMN_REF:
+      case vdbms::ExpressionType::COLUMN_REF:
         name = "ColumnRef";
         break;
-      case bustub::ExpressionType::TYPE_CAST:
+      case vdbms::ExpressionType::TYPE_CAST:
         name = "TypeCast";
         break;
-      case bustub::ExpressionType::FUNCTION:
+      case vdbms::ExpressionType::FUNCTION:
         name = "Function";
         break;
-      case bustub::ExpressionType::AGG_CALL:
+      case vdbms::ExpressionType::AGG_CALL:
         name = "AggregationCall";
         break;
-      case bustub::ExpressionType::STAR:
+      case vdbms::ExpressionType::STAR:
         name = "Star";
         break;
-      case bustub::ExpressionType::UNARY_OP:
+      case vdbms::ExpressionType::UNARY_OP:
         name = "UnaryOperation";
         break;
-      case bustub::ExpressionType::BINARY_OP:
+      case vdbms::ExpressionType::BINARY_OP:
         name = "BinaryOperation";
         break;
-      case bustub::ExpressionType::ALIAS:
+      case vdbms::ExpressionType::ALIAS:
         name = "Alias";
         break;
-      case bustub::ExpressionType::FUNC_CALL:
+      case vdbms::ExpressionType::FUNC_CALL:
         name = "FuncCall";
         break;
-      case bustub::ExpressionType::WINDOW:
+      case vdbms::ExpressionType::WINDOW:
         name = "Window";
         break;
     }

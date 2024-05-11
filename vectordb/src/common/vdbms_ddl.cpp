@@ -1,4 +1,4 @@
-// DDL (Data Definition Language) statement handling in BusTub, including create table, create index, and set/show
+// DDL (Data Definition Language) statement handling in vdbms, including create table, create index, and set/show
 // variable.
 
 #include <optional>
@@ -18,7 +18,7 @@
 #include "catalog/catalog.h"
 #include "catalog/schema.h"
 #include "catalog/table_generator.h"
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "common/enums/statement_type.h"
 #include "common/exception.h"
 #include "common/macros.h"
@@ -40,9 +40,9 @@
 #include "storage/disk/disk_manager_memory.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
-void BustubInstance::HandleCreateStatement(Transaction *txn, const CreateStatement &stmt, ResultWriter &writer) {
+void vdbmsInstance::HandleCreateStatement(Transaction *txn, const CreateStatement &stmt, ResultWriter &writer) {
   std::unique_lock<std::shared_mutex> l(catalog_lock_);
   auto info = catalog_->CreateTable(txn, stmt.table_, Schema(stmt.columns_));
   IndexInfo *index = nullptr;
@@ -73,7 +73,7 @@ void BustubInstance::HandleCreateStatement(Transaction *txn, const CreateStateme
   l.unlock();
 
   if (info == nullptr) {
-    throw bustub::Exception("Failed to create table");
+    throw vdbms::Exception("Failed to create table");
   }
 
   if (index != nullptr) {
@@ -85,7 +85,7 @@ void BustubInstance::HandleCreateStatement(Transaction *txn, const CreateStateme
   }
 }
 
-void BustubInstance::HandleIndexStatement(Transaction *txn, const IndexStatement &stmt, ResultWriter &writer) {
+void vdbmsInstance::HandleIndexStatement(Transaction *txn, const IndexStatement &stmt, ResultWriter &writer) {
   std::vector<uint32_t> col_ids;
   for (const auto &col : stmt.cols_) {
     auto idx = stmt.table_->schema_.GetColIdx(col->col_name_.back());
@@ -146,12 +146,12 @@ void BustubInstance::HandleIndexStatement(Transaction *txn, const IndexStatement
   l.unlock();
 
   if (info == nullptr) {
-    throw bustub::Exception("Failed to create index");
+    throw vdbms::Exception("Failed to create index");
   }
   WriteOneCell(fmt::format("Index created with id = {} with type = {}", info->index_oid_, info->index_type_), writer);
 }
 
-void BustubInstance::HandleExplainStatement(Transaction *txn, const ExplainStatement &stmt, ResultWriter &writer) {
+void vdbmsInstance::HandleExplainStatement(Transaction *txn, const ExplainStatement &stmt, ResultWriter &writer) {
   std::string output;
 
   // Print binder result.
@@ -164,7 +164,7 @@ void BustubInstance::HandleExplainStatement(Transaction *txn, const ExplainState
 
   std::shared_lock<std::shared_mutex> l(catalog_lock_);
 
-  bustub::Planner planner(*catalog_);
+  vdbms::Planner planner(*catalog_);
   planner.PlanQuery(*stmt.statement_);
 
   bool show_schema = (stmt.options_ & ExplainOptions::SCHEMA) != 0;
@@ -178,7 +178,7 @@ void BustubInstance::HandleExplainStatement(Transaction *txn, const ExplainState
   }
 
   // Print optimizer result.
-  bustub::Optimizer optimizer(*catalog_, session_variables_);
+  vdbms::Optimizer optimizer(*catalog_, session_variables_);
   auto optimized_plan = optimizer.Optimize(planner.plan_);
 
   l.unlock();
@@ -193,20 +193,20 @@ void BustubInstance::HandleExplainStatement(Transaction *txn, const ExplainState
   WriteOneCell(output, writer);
 }
 
-void BustubInstance::HandleVariableShowStatement(Transaction *txn, const VariableShowStatement &stmt,
+void vdbmsInstance::HandleVariableShowStatement(Transaction *txn, const VariableShowStatement &stmt,
                                                  ResultWriter &writer) {
   auto content = GetSessionVariable(stmt.variable_);
   WriteOneCell(fmt::format("{}={}", stmt.variable_, content), writer);
 }
 
-void BustubInstance::HandleVariableSetStatement(Transaction *txn, const VariableSetStatement &stmt,
+void vdbmsInstance::HandleVariableSetStatement(Transaction *txn, const VariableSetStatement &stmt,
                                                 ResultWriter &writer) {
   session_variables_[stmt.variable_] = stmt.value_;
 }
 
-void BustubInstance::HandleTxnStatement(Transaction *txn, const TransactionStatement &stmt, ResultWriter &writer) {
+void vdbmsInstance::HandleTxnStatement(Transaction *txn, const TransactionStatement &stmt, ResultWriter &writer) {
   if (managed_txn_mode_ && current_txn_ != nullptr) {
-    BUSTUB_ASSERT(current_txn_ == txn, "txn mismatched??");
+    vdbms_ASSERT(current_txn_ == txn, "txn mismatched??");
   }
   auto dump_current_txn = [&](const std::string &prefix) {
     writer.OneCell(fmt::format("{}txn_id={} txn_real_id={} read_ts={} commit_ts={} status={} iso_lvl={}", prefix,
@@ -220,7 +220,7 @@ void BustubInstance::HandleTxnStatement(Transaction *txn, const TransactionState
   }
   if (stmt.type_ == "begin") {
     if (!managed_txn_mode_) {
-      writer.OneCell("begin statement is only supported in managed txn mode, please use bustub-shell");
+      writer.OneCell("begin statement is only supported in managed txn mode, please use vdbms-shell");
       return;
     }
     bool txn_activated = current_txn_ != nullptr;
@@ -257,4 +257,4 @@ void BustubInstance::HandleTxnStatement(Transaction *txn, const TransactionState
     return;
   }
 }
-}  // namespace bustub
+}  // namespace vdbms

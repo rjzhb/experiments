@@ -3,7 +3,7 @@
 #include "common/exception.h"
 #include "storage/disk/disk_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
 DiskScheduler::DiskScheduler(DiskManager *disk_manager) : disk_manager_(disk_manager) {
   // TODO(P1): remove this line after you have implemented the disk scheduler API
@@ -27,4 +27,4 @@ void DiskScheduler::Schedule(DiskRequest r) {}
 
 void DiskScheduler::StartWorkerThread() {}
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -24,7 +24,7 @@
 #include "planner/planner.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  *  列引用（COLUMN_REF）表示引用数据库表中的列。
@@ -61,7 +61,7 @@ auto Planner::PlanColumnRef(const BoundColumnRef &expr,
 	for (const auto &col : schema.GetColumns()) {
 	  if (col_name == col.GetName()) {
 		if (found) {
-		  throw bustub::Exception("duplicated column found in schema"); // 如果发现重复的列名，则抛出异常
+		  throw vdbms::Exception("duplicated column found in schema"); // 如果发现重复的列名，则抛出异常
 		}
 		found = true;
 	  }
@@ -93,7 +93,7 @@ auto Planner::PlanColumnRef(const BoundColumnRef &expr,
 	auto col_idx_left = left_schema.TryGetColIdx(col_name); // 尝试从左侧子节点获取列索引
 	auto col_idx_right = right_schema.TryGetColIdx(col_name); // 尝试从右侧子节点获取列索引
 	if (col_idx_left && col_idx_right) {
-	  throw bustub::Exception(fmt::format("ambiguous column name {}", col_name)); // 如果在左右两个节点中都找到了同名的列，则抛出异常
+	  throw vdbms::Exception(fmt::format("ambiguous column name {}", col_name)); // 如果在左右两个节点中都找到了同名的列，则抛出异常
 	}
 	if (col_idx_left) {
 	  auto col_type = left_schema.GetColumn(*col_idx_left);
@@ -103,7 +103,7 @@ auto Planner::PlanColumnRef(const BoundColumnRef &expr,
 	  auto col_type = right_schema.GetColumn(*col_idx_right);
 	  return std::make_tuple(col_name, std::make_shared<ColumnValueExpression>(1, *col_idx_right, col_type)); // 返回列名和对应的列值表达式
 	}
-	throw bustub::Exception(fmt::format("column name {} not found", col_name)); // 如果无法在左右子节点中找到列名，则抛出异常
+	throw vdbms::Exception(fmt::format("column name {} not found", col_name)); // 如果无法在左右子节点中找到列名，则抛出异常
   }
   UNREACHABLE("no executor with expression has more than 2 children for now"); // 对于现有的执行器，表达式不会有超过两个子节点的情况
 }
@@ -161,7 +161,7 @@ auto Planner::PlanExpression(const BoundExpression &expr,
   switch (expr.type_) {
 	case ExpressionType::AGG_CALL: {
 	  if (ctx_.next_aggregation_ >= ctx_.expr_in_agg_.size()) {
-		throw bustub::Exception("unexpected agg call");
+		throw vdbms::Exception("unexpected agg call");
 	  }
 	  return std::make_tuple(UNNAMED_COLUMN, std::move(ctx_.expr_in_agg_[ctx_.next_aggregation_++])); // 返回未命名的列名和聚合表达式
 	}
@@ -196,4 +196,4 @@ auto Planner::PlanExpression(const BoundExpression &expr,
 }
 
 
-}  // namespace bustub
+}  // namespace vdbms

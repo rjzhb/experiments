@@ -5,7 +5,7 @@
 
 #include "storage/index/index_iterator.h"
 
-namespace bustub {
+namespace vdbms {
 
 /*
  * NOTE: you can change the destructor/constructor method here
@@ -36,4 +36,4 @@ template class IndexIterator<GenericKey<32>, RID, GenericComparator<32>>;
 
 template class IndexIterator<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

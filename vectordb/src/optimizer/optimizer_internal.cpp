@@ -1,5 +1,5 @@
-namespace bustub {
+namespace vdbms {
 
 void OptimizerHelperFunction() {}
 
-}  // namespace bustub
+}  // namespace vdbms

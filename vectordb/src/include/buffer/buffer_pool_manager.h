@@ -12,7 +12,7 @@
 #include "storage/page/page.h"
 #include "storage/page/page_guard.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * BufferPoolManager reads disk pages to and from its internal buffer pool.
@@ -180,4 +180,4 @@ class BufferPoolManager {
 
   // TODO(student): You may add additional private members and helper functions
 };
-}  // namespace bustub
+}  // namespace vdbms

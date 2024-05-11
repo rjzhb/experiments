@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // logger.h
 //
@@ -36,7 +36,7 @@
 #include <ctime>
 #include <string>
 
-namespace bustub {
+namespace vdbms {
 
 // https://blog.galowicz.de/2016/02/20/short_file_macro/
 using cstr = const char *;
@@ -198,6 +198,6 @@ inline void OutputLogHeader(const char *file, int line, const char *func, int le
   ::fprintf(LOG_OUTPUT_STREAM, "%s [%s:%d:%s] %s - ", time_str, file, line, func, type);
 }
 
-}  // namespace bustub
+}  // namespace vdbms
 
 #endif

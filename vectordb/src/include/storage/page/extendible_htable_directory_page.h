@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_directory_page.h
 //
@@ -27,7 +27,7 @@
 #include "common/config.h"
 #include "storage/index/generic_key.h"
 
-namespace bustub {
+namespace vdbms {
 
 static constexpr uint64_t HTABLE_DIRECTORY_PAGE_METADATA_SIZE = sizeof(uint32_t) * 2;
 
@@ -202,6 +202,6 @@ static_assert(sizeof(ExtendibleHTableDirectoryPage) == HTABLE_DIRECTORY_PAGE_MET
                                                            HTABLE_DIRECTORY_ARRAY_SIZE +
                                                            sizeof(page_id_t) * HTABLE_DIRECTORY_ARRAY_SIZE);
 
-static_assert(sizeof(ExtendibleHTableDirectoryPage) <= BUSTUB_PAGE_SIZE);
+static_assert(sizeof(ExtendibleHTableDirectoryPage) <= vdbms_PAGE_SIZE);
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -14,7 +14,7 @@
 #include "storage/table/table_heap.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 static constexpr uint64_t TABLE_PAGE_HEADER_SIZE = 8;
 
@@ -100,4 +100,4 @@ class TablePage {
 
 static_assert(sizeof(TablePage) == TABLE_PAGE_HEADER_SIZE);
 
-}  // namespace bustub
+}  // namespace vdbms

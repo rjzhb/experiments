@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // init_check_executor.cpp
 //
@@ -13,7 +13,7 @@
 #include "execution/executors/init_check_executor.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 InitCheckExecutor::InitCheckExecutor(ExecutorContext *exec_ctx, AbstractPlanNodeRef plan,
                                      std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -37,4 +37,4 @@ auto InitCheckExecutor::Next(Tuple *tuple, RID *rid) -> bool {
   return result;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

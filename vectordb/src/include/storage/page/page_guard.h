@@ -2,7 +2,7 @@
 
 #include "storage/page/page.h"
 
-namespace bustub {
+namespace vdbms {
 
 class BufferPoolManager;
 class ReadPageGuard;
@@ -238,4 +238,4 @@ class WritePageGuard {
   BasicPageGuard guard_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

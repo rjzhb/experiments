@@ -21,7 +21,7 @@
 #include "type/value.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto TransactionManager::Begin(IsolationLevel isolation_level) -> Transaction * {
   std::unique_lock<std::shared_mutex> l(txn_map_mutex_);
@@ -82,4 +82,4 @@ void TransactionManager::Abort(Transaction *txn) {
 
 void TransactionManager::GarbageCollection() { UNIMPLEMENTED("not implemented"); }
 
-}  // namespace bustub
+}  // namespace vdbms

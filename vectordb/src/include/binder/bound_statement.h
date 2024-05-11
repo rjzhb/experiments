@@ -1,7 +1,7 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
-// bustub/binder/sql_statement.h
+// vdbms/binder/sql_statement.h
 //
 //
 //===----------------------------------------------------------------------===//
@@ -13,7 +13,7 @@
 #include "common/enums/statement_type.h"
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * BoundStatement is the base class of any type of bound SQL statement.
@@ -33,4 +33,4 @@ class BoundStatement {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

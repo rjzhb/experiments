@@ -8,9 +8,9 @@
 #include "catalog/schema.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
-#define BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(cname)                                                          \
+#define vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(cname)                                                          \
   auto CloneWithChildren(std::vector<AbstractPlanNodeRef> children) const->std::unique_ptr<AbstractPlanNode> \
       override {                                                                                             \
     auto plan_node = cname(*this);                                                                           \
@@ -108,10 +108,10 @@ class AbstractPlanNode {
  private:
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template<typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::AbstractPlanNode, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::AbstractPlanNode, T>::value, char>>
 	: fmt::formatter<std::string> {
   template<typename FormatCtx>
   auto format(const T &x, FormatCtx &ctx) const {
@@ -120,7 +120,7 @@ struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::AbstractPlanNo
 };
 
 template<typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::AbstractPlanNode, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::AbstractPlanNode, T>::value, char>>
 	: fmt::formatter<std::string> {
   template<typename FormatCtx>
   auto format(const std::unique_ptr<T> &x, FormatCtx &ctx) const {

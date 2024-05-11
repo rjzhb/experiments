@@ -7,7 +7,7 @@
 #include "storage/index/index.h"
 #include "storage/index/vector_index.h"
 
-namespace bustub {
+namespace vdbms {
 using Vector = std::vector<double>;
 
 IVFFlatIndex::IVFFlatIndex(std::unique_ptr<IndexMetadata> &&metadata, BufferPoolManager *buffer_pool_manager,
@@ -134,4 +134,4 @@ auto IVFFlatIndex::ScanVectorKey(const std::vector<double> &base_vector, size_t 
   return result;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

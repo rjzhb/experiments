@@ -22,7 +22,7 @@
 #include "storage/page/page.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 class TransactionManager;
 
@@ -195,14 +195,14 @@ class Transaction {
   const txn_id_t txn_id_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::IsolationLevel> : formatter<std::string_view> {
+struct fmt::formatter<vdbms::IsolationLevel> : formatter<std::string_view> {
   // parse is inherited from formatter<string_view>.
   template <typename FormatContext>
-  auto format(bustub::IsolationLevel x, FormatContext &ctx) const {
-    using bustub::IsolationLevel;
+  auto format(vdbms::IsolationLevel x, FormatContext &ctx) const {
+    using vdbms::IsolationLevel;
     string_view name = "unknown";
     switch (x) {
       case IsolationLevel::READ_UNCOMMITTED:
@@ -220,11 +220,11 @@ struct fmt::formatter<bustub::IsolationLevel> : formatter<std::string_view> {
 };
 
 template <>
-struct fmt::formatter<bustub::TransactionState> : formatter<std::string_view> {
+struct fmt::formatter<vdbms::TransactionState> : formatter<std::string_view> {
   // parse is inherited from formatter<string_view>.
   template <typename FormatContext>
-  auto format(bustub::TransactionState x, FormatContext &ctx) const {
-    using bustub::TransactionState;
+  auto format(vdbms::TransactionState x, FormatContext &ctx) const {
+    using vdbms::TransactionState;
     string_view name = "unknown";
     switch (x) {
       case TransactionState::RUNNING:

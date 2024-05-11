@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/index_statement.h
 //
@@ -17,7 +17,7 @@
 #include "binder/table_ref/bound_base_table_ref.h"
 #include "catalog/column.h"
 
-namespace bustub {
+namespace vdbms {
 
 class IndexStatement : public BoundStatement {
  public:
@@ -43,4 +43,4 @@ class IndexStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

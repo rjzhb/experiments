@@ -15,7 +15,7 @@
 #include "optimizer/optimizer.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Optimizer::OptimizeNLJAsHashJoin(const AbstractPlanNodeRef &plan) -> AbstractPlanNodeRef {
   // TODO(student): implement NestedLoopJoin -> HashJoin optimizer rule
@@ -24,4 +24,4 @@ auto Optimizer::OptimizeNLJAsHashJoin(const AbstractPlanNodeRef &plan) -> Abstra
   return plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

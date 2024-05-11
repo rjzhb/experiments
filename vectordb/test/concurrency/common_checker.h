@@ -16,14 +16,14 @@
 #include <utility>
 #include <vector>
 
-#include "common/bustub_instance.h"
+#include "common/vdbms_instance.h"
 #include "concurrency/transaction_manager.h"
 
-namespace bustub {
+namespace vdbms {
 
-auto Insert(Transaction *txn, BustubInstance &instance, int v1) -> void {
+auto Insert(Transaction *txn, vdbmsInstance &instance, int v1) -> void {
   std::stringstream ss;
-  auto writer = bustub::SimpleStreamWriter(ss, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(ss, true, ",");
   fmt::print(stderr, "insert data with v1 = {} in txn {} {}\n", v1, txn->GetTransactionId(), txn->GetIsolationLevel());
   std::string sql = fmt::format("INSERT INTO t1 VALUES ({}, 1), ({}, 2), ({}, 3)", v1, v1, v1);
   instance.ExecuteSqlTxn(sql, writer, txn);
@@ -38,7 +38,7 @@ auto Insert(Transaction *txn, BustubInstance &instance, int v1) -> void {
 /// This overloaded function will then bound each pair from @v1_vec & @v2_vec as a insert value
 /// If flag is set to `true`, v1_vec should contain exactly one element,
 /// The insert pair will be {v1_vec[0], v2_vec[0]}, {v1_vec[0], v2_vec[1]} ...
-auto Insert(Transaction *txn, BustubInstance &instance, const std::vector<int> &v1_vec, const std::vector<int> &v2_vec,
+auto Insert(Transaction *txn, vdbmsInstance &instance, const std::vector<int> &v1_vec, const std::vector<int> &v2_vec,
             bool flag = false) -> void {
   // Check if the input vectors have the same size.
   if (!flag) {
@@ -62,7 +62,7 @@ auto Insert(Transaction *txn, BustubInstance &instance, const std::vector<int> &
   }
 
   std::stringstream ss;
-  auto writer = bustub::SimpleStreamWriter(ss, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(ss, true, ",");
 
   assert(v1_vec.size() == 1);
   std::string val_str{};
@@ -95,9 +95,9 @@ auto Insert(Transaction *txn, BustubInstance &instance, const std::vector<int> &
   ASSERT_EQ(ss.str(), fmt::format("{},\n", v2_vec.size()));
 }
 
-auto Delete(Transaction *txn, BustubInstance &instance, int v1) -> void {
+auto Delete(Transaction *txn, vdbmsInstance &instance, int v1) -> void {
   std::stringstream ss;
-  auto writer = bustub::SimpleStreamWriter(ss, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(ss, true, ",");
   fmt::print(stderr, "delete data with v1 = {} in txn {} {}\n", v1, txn->GetTransactionId(), txn->GetIsolationLevel());
   std::string sql = fmt::format("DELETE FROM t1 WHERE v1 = {}", v1);
   instance.ExecuteSqlTxn(sql, writer, txn);
@@ -109,7 +109,7 @@ auto Delete(Transaction *txn, BustubInstance &instance, int v1) -> void {
 /// @param d_size The size you expect to be deleted from t1, will be used as sanity check, default value is 3
 /// This overloaded function performs a vectorized self-constructed deletion to better test the implementation
 /// You should calculate the number of elements that logically should be deleted, and pass it in as @d_size.
-auto Delete(Transaction *txn, BustubInstance &instance, const std::vector<int> &d_vec, int d_size = 3) -> void {
+auto Delete(Transaction *txn, vdbmsInstance &instance, const std::vector<int> &d_vec, int d_size = 3) -> void {
   if (d_vec.empty()) {
     fmt::print(stderr, "Input vec must not be empty\n");
     return;
@@ -118,7 +118,7 @@ auto Delete(Transaction *txn, BustubInstance &instance, const std::vector<int> &
   assert(!d_vec.empty());
 
   std::stringstream ss;
-  auto writer = bustub::SimpleStreamWriter(ss, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(ss, true, ",");
 
   for (const auto &v1 : d_vec) {
     fmt::print(stderr, "delete data with v1 = {} in txn {} {}\n", v1, txn->GetTransactionId(),
@@ -135,8 +135,8 @@ auto Delete(Transaction *txn, BustubInstance &instance, const std::vector<int> &
 }
 
 auto ExpectResult(const std::string &actual_result, const std::string &expected_result) -> bool {
-  auto actual_result_rows = bustub::StringUtil::Split(actual_result, '\n');
-  auto expected_result_rows = bustub::StringUtil::Split(expected_result, '\n');
+  auto actual_result_rows = vdbms::StringUtil::Split(actual_result, '\n');
+  auto expected_result_rows = vdbms::StringUtil::Split(expected_result, '\n');
   std::sort(actual_result_rows.begin(), actual_result_rows.end());
   std::sort(expected_result_rows.begin(), expected_result_rows.end());
   if (actual_result_rows != expected_result_rows) {
@@ -148,9 +148,9 @@ auto ExpectResult(const std::string &actual_result, const std::string &expected_
   return actual_result_rows == expected_result_rows;
 }
 
-auto Scan(Transaction *txn, BustubInstance &instance, const std::vector<int> &v1) -> void {
+auto Scan(Transaction *txn, vdbmsInstance &instance, const std::vector<int> &v1) -> void {
   std::stringstream ss;
-  auto writer = bustub::SimpleStreamWriter(ss, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(ss, true, ",");
   fmt::print(stderr, "scan data expect v1 in range {} in txn {} {}\n", v1, txn->GetTransactionId(),
              txn->GetIsolationLevel());
   std::string sql = fmt::format("SELECT * FROM t1");
@@ -166,29 +166,29 @@ auto Scan(Transaction *txn, BustubInstance &instance, const std::vector<int> &v1
   }
 }
 
-void Commit(BustubInstance &instance, Transaction *&txn) {
+void Commit(vdbmsInstance &instance, Transaction *&txn) {
   fmt::print(stderr, "commit txn {} in {}\n", txn->GetTransactionId(), txn->GetIsolationLevel());
   instance.txn_manager_->Commit(txn);
   delete txn;
   txn = nullptr;
 }
 
-void Abort(BustubInstance &instance, Transaction *&txn) {
+void Abort(vdbmsInstance &instance, Transaction *&txn) {
   fmt::print(stderr, "abort txn {} in {}\n", txn->GetTransactionId(), txn->GetIsolationLevel());
   instance.txn_manager_->Abort(txn);
   delete txn;
   txn = nullptr;
 }
 
-auto Begin(BustubInstance &instance, IsolationLevel level) -> Transaction * {
+auto Begin(vdbmsInstance &instance, IsolationLevel level) -> Transaction * {
   auto txn = instance.txn_manager_->Begin(nullptr, level);
   fmt::print(stderr, "start txn {} in {}\n", txn->GetTransactionId(), txn->GetIsolationLevel());
   return txn;
 }
 
-auto GetDbForVisibilityTest(const std::string &name) -> std::shared_ptr<BustubInstance> {
-  auto instance = std::make_unique<BustubInstance>();
-  auto writer = bustub::SimpleStreamWriter(std::cout, true);
+auto GetDbForVisibilityTest(const std::string &name) -> std::shared_ptr<vdbmsInstance> {
+  auto instance = std::make_unique<vdbmsInstance>();
+  auto writer = vdbms::SimpleStreamWriter(std::cout, true);
   fmt::print(stderr, "--- TEST CASE {} ---\n", name);
   fmt::print(stderr, "prepare\n");
   instance->ExecuteSql("CREATE TABLE t1(v1 int, v2 int);", writer);
@@ -196,9 +196,9 @@ auto GetDbForVisibilityTest(const std::string &name) -> std::shared_ptr<BustubIn
   return instance;
 }
 
-auto GetDbForCommitAbortTest(const std::string &name) -> std::shared_ptr<BustubInstance> {
-  auto instance = std::make_unique<BustubInstance>();
-  auto writer = bustub::SimpleStreamWriter(std::cout, true);
+auto GetDbForCommitAbortTest(const std::string &name) -> std::shared_ptr<vdbmsInstance> {
+  auto instance = std::make_unique<vdbmsInstance>();
+  auto writer = vdbms::SimpleStreamWriter(std::cout, true);
   fmt::print(stderr, "--- TEST CASE {} ---\n", name);
   fmt::print(stderr, "prepare\n");
   instance->ExecuteSql("CREATE TABLE t1(v1 int, v2 int);", writer);
@@ -213,9 +213,9 @@ enum class ExpectedOutcome {
   BlockOnWrite,
 };
 
-auto GetDbForIsolationTest() -> std::shared_ptr<BustubInstance> {
-  auto instance = std::make_unique<BustubInstance>();
-  auto writer = bustub::SimpleStreamWriter(std::cout, true);
+auto GetDbForIsolationTest() -> std::shared_ptr<vdbmsInstance> {
+  auto instance = std::make_unique<vdbmsInstance>();
+  auto writer = vdbms::SimpleStreamWriter(std::cout, true);
   fmt::print(stderr, "0: prepare\n");
   // in case you implemented scan filter pushdown... disable it by forcing starter rule!
   instance->ExecuteSql("set force_optimizer_starter_rule=yes;", writer);
@@ -226,13 +226,13 @@ auto GetDbForIsolationTest() -> std::shared_ptr<BustubInstance> {
   return instance;
 }
 
-auto StartReadTxn(IsolationLevel read_txn_level, BustubInstance &instance, bool read_before_write) -> Transaction * {
+auto StartReadTxn(IsolationLevel read_txn_level, vdbmsInstance &instance, bool read_before_write) -> Transaction * {
   fmt::print(stderr, "1: read txn: {}\n", read_txn_level);
   auto txn_r = instance.txn_manager_->Begin(nullptr, read_txn_level);
   if (read_before_write) {
     fmt::print(stderr, "1.1: initial read\n");
     std::stringstream result;
-    auto writer = bustub::SimpleStreamWriter(result, true, ",");
+    auto writer = vdbms::SimpleStreamWriter(result, true, ",");
     instance.ExecuteSqlTxn("SELECT * FROM t1;", writer, txn_r);
     fmt::print(stderr, "1.2: R locks\n");
     for (const auto &[t, v] : *txn_r->GetSharedRowLockSet()) {
@@ -253,8 +253,8 @@ auto StartReadTxn(IsolationLevel read_txn_level, BustubInstance &instance, bool 
   return txn_r;
 }
 
-auto StartWriteTxn(IsolationLevel write_txn_level, BustubInstance &instance, bool is_delete) -> Transaction * {
-  auto writer = bustub::SimpleStreamWriter(std::cout, true);
+auto StartWriteTxn(IsolationLevel write_txn_level, vdbmsInstance &instance, bool is_delete) -> Transaction * {
+  auto writer = vdbms::SimpleStreamWriter(std::cout, true);
   fmt::print(stderr, "2: write txn: {}\n", write_txn_level);
   auto txn_w = instance.txn_manager_->Begin(nullptr, write_txn_level);
   if (is_delete) {
@@ -273,11 +273,11 @@ auto StartWriteTxn(IsolationLevel write_txn_level, BustubInstance &instance, boo
   return txn_w;
 }
 
-auto TryRead(Transaction *txn_r, BustubInstance &instance, ExpectedOutcome o, bool is_delete,
+auto TryRead(Transaction *txn_r, vdbmsInstance &instance, ExpectedOutcome o, bool is_delete,
              std::atomic<bool> &check_done) -> bool {
   bool ret = false;
   std::stringstream result;
-  auto writer = bustub::SimpleStreamWriter(result, true, ",");
+  auto writer = vdbms::SimpleStreamWriter(result, true, ",");
   fmt::print(stderr, "3: read txn read\n");
   fmt::print(stderr, "3.1: read values\n");
   instance.ExecuteSqlTxn("SELECT * FROM t1;", writer, txn_r);
@@ -384,4 +384,4 @@ const bool READ_BEFORE_WRITE = true;
 const bool IS_INSERT = false;
 const bool IS_DELETE = true;
 
-}  // namespace bustub
+}  // namespace vdbms

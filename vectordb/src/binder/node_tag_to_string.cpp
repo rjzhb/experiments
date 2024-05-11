@@ -23,7 +23,7 @@
 #include "binder/binder.h"
 #include "binder/expressions/bound_window.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Binder::NodeTagToString(duckdb_libpgquery::PGNodeTag type) -> std::string {
   switch (type) {
@@ -864,4 +864,4 @@ auto Binder::WindowBoundaryToString(WindowBoundary wb) -> std::string {
       return "(UNKNOWN)";
   }
 }  // LCOV_EXCL_STOP
-}  // namespace bustub
+}  // namespace vdbms

@@ -21,7 +21,7 @@
 #include "type/type.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto MatchVectorIndex(const Catalog &catalog, table_oid_t table_oid, uint32_t col_idx, VectorExpressionType dist_fn,
                       const std::string &vector_index_match_method) -> const IndexInfo * {
@@ -39,7 +39,7 @@ auto MatchVectorIndex(const Catalog &catalog, table_oid_t table_oid, uint32_t co
         continue;
       }
       auto *vector_index = dynamic_cast<const VectorIndex *>(index->index_.get());
-      BUSTUB_ASSERT(vector_index != nullptr, "??");
+      vdbms_ASSERT(vector_index != nullptr, "??");
       if (vector_index->GetKeyAttrs().size() == 1 && vector_index->GetKeyAttrs()[0] == col_idx &&
           vector_index->distance_fn_ == dist_fn) {
         return index;
@@ -134,4 +134,4 @@ auto Optimizer::OptimizeAsVectorIndexScan(const AbstractPlanNodeRef &plan) -> Ab
   return optimized_plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // hash_table_header_page.h
 //
@@ -20,7 +20,7 @@
 #include "storage/index/generic_key.h"
 #include "storage/page/hash_table_page_defs.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  *
@@ -98,4 +98,4 @@ class HashTableHeaderPage {
   __attribute__((unused)) page_id_t block_page_ids_[1];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

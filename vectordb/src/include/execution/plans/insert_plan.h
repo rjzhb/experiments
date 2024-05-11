@@ -8,7 +8,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The InsertPlanNode identifies a table into which tuples are inserted.
@@ -35,11 +35,11 @@ class InsertPlanNode : public AbstractPlanNode {
 
   /** @return the child plan providing tuples to be inserted */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Insert should have only one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "Insert should have only one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(InsertPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(InsertPlanNode);
 
   /** The table to be inserted into. */
   table_oid_t table_oid_;
@@ -48,4 +48,4 @@ class InsertPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override { return fmt::format("Insert {{ table_oid={} }}", table_oid_); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

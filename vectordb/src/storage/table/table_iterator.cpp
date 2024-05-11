@@ -7,7 +7,7 @@
 #include "concurrency/transaction.h"
 #include "storage/table/table_heap.h"
 
-namespace bustub {
+namespace vdbms {
 
 TableIterator::TableIterator(TableHeap *table_heap, RID rid, RID stop_at_rid)
     : table_heap_(table_heap), rid_(rid), stop_at_rid_(stop_at_rid) {
@@ -40,7 +40,7 @@ auto TableIterator::operator++() -> TableIterator & {
 
   // 如果存在停止位置，则检查是否越界
   if (stop_at_rid_.GetPageId() != INVALID_PAGE_ID) {
-	BUSTUB_ASSERT(
+	vdbms_ASSERT(
 	/* 情况1：游标在停止元组所在页之前 */ rid_.GetPageId() < stop_at_rid_.GetPageId() ||
 		/* 情况2：游标在停止元组之前的页面 */
 		(rid_.GetPageId() == stop_at_rid_.GetPageId() && next_tuple_id <= stop_at_rid_.GetSlotNum()),
@@ -65,4 +65,4 @@ auto TableIterator::operator++() -> TableIterator & {
   return *this;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

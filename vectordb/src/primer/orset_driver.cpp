@@ -1,7 +1,7 @@
 #include "primer/orset_driver.h"
 #include <string>
 
-namespace bustub {
+namespace vdbms {
 
 template <typename T>
 void ORSetNode<T>::Load() {
@@ -48,4 +48,4 @@ template class ORSetNode<std::string>;
 template class ORSetDriver<int>;
 template class ORSetDriver<std::string>;
 
-}  // namespace bustub
+}  // namespace vdbms

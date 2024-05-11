@@ -8,7 +8,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The FilterPlanNode represents a filter operation.
@@ -35,11 +35,11 @@ class FilterPlanNode : public AbstractPlanNode {
 
   /** @return The child plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "Filter should have exactly one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "Filter should have exactly one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(FilterPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(FilterPlanNode);
 
   /** The predicate that all returned tuples must satisfy */
   AbstractExpressionRef predicate_;
@@ -50,4 +50,4 @@ class FilterPlanNode : public AbstractPlanNode {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

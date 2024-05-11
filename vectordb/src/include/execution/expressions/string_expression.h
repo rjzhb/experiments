@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // string_expression.h
 //
@@ -28,7 +28,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 enum class StringExpressionType { Lower, Upper };
 
@@ -41,7 +41,7 @@ class StringExpression : public AbstractExpression {
       : AbstractExpression({std::move(arg)}, Column{"<val>", TypeId::VARCHAR, 256 /* hardcode max length */}),
         expr_type_{expr_type} {
     if (GetChildAt(0)->GetReturnType().GetType() != TypeId::VARCHAR) {
-      BUSTUB_ENSURE(GetChildAt(0)->GetReturnType().GetType() == TypeId::VARCHAR, "unexpected arg");
+      vdbms_ENSURE(GetChildAt(0)->GetReturnType().GetType() == TypeId::VARCHAR, "unexpected arg");
     }
   }
 
@@ -66,24 +66,24 @@ class StringExpression : public AbstractExpression {
   /** @return the string representation of the expression node and its children */
   auto ToString() const -> std::string override { return fmt::format("{}({})", expr_type_, *GetChildAt(0)); }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(StringExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(StringExpression);
 
   StringExpressionType expr_type_;
 
  private:
 };
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::StringExpressionType> : formatter<string_view> {
+struct fmt::formatter<vdbms::StringExpressionType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::StringExpressionType c, FormatContext &ctx) const {
+  auto format(vdbms::StringExpressionType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::StringExpressionType::Upper:
+      case vdbms::StringExpressionType::Upper:
         name = "upper";
         break;
-      case bustub::StringExpressionType::Lower:
+      case vdbms::StringExpressionType::Lower:
         name = "lower";
         break;
       default:

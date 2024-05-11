@@ -9,7 +9,7 @@
 #include "storage/table/tuple.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Transaction;
 
@@ -177,4 +177,4 @@ class Index {
   std::unique_ptr<IndexMetadata> metadata_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

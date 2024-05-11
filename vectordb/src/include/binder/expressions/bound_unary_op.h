@@ -6,7 +6,7 @@
 #include <vector>
 #include "binder/bound_expression.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * A bound unary operation, e.g., `-x`.
@@ -26,4 +26,4 @@ class BoundUnaryOp : public BoundExpression {
   /** Argument of the op. */
   std::unique_ptr<BoundExpression> arg_;
 };
-}  // namespace bustub
+}  // namespace vdbms

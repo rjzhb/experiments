@@ -8,7 +8,7 @@
 #include "common/rid.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 
 using timestamp_t = int64_t; // 定义时间戳类型
 const timestamp_t INVALID_TS = -1; // 无效时间戳的常量定义
@@ -113,4 +113,4 @@ class Tuple {
   std::vector<char> data_;  // 元组的数据内容
 };
 
-}  // namespace bustub
+}  // namespace vdbms

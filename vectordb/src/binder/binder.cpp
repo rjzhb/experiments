@@ -38,7 +38,7 @@
 #include "postgres_parser.hpp"
 #include "type/decimal_type.h"
 
-namespace bustub {
+namespace vdbms {
 
 Binder::Binder(const Catalog &catalog) : catalog_(catalog) {}
 
@@ -122,4 +122,4 @@ auto Binder::Tokenize(const std::string &query) -> std::vector<SimplifiedToken> 
   return result;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

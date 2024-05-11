@@ -7,7 +7,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The MockScanPlanNode represents a "dummy" sequential
@@ -30,7 +30,7 @@ class MockScanPlanNode : public AbstractPlanNode {
   /** @return The table name of this mock scan node, used to determine the generated content. */
   auto GetTable() const -> const std::string & { return table_; }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(MockScanPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(MockScanPlanNode);
 
  protected:
   auto PlanNodeToString() const -> std::string override { return fmt::format("MockScan {{ table={} }}", table_); }
@@ -40,4 +40,4 @@ class MockScanPlanNode : public AbstractPlanNode {
   std::string table_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

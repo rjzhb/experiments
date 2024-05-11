@@ -9,7 +9,7 @@
 #include "binder/statement/select_statement.h"
 #include "common/util/string_util.h"
 
-namespace bustub {
+namespace vdbms {
 
 ExplainStatement::ExplainStatement(std::unique_ptr<BoundStatement> statement, uint8_t options)
     : BoundStatement(StatementType::EXPLAIN_STATEMENT), statement_(std::move(statement)), options_(options) {}
@@ -19,4 +19,4 @@ auto ExplainStatement::ToString() const -> std::string {
                      StringUtil::IndentAllLines(statement_->ToString(), 2, true), options_);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

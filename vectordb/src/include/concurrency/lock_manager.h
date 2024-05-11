@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // lock_manager.h
 //
@@ -27,7 +27,7 @@
 #include "common/rid.h"
 #include "concurrency/transaction.h"
 
-namespace bustub {
+namespace vdbms {
 
 class TransactionManager;
 
@@ -80,7 +80,7 @@ class LockManager {
   LockManager() = default;
 
   void StartDeadlockDetection() {
-    BUSTUB_ENSURE(txn_manager_ != nullptr, "txn_manager_ is not set.")
+    vdbms_ENSURE(txn_manager_ != nullptr, "txn_manager_ is not set.")
     enable_cycle_detection_ = true;
     cycle_detection_thread_ = new std::thread(&LockManager::RunCycleDetection, this);
   }
@@ -351,28 +351,28 @@ class LockManager {
   std::mutex waits_for_latch_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::LockManager::LockMode> : formatter<std::string_view> {
+struct fmt::formatter<vdbms::LockManager::LockMode> : formatter<std::string_view> {
   // parse is inherited from formatter<string_view>.
   template <typename FormatContext>
-  auto format(bustub::LockManager::LockMode x, FormatContext &ctx) const {
+  auto format(vdbms::LockManager::LockMode x, FormatContext &ctx) const {
     string_view name = "unknown";
     switch (x) {
-      case bustub::LockManager::LockMode::EXCLUSIVE:
+      case vdbms::LockManager::LockMode::EXCLUSIVE:
         name = "EXCLUSIVE";
         break;
-      case bustub::LockManager::LockMode::INTENTION_EXCLUSIVE:
+      case vdbms::LockManager::LockMode::INTENTION_EXCLUSIVE:
         name = "INTENTION_EXCLUSIVE";
         break;
-      case bustub::LockManager::LockMode::SHARED:
+      case vdbms::LockManager::LockMode::SHARED:
         name = "SHARED";
         break;
-      case bustub::LockManager::LockMode::INTENTION_SHARED:
+      case vdbms::LockManager::LockMode::INTENTION_SHARED:
         name = "INTENTION_SHARED";
         break;
-      case bustub::LockManager::LockMode::SHARED_INTENTION_EXCLUSIVE:
+      case vdbms::LockManager::LockMode::SHARED_INTENTION_EXCLUSIVE:
         name = "SHARED_INTENTION_EXCLUSIVE";
         break;
     }

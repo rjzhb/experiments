@@ -9,7 +9,7 @@
 #include "fmt/ranges.h"
 #include "parser.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto Tokenize(const std::string &str, char delimiter = ' ') -> std::vector<std::string> {
   std::string::size_type pos;
@@ -57,21 +57,21 @@ auto ParseInner(const std::string &filename, const std::string &script) -> std::
       if (tokens.size() == 2) {
         records.emplace_back(std::make_unique<IncludeRecord>(loc, tokens[1]));
       } else {
-        throw bustub::Exception("unexpected number of args");
+        throw vdbms::Exception("unexpected number of args");
       }
     }
     if (tokens[0] == "halt") {
       if (tokens.size() == 2) {
         records.emplace_back(std::make_unique<HaltRecord>(loc));
       } else {
-        throw bustub::Exception("unexpected number of args");
+        throw vdbms::Exception("unexpected number of args");
       }
     }
     if (tokens[0] == "sleep") {
       if (tokens.size() == 2) {
         records.emplace_back(std::make_unique<SleepRecord>(loc, std::stoi(tokens[1])));
       } else {
-        throw bustub::Exception("unexpected number of args");
+        throw vdbms::Exception("unexpected number of args");
       }
     }
     if (tokens[0] == "statement") {
@@ -126,7 +126,7 @@ auto ParseInner(const std::string &filename, const std::string &script) -> std::
       }
       line_iter++;
       if (line_iter == lines.cend()) {
-        throw bustub::Exception("unexpected end");
+        throw vdbms::Exception("unexpected end");
       }
       std::string sql;
       bool has_result = false;
@@ -144,7 +144,7 @@ auto ParseInner(const std::string &filename, const std::string &script) -> std::
         line_iter++;
       }
       if (!has_result) {
-        throw bustub::Exception("no result");
+        throw vdbms::Exception("no result");
       }
       if (line_iter != lines.cend()) {
         line_iter++;
@@ -177,4 +177,4 @@ auto SQLLogicTestParser::Parse(const std::string &script) -> std::vector<std::un
   return ParseInner("<main>", script);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

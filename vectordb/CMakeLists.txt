@@ -4,9 +4,9 @@ set(BUILD_SHARED_LIBS OFF) # We expect external libraries to be linked staticall
 set(CMAKE_CXX_STANDARD 17) # Compile as C++17.
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Require C++17 support.
 
-project(BusTub
+project(vdbms
         VERSION 2023.1
-        DESCRIPTION "The BusTub Relational Database Management System (Educational) @ https://github.com/cmu-db/bustub"
+        DESCRIPTION "The vdbms Relational Database Management System (Educational) @ https://github.com/cmu-db/vdbms"
         LANGUAGES C CXX
 )
 
@@ -31,20 +31,20 @@ if(EXISTS "${PATH_TO_CMAKELISTS_TXT}")
 endif()
 
 # Expected directory structure.
-set(BUSTUB_BUILD_SUPPORT_DIR "${CMAKE_SOURCE_DIR}/build_support")
-set(BUSTUB_CLANG_SEARCH_PATH "/usr/local/bin" "/usr/bin" "/usr/local/opt/llvm/bin" "/usr/local/opt/llvm@14/bin"
+set(vdbms_BUILD_SUPPORT_DIR "${CMAKE_SOURCE_DIR}/build_support")
+set(vdbms_CLANG_SEARCH_PATH "/usr/local/bin" "/usr/bin" "/usr/local/opt/llvm/bin" "/usr/local/opt/llvm@14/bin"
         "/opt/homebrew/opt/llvm@14/bin/")
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         if(CMAKE_CXX_COMPILER_VERSION MATCHES "^14.")
                 message(STATUS "You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
         else()
-                message(WARNING "!! We recommend that you use clang-14 for developing BusTub. You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}, a different version.")
+                message(WARNING "!! We recommend that you use clang-14 for developing vdbms. You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}, a different version.")
         endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
         message(STATUS "You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 else()
-        message(WARNING "!! We recommend that you use clang-14 for developing BusTub. You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}, which is not clang.")
+        message(WARNING "!! We recommend that you use clang-14 for developing vdbms. You're using ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}, which is not clang.")
 endif()
 
 # #####################################################################################################################
@@ -59,64 +59,64 @@ enable_testing()
 # attempt to find the binary if user did not specify
 find_program(CLANG_FORMAT_BIN
         NAMES clang-format clang-format-14
-        HINTS ${BUSTUB_CLANG_SEARCH_PATH})
+        HINTS ${vdbms_CLANG_SEARCH_PATH})
 
 if("${CLANG_FORMAT_BIN}" STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
-        message(WARNING "BusTub/main couldn't find clang-format.")
+        message(WARNING "vdbms/main couldn't find clang-format.")
 else()
-        message(STATUS "BusTub/main found clang-format at ${CLANG_FORMAT_BIN}")
+        message(STATUS "vdbms/main found clang-format at ${CLANG_FORMAT_BIN}")
 endif()
 
 # attempt to find the binary if user did not specify
 find_program(CLANG_TIDY_BIN
         NAMES clang-tidy clang-tidy-14
-        HINTS ${BUSTUB_CLANG_SEARCH_PATH})
+        HINTS ${vdbms_CLANG_SEARCH_PATH})
 
 if("${CLANG_TIDY_BIN}" STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
-        message(WARNING "BusTub/main couldn't find clang-tidy.")
+        message(WARNING "vdbms/main couldn't find clang-tidy.")
 else()
         # Output compile_commands.json
         set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-        message(STATUS "BusTub/main found clang-tidy at ${CLANG_TIDY_BIN}")
+        message(STATUS "vdbms/main found clang-tidy at ${CLANG_TIDY_BIN}")
 endif()
 
 find_program(CLANG_APPLY_REPLACEMENTS_BIN
         NAMES clang-apply-replacements clang-apply-replacements-14
-        HINTS ${BUSTUB_CLANG_SEARCH_PATH})
+        HINTS ${vdbms_CLANG_SEARCH_PATH})
 
 if("${CLANG_APPLY_REPLACEMENTS_BIN}" STREQUAL "CLANG_APPLY_REPLACEMENTS_BIN-NOTFOUND")
-        message(WARNING "BusTub/main couldn't find clang-apply-replacements.")
+        message(WARNING "vdbms/main couldn't find clang-apply-replacements.")
 else()
         # Output compile_commands.json
         set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-        message(STATUS "BusTub/main found clang-apply-replacements at ${CLANG_APPLY_REPLACEMENTS_BIN}")
+        message(STATUS "vdbms/main found clang-apply-replacements at ${CLANG_APPLY_REPLACEMENTS_BIN}")
 endif()
 
 # cpplint
 find_program(CPPLINT_BIN
         NAMES cpplint cpplint.py
-        HINTS "${BUSTUB_BUILD_SUPPORT_DIR}")
+        HINTS "${vdbms_BUILD_SUPPORT_DIR}")
 
 if("${CPPLINT_BIN}" STREQUAL "CPPLINT_BIN-NOTFOUND")
-        message(WARNING "BusTub/main couldn't find cpplint.")
+        message(WARNING "vdbms/main couldn't find cpplint.")
 else()
-        message(STATUS "BusTub/main found cpplint at ${CPPLINT_BIN}")
+        message(STATUS "vdbms/main found cpplint at ${CPPLINT_BIN}")
 endif()
 
 # #####################################################################################################################
 # COMPILER SETUP
 # #####################################################################################################################
-if(NOT DEFINED BUSTUB_SANITIZER)
-        set(BUSTUB_SANITIZER address)
+if(NOT DEFINED vdbms_SANITIZER)
+        set(vdbms_SANITIZER address)
 endif()
 
 message("Build mode: ${CMAKE_BUILD_TYPE}")
-message("${BUSTUB_SANITIZER} sanitizer will be enabled in debug mode.")
+message("${vdbms_SANITIZER} sanitizer will be enabled in debug mode.")
 
 # Compiler flags.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Werror")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wno-unused-parameter -Wno-attributes") # TODO: remove
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb -fsanitize=${BUSTUB_SANITIZER} -fno-omit-frame-pointer -fno-optimize-sibling-calls")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb -fsanitize=${vdbms_SANITIZER} -fno-omit-frame-pointer -fno-optimize-sibling-calls")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
@@ -130,9 +130,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Includes.
-set(BUSTUB_SRC_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/include)
-set(BUSTUB_TEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/test/include)
-set(BUSTUB_THIRD_PARTY_INCLUDE_DIR
+set(vdbms_SRC_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/include)
+set(vdbms_TEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/test/include)
+set(vdbms_THIRD_PARTY_INCLUDE_DIR
         ${PROJECT_SOURCE_DIR}/third_party
         ${PROJECT_SOURCE_DIR}/third_party/fmt/include
         ${PROJECT_SOURCE_DIR}/third_party/libpg_query/include
@@ -141,7 +141,7 @@ set(BUSTUB_THIRD_PARTY_INCLUDE_DIR
         ${PROJECT_SOURCE_DIR}/third_party/backward-cpp/include
 )
 
-include_directories(${BUSTUB_SRC_INCLUDE_DIR} ${BUSTUB_TEST_INCLUDE_DIR} ${BUSTUB_THIRD_PARTY_INCLUDE_DIR})
+include_directories(${vdbms_SRC_INCLUDE_DIR} ${vdbms_TEST_INCLUDE_DIR} ${vdbms_THIRD_PARTY_INCLUDE_DIR})
 include_directories(BEFORE src) # This is needed for gtest.
 
 function(disable_target_warnings NAME)
@@ -152,7 +152,7 @@ endfunction()
 # Other CMake modules
 # MUST BE ADDED AFTER CONFIGURING COMPILER PARAMETERS
 # #####################################################################################################################
-set(CMAKE_MODULE_PATH "${BUSTUB_BUILD_SUPPORT_DIR}/cmake;${CMAKE_MODULE_PATH}")
+set(CMAKE_MODULE_PATH "${vdbms_BUILD_SUPPORT_DIR}/cmake;${CMAKE_MODULE_PATH}")
 find_package(LibElf)
 find_package(LibDwarf)
 
@@ -169,34 +169,34 @@ add_subdirectory(tools)
 # "make format"
 # "make check-format"
 # #########################################
-string(CONCAT BUSTUB_FORMAT_DIRS
+string(CONCAT vdbms_FORMAT_DIRS
         "${CMAKE_CURRENT_SOURCE_DIR}/src,"
         "${CMAKE_CURRENT_SOURCE_DIR}/test,"
 )
 
 # Runs clang format and updates files in place.
-add_custom_target(format ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_format.py
+add_custom_target(format ${vdbms_BUILD_SUPPORT_DIR}/run_clang_format.py
         ${CLANG_FORMAT_BIN}
-        ${BUSTUB_BUILD_SUPPORT_DIR}/clang_format_exclusions.txt
+        ${vdbms_BUILD_SUPPORT_DIR}/clang_format_exclusions.txt
         --source_dirs
-        ${BUSTUB_FORMAT_DIRS}
+        ${vdbms_FORMAT_DIRS}
         --fix
         --quiet
 )
 
 # Runs clang format and exits with a non-zero exit code if any files need to be reformatted
-add_custom_target(check-format ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_format.py
+add_custom_target(check-format ${vdbms_BUILD_SUPPORT_DIR}/run_clang_format.py
         ${CLANG_FORMAT_BIN}
-        ${BUSTUB_BUILD_SUPPORT_DIR}/clang_format_exclusions.txt
+        ${vdbms_BUILD_SUPPORT_DIR}/clang_format_exclusions.txt
         --source_dirs
-        ${BUSTUB_FORMAT_DIRS}
+        ${vdbms_FORMAT_DIRS}
         --quiet
 )
 
 # #########################################
 # "make check-lint"
 # #########################################
-file(GLOB_RECURSE BUSTUB_LINT_FILES
+file(GLOB_RECURSE vdbms_LINT_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/test/*.h"
@@ -205,7 +205,7 @@ file(GLOB_RECURSE BUSTUB_LINT_FILES
 
 # Balancing act: cpplint.py takes a non-trivial time to launch,
 # so process 12 files per invocation, while still ensuring parallelism
-add_custom_target(check-lint echo '${BUSTUB_LINT_FILES}' | xargs -n12 -P8
+add_custom_target(check-lint echo '${vdbms_LINT_FILES}' | xargs -n12 -P8
         ${CPPLINT_BIN}
         --verbose=2 --quiet
         --linelength=120
@@ -218,25 +218,25 @@ add_custom_target(check-lint echo '${BUSTUB_LINT_FILES}' | xargs -n12 -P8
 # runs clang-tidy and exits with a non-zero exit code if any errors are found.
 # note that clang-tidy automatically looks for a .clang-tidy file in parent directories
 add_custom_target(check-clang-tidy
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
 )
 add_custom_target(fix-clang-tidy
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         -clang-apply-replacements-binary ${CLANG_APPLY_REPLACEMENTS_BIN} # using our clang-apply-replacements binary
         -fix # apply suggested changes generated by clang-tidy
 )
 add_custom_target(check-clang-tidy-diff
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         -only-diff # only check diff files to master
 )
 add_custom_target(fix-clang-tidy-diff
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         -clang-apply-replacements-binary ${CLANG_APPLY_REPLACEMENTS_BIN} # using our clang-apply-replacements binary
@@ -257,7 +257,7 @@ set(P0_FILES
 )
 
 add_custom_target(check-clang-tidy-p0
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         ${P0_FILES}
@@ -277,7 +277,7 @@ set(P1_FILES
         "src/storage/disk/disk_scheduler.cpp"
 )
 add_custom_target(check-clang-tidy-p1
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         ${P1_FILES}
@@ -302,7 +302,7 @@ set(P2_FILES
         ${P1_FILES}
 )
 add_custom_target(check-clang-tidy-p2
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         ${P2_FILES}
@@ -349,13 +349,13 @@ set(P3_FILES
         "src/optimizer/sort_limit_as_topn.cpp"
         "src/optimizer/optimizer_internal.cpp"
         "src/optimizer/seqscan_as_indexscan.cpp"
-        "src/common/bustub_ddl.cpp"
+        "src/common/vdbms_ddl.cpp"
         "src/include/execution/plans/topn_per_group_plan.h"
         ${P2_FILES}
 )
 
 add_custom_target(check-clang-tidy-p3
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         ${P3_FILES}
@@ -377,7 +377,7 @@ set(P4_FILES
 )
 
 add_custom_target(check-clang-tidy-p4
-        ${BUSTUB_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
+        ${vdbms_BUILD_SUPPORT_DIR}/run_clang_tidy.py # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN} # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR} # using cmake's generated compile commands
         ${P4_FILES}
@@ -389,4 +389,4 @@ add_custom_target(submit-p4
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_dependencies(check-clang-tidy gtest bustub) # needs gtest headers, compile_commands.json
+add_dependencies(check-clang-tidy gtest vdbms) # needs gtest headers, compile_commands.json

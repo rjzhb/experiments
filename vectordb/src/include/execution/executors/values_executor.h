@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // values_executor.h
 //
@@ -20,7 +20,7 @@
 #include "execution/plans/values_plan.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The ValuesExecutor executor produces rows of values.
@@ -56,4 +56,4 @@ class ValuesExecutor : public AbstractExecutor {
 
   size_t cursor_{0};
 };
-}  // namespace bustub
+}  // namespace vdbms

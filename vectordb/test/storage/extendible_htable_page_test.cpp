@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_page_test.cpp
 //
@@ -26,7 +26,7 @@
 #include "storage/page/page_guard.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
 // NOLINTNEXTLINE
 TEST(ExtendibleHTableTest, DISABLED_BucketPageSampleTest) {
@@ -276,4 +276,4 @@ TEST(ExtendibleHTableTest, DISABLED_HeaderDirectoryPageSampleTest) {
   }  // page guard dropped
 }
 
-}  // namespace bustub
+}  // namespace vdbms

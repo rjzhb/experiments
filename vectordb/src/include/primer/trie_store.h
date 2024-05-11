@@ -6,7 +6,7 @@
 
 #include "primer/trie.h"
 
-namespace bustub {
+namespace vdbms {
 
 // This class is used to guard the value returned by the trie. It holds a reference to the root so
 // that the reference to the value will not be invalidated.
@@ -51,4 +51,4 @@ class TrieStore {
   Trie root_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

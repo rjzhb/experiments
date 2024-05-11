@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // type_test.cpp
 //
@@ -18,7 +18,7 @@
 #include "gtest/gtest.h"
 #include "type/value.h"
 
-namespace bustub {
+namespace vdbms {
 //===--------------------------------------------------------------------===//
 // Type Tests
 //===--------------------------------------------------------------------===//
@@ -95,4 +95,4 @@ TEST(TypeTests, TemplateTest) {
   BPlusTreePage<Value, Value> node;
   node.GetInfo(val1, val2);
 }
-}  // namespace bustub
+}  // namespace vdbms

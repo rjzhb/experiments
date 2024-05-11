@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_header_page.h
 //
@@ -23,7 +23,7 @@
 #include "common/config.h"
 #include "common/macros.h"
 
-namespace bustub {
+namespace vdbms {
 
 static constexpr uint64_t HTABLE_HEADER_PAGE_METADATA_SIZE = sizeof(uint32_t);
 static constexpr uint64_t HTABLE_HEADER_MAX_DEPTH = 9;
@@ -86,6 +86,6 @@ static_assert(sizeof(page_id_t) == 4);
 static_assert(sizeof(ExtendibleHTableHeaderPage) ==
               sizeof(page_id_t) * HTABLE_HEADER_ARRAY_SIZE + HTABLE_HEADER_PAGE_METADATA_SIZE);
 
-static_assert(sizeof(ExtendibleHTableHeaderPage) <= BUSTUB_PAGE_SIZE);
+static_assert(sizeof(ExtendibleHTableHeaderPage) <= vdbms_PAGE_SIZE);
 
-}  // namespace bustub
+}  // namespace vdbms

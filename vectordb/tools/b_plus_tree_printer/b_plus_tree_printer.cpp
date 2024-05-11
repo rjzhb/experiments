@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // b_plus_tree_printer.cpp
 //
@@ -18,16 +18,16 @@
 #include "storage/index/b_plus_tree.h"
 #include "test_util.h"  // NOLINT
 
-using bustub::BPlusTree;
-using bustub::BufferPoolManager;
-using bustub::DiskManager;
-using bustub::Exception;
-using bustub::GenericComparator;
-using bustub::GenericKey;
-using bustub::page_id_t;
-using bustub::ParseCreateStatement;
-using bustub::RID;
-using bustub::Transaction;
+using vdbms::BPlusTree;
+using vdbms::BufferPoolManager;
+using vdbms::DiskManager;
+using vdbms::Exception;
+using vdbms::GenericComparator;
+using vdbms::GenericKey;
+using vdbms::page_id_t;
+using vdbms::ParseCreateStatement;
+using vdbms::RID;
+using vdbms::Transaction;
 
 auto UsageMessage() -> std::string {
   std::string message =
@@ -56,7 +56,7 @@ auto main(int argc, char **argv) -> int {
   bool quit = false;
   int leaf_max_size;
   int internal_max_size;
-  std::unique_ptr<bustub::Schema> key_schema;
+  std::unique_ptr<vdbms::Schema> key_schema;
 
   std::cout << UsageMessage();
   std::cin >> leaf_max_size;

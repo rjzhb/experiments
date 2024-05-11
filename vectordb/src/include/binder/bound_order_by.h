@@ -1,7 +1,7 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
-// bustub/binder/bound_order_by.h
+// vdbms/binder/bound_order_by.h
 //
 //
 //===----------------------------------------------------------------------===//
@@ -16,7 +16,7 @@
 #include "common/exception.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * All types of order-bys in binder.
@@ -46,42 +46,42 @@ class BoundOrderBy {
   auto ToString() const -> std::string { return fmt::format("BoundOrderBy {{ type={}, expr={} }}", type_, expr_); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::BoundOrderBy, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::BoundOrderBy, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const bustub::BoundOrderBy &x, FormatCtx &ctx) const {
+  auto format(const vdbms::BoundOrderBy &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x.ToString(), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::BoundOrderBy, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::BoundOrderBy, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const std::unique_ptr<bustub::BoundOrderBy> &x, FormatCtx &ctx) const {
+  auto format(const std::unique_ptr<vdbms::BoundOrderBy> &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x->ToString(), ctx);
   }
 };
 
 template <>
-struct fmt::formatter<bustub::OrderByType> : formatter<string_view> {
+struct fmt::formatter<vdbms::OrderByType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::OrderByType c, FormatContext &ctx) const {
+  auto format(vdbms::OrderByType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::OrderByType::INVALID:
+      case vdbms::OrderByType::INVALID:
         name = "Invalid";
         break;
-      case bustub::OrderByType::ASC:
+      case vdbms::OrderByType::ASC:
         name = "Ascending";
         break;
-      case bustub::OrderByType::DESC:
+      case vdbms::OrderByType::DESC:
         name = "Descending";
         break;
-      case bustub::OrderByType::DEFAULT:
+      case vdbms::OrderByType::DEFAULT:
         name = "Default";
         break;
       default:

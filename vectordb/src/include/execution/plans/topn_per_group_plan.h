@@ -10,7 +10,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The TopNPerGroupPlanNode represents a top-n operation. It will gather the n extreme rows based on
@@ -46,11 +46,11 @@ class TopNPerGroupPlanNode : public AbstractPlanNode {
 
   /** @return The child plan node */
   auto GetChildPlan() const -> AbstractPlanNodeRef {
-    BUSTUB_ASSERT(GetChildren().size() == 1, "TopNPerGroup should have exactly one child plan.");
+    vdbms_ASSERT(GetChildren().size() == 1, "TopNPerGroup should have exactly one child plan.");
     return GetChildAt(0);
   }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(TopNPerGroupPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(TopNPerGroupPlanNode);
 
   std::vector<std::pair<OrderByType, AbstractExpressionRef>> order_bys_;
   std::vector<AbstractExpressionRef> group_bys_;
@@ -60,4 +60,4 @@ class TopNPerGroupPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override { return "TopNPerGroupPlan PlanNodeToString Not Implemented"; };
 };
 
-}  // namespace bustub
+}  // namespace vdbms

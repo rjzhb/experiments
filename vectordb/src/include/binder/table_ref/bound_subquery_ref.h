@@ -9,7 +9,7 @@
 #include "binder/bound_table_ref.h"
 #include "fmt/format.h"
 
-namespace bustub {
+namespace vdbms {
 
 class SelectStatement;
 
@@ -39,4 +39,4 @@ class BoundSubqueryRef : public BoundTableRef {
 
 using CTEList = std::vector<std::unique_ptr<BoundSubqueryRef>>;
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -11,7 +11,7 @@
 #include "storage/table/tuple.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** ComparisonType represents the type of comparison that we want to perform. */
 enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
@@ -19,7 +19,7 @@ enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
 inline auto ComputeDistance(const std::vector<double> &left, const std::vector<double> &right,
                             VectorExpressionType dist_fn) {
   auto sz = left.size();
-  BUSTUB_ASSERT(sz == right.size(), "vector length mismatched!");
+  vdbms_ASSERT(sz == right.size(), "vector length mismatched!");
   switch (dist_fn) {
     case VectorExpressionType::L2Dist: {
       double dist = 0.0;
@@ -49,7 +49,7 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
       return 1.0 - similarity;
     }
     default:
-      BUSTUB_ASSERT(false, "Unsupported vector expr type.");
+      vdbms_ASSERT(false, "Unsupported vector expr type.");
   }
 }
 
@@ -77,7 +77,7 @@ class VectorExpression : public AbstractExpression {
     return fmt::format("{}({}, {})", expr_type_, *GetChildAt(0), *GetChildAt(1));
   }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(VectorExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(VectorExpression);
 
   VectorExpressionType expr_type_;
 
@@ -89,21 +89,21 @@ class VectorExpression : public AbstractExpression {
   }
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::VectorExpressionType> : formatter<string_view> {
+struct fmt::formatter<vdbms::VectorExpressionType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::VectorExpressionType c, FormatContext &ctx) const {
+  auto format(vdbms::VectorExpressionType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::VectorExpressionType::L2Dist:
+      case vdbms::VectorExpressionType::L2Dist:
         name = "l2_dist";
         break;
-      case bustub::VectorExpressionType::CosineSimilarity:
+      case vdbms::VectorExpressionType::CosineSimilarity:
         name = "cosine_similarity";
         break;
-      case bustub::VectorExpressionType::InnerProduct:
+      case vdbms::VectorExpressionType::InnerProduct:
         name = "inner_product";
         break;
       default:

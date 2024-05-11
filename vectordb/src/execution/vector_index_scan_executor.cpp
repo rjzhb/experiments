@@ -5,7 +5,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "fmt/core.h"
 
-namespace bustub {
+namespace vdbms {
 VectorIndexScanExecutor::VectorIndexScanExecutor(ExecutorContext *exec_ctx, const VectorIndexScanPlanNode *plan)
     : AbstractExecutor(exec_ctx), plan_(plan) {
   index_ = dynamic_cast<VectorIndex *>(exec_ctx->GetCatalog()->GetIndex(plan->GetIndexOid())->index_.get());
@@ -29,4 +29,4 @@ auto VectorIndexScanExecutor::Next(Tuple *tuple, RID *rid) -> bool {
   return true;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

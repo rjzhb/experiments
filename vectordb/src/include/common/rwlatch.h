@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // rwmutex.h
 //
@@ -17,7 +17,7 @@
 
 #include "common/macros.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Reader-Writer latch backed by std::mutex.
@@ -48,4 +48,4 @@ class ReaderWriterLatch {
   std::shared_mutex mutex_;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

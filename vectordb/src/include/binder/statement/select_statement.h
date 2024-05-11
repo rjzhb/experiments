@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         BusTub
+//                         vdbms
 //
 // binder/select_statement.h
 //
@@ -19,7 +19,7 @@
 #include "binder/bound_table_ref.h"
 #include "binder/table_ref/bound_subquery_ref.h"
 
-namespace bustub {
+namespace vdbms {
 
 class Catalog;
 
@@ -77,4 +77,4 @@ class SelectStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

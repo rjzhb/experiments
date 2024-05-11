@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // topn_per_group_executor.cpp
 //
@@ -12,7 +12,7 @@
 
 #include "execution/executors/topn_per_group_executor.h"
 
-namespace bustub {
+namespace vdbms {
 
 TopNPerGroupExecutor::TopNPerGroupExecutor(ExecutorContext *exec_ctx, const TopNPerGroupPlanNode *plan,
                                            std::unique_ptr<AbstractExecutor> &&child_executor)
@@ -22,4 +22,4 @@ void TopNPerGroupExecutor::Init() { throw NotImplementedException("TopNPerGroupE
 
 auto TopNPerGroupExecutor::Next(Tuple *tuple, RID *rid) -> bool { return false; }
 
-}  // namespace bustub
+}  // namespace vdbms

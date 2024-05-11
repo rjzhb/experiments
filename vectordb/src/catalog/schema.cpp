@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // schema.cpp
 //
@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace bustub {
+namespace vdbms {
 
 Schema::Schema(const std::vector<Column> &columns) {
   uint32_t curr_offset = 0;
@@ -81,4 +81,4 @@ auto Schema::ToString(bool simplified) const -> std::string {
   return os.str();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

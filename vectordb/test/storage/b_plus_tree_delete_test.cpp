@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // b_plus_tree_delete_test.cpp
 //
@@ -19,9 +19,9 @@
 #include "storage/index/b_plus_tree.h"
 #include "test_util.h"  // NOLINT
 
-namespace bustub {
+namespace vdbms {
 
-using bustub::DiskManagerUnlimitedMemory;
+using vdbms::DiskManagerUnlimitedMemory;
 
 TEST(BPlusTreeTests, DISABLED_DeleteTest1) {
   // create KeyComparator and index schema
@@ -156,4 +156,4 @@ TEST(BPlusTreeTests, DISABLED_DeleteTest2) {
   delete transaction;
   delete bpm;
 }
-}  // namespace bustub
+}  // namespace vdbms

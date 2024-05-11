@@ -14,7 +14,7 @@
 #include "pg_definitions.hpp"
 #include "postgres_parser.hpp"
 
-namespace bustub {
+namespace vdbms {
 
 enum class WindowBoundary : uint8_t {
   INVALID = 0,
@@ -87,4 +87,4 @@ class BoundWindow : public BoundExpression {
   WindowBoundary start_ = WindowBoundary::INVALID;
   WindowBoundary end_ = WindowBoundary::INVALID;
 };
-}  // namespace bustub
+}  // namespace vdbms

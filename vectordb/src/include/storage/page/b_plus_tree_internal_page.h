@@ -15,11 +15,11 @@
 
 #include "storage/page/b_plus_tree_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 #define B_PLUS_TREE_INTERNAL_PAGE_TYPE BPlusTreeInternalPage<KeyType, ValueType, KeyComparator>
 #define INTERNAL_PAGE_HEADER_SIZE 12
-#define INTERNAL_PAGE_SIZE ((BUSTUB_PAGE_SIZE - INTERNAL_PAGE_HEADER_SIZE) / (sizeof(MappingType)))
+#define INTERNAL_PAGE_SIZE ((vdbms_PAGE_SIZE - INTERNAL_PAGE_HEADER_SIZE) / (sizeof(MappingType)))
 
 /**
  * Store `n` indexed keys and `n + 1` child pointers (page_id) within internal page.
@@ -103,4 +103,4 @@ class BPlusTreeInternalPage : public BPlusTreePage {
   MappingType array_[0];
 };
 
-}  // namespace bustub
+}  // namespace vdbms

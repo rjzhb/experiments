@@ -2,7 +2,7 @@
 #include "binder/table_ref/bound_join_ref.h"
 #include "common/exception.h"
 
-namespace bustub {
+namespace vdbms {
 
 NestedLoopJoinExecutor::NestedLoopJoinExecutor(ExecutorContext *exec_ctx, const NestedLoopJoinPlanNode *plan,
 											   std::unique_ptr<AbstractExecutor> &&left_executor,
@@ -10,7 +10,7 @@ NestedLoopJoinExecutor::NestedLoopJoinExecutor(ExecutorContext *exec_ctx, const 
 	: AbstractExecutor(exec_ctx) {
   if (plan->GetJoinType() != JoinType::LEFT && plan->GetJoinType() != JoinType::INNER) {
 	//只需实现左连接和内连接。
-	throw bustub::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
+	throw vdbms::NotImplementedException(fmt::format("join type {} not supported", plan->GetJoinType()));
   }
 }
 
@@ -68,4 +68,4 @@ auto NestedLoopJoinExecutor::Matched(Tuple *left_tuple, Tuple *right_tuple) cons
   return !value.IsNull() && value.GetAs<bool>();
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // init_check_executor.h
 //
@@ -19,7 +19,7 @@
 #include "execution/executors/abstract_executor.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * InitCheckExecutor counts the number of times the child operator calls init.
@@ -73,4 +73,4 @@ class InitCheckExecutor : public AbstractExecutor {
   std::size_t n_next_{0};
 };
 
-}  // namespace bustub
+}  // namespace vdbms

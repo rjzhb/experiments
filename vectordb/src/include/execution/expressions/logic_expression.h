@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // logic_expression.h
 //
@@ -27,7 +27,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** ArithmeticType represents the type of logic operation that we want to perform. */
 enum class LogicType { And, Or };
@@ -43,7 +43,7 @@ class LogicExpression : public AbstractExpression {
         logic_type_{logic_type} {
     if (GetChildAt(0)->GetReturnType().GetType() != TypeId::BOOLEAN ||
         GetChildAt(1)->GetReturnType().GetType() != TypeId::BOOLEAN) {
-      throw bustub::NotImplementedException("expect boolean from either side");
+      throw vdbms::NotImplementedException("expect boolean from either side");
     }
   }
 
@@ -65,7 +65,7 @@ class LogicExpression : public AbstractExpression {
     return fmt::format("({}{}{})", *GetChildAt(0), logic_type_, *GetChildAt(1));
   }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(LogicExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(LogicExpression);
 
   LogicType logic_type_;
 
@@ -105,18 +105,18 @@ class LogicExpression : public AbstractExpression {
     }
   }
 };
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::LogicType> : formatter<string_view> {
+struct fmt::formatter<vdbms::LogicType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::LogicType c, FormatContext &ctx) const {
+  auto format(vdbms::LogicType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::LogicType::And:
+      case vdbms::LogicType::And:
         name = "and";
         break;
-      case bustub::LogicType::Or:
+      case vdbms::LogicType::Or:
         name = "or";
         break;
       default:

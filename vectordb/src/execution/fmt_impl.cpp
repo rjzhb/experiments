@@ -15,7 +15,7 @@
 #include "execution/plans/sort_plan.h"
 #include "execution/plans/topn_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 auto AbstractPlanNode::ChildrenToString(int indent, bool with_schema) const -> std::string {
   if (children_.empty()) {
@@ -81,4 +81,4 @@ auto TopNPlanNode::PlanNodeToString() const -> std::string {
   return fmt::format("TopN {{ n={}, order_bys={}}}", n_, order_bys_);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

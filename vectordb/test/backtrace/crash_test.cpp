@@ -4,7 +4,7 @@
 
 // NOLINTBEGIN
 
-namespace bustub {
+namespace vdbms {
 
 TEST(CrashTest, DISABLED_PtrAccess) {
   // ASAN will show the full backtrace
@@ -19,16 +19,16 @@ TEST(CrashTest, DISABLED_GtestAssert) {
 
 TEST(CrashTest, DISABLED_Assert) {
   // Default assertion implementation, no backtrace, only lineno
-  BUSTUB_ASSERT(false, "assert failure");
+  vdbms_ASSERT(false, "assert failure");
 }
 
 TEST(CrashTest, DISABLED_Ensure) {
   // Full stacktrace provided by backward-cpp
-  BUSTUB_ENSURE(false, "assert failure");
+  vdbms_ENSURE(false, "assert failure");
 }
 
 TEST(CrashTest, Throw) {}
 
-}  // namespace bustub
+}  // namespace vdbms
 
 // NOLINTEND

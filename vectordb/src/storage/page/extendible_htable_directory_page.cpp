@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_directory_page.cpp
 //
@@ -18,7 +18,7 @@
 #include "common/config.h"
 #include "common/logger.h"
 
-namespace bustub {
+namespace vdbms {
 
 void ExtendibleHTableDirectoryPage::Init(uint32_t max_depth) {
   throw NotImplementedException("ExtendibleHTableDirectoryPage is not implemented");
@@ -62,4 +62,4 @@ void ExtendibleHTableDirectoryPage::DecrLocalDepth(uint32_t bucket_idx) {
   throw NotImplementedException("ExtendibleHTableDirectoryPage is not implemented");
 }
 
-}  // namespace bustub
+}  // namespace vdbms

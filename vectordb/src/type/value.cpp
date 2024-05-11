@@ -9,7 +9,7 @@
 #include "type/value.h"
 #include "type/vector_type.h"
 
-namespace bustub {
+namespace vdbms {
 Value::Value(const Value &other) {
   type_id_ = other.type_id_;
   size_ = other.size_;
@@ -17,7 +17,7 @@ Value::Value(const Value &other) {
   value_ = other.value_;
   switch (type_id_) {
     case TypeId::VARCHAR:
-      if (size_.len_ == BUSTUB_VALUE_NULL) {
+      if (size_.len_ == vdbms_VALUE_NULL) {
         value_.varlen_ = nullptr;
       } else {
         if (manage_data_) {
@@ -43,23 +43,23 @@ Value::Value(TypeId type, int8_t i) : Value(type) {
   switch (type) {
     case TypeId::BOOLEAN:
       value_.boolean_ = i;
-      size_.len_ = (value_.boolean_ == BUSTUB_BOOLEAN_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.boolean_ == vdbms_BOOLEAN_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TINYINT:
       value_.tinyint_ = i;
-      size_.len_ = (value_.tinyint_ == BUSTUB_INT8_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.tinyint_ == vdbms_INT8_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::SMALLINT:
       value_.smallint_ = i;
-      size_.len_ = (value_.smallint_ == BUSTUB_INT16_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.smallint_ == vdbms_INT16_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::INTEGER:
       value_.integer_ = i;
-      size_.len_ = (value_.integer_ == BUSTUB_INT32_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.integer_ == vdbms_INT32_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::BIGINT:
       value_.bigint_ = i;
-      size_.len_ = (value_.bigint_ == BUSTUB_INT64_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.bigint_ == vdbms_INT64_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for one-byte Value constructor");
@@ -71,27 +71,27 @@ Value::Value(TypeId type, int16_t i) : Value(type) {
   switch (type) {
     case TypeId::BOOLEAN:
       value_.boolean_ = i;
-      size_.len_ = (value_.boolean_ == BUSTUB_BOOLEAN_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.boolean_ == vdbms_BOOLEAN_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TINYINT:
       value_.tinyint_ = i;
-      size_.len_ = (value_.tinyint_ == BUSTUB_INT8_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.tinyint_ == vdbms_INT8_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::SMALLINT:
       value_.smallint_ = i;
-      size_.len_ = (value_.smallint_ == BUSTUB_INT16_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.smallint_ == vdbms_INT16_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::INTEGER:
       value_.integer_ = i;
-      size_.len_ = (value_.integer_ == BUSTUB_INT32_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.integer_ == vdbms_INT32_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::BIGINT:
       value_.bigint_ = i;
-      size_.len_ = (value_.bigint_ == BUSTUB_INT64_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.bigint_ == vdbms_INT64_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TIMESTAMP:
       value_.timestamp_ = i;
-      size_.len_ = (value_.timestamp_ == BUSTUB_TIMESTAMP_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.timestamp_ == vdbms_TIMESTAMP_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for two-byte Value constructor");
@@ -103,27 +103,27 @@ Value::Value(TypeId type, int32_t i) : Value(type) {
   switch (type) {
     case TypeId::BOOLEAN:
       value_.boolean_ = i;
-      size_.len_ = (value_.boolean_ == BUSTUB_BOOLEAN_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.boolean_ == vdbms_BOOLEAN_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TINYINT:
       value_.tinyint_ = i;
-      size_.len_ = (value_.tinyint_ == BUSTUB_INT8_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.tinyint_ == vdbms_INT8_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::SMALLINT:
       value_.smallint_ = i;
-      size_.len_ = (value_.smallint_ == BUSTUB_INT16_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.smallint_ == vdbms_INT16_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::INTEGER:
       value_.integer_ = i;
-      size_.len_ = (value_.integer_ == BUSTUB_INT32_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.integer_ == vdbms_INT32_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::BIGINT:
       value_.bigint_ = i;
-      size_.len_ = (value_.bigint_ == BUSTUB_INT64_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.bigint_ == vdbms_INT64_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TIMESTAMP:
       value_.timestamp_ = i;
-      size_.len_ = (value_.timestamp_ == BUSTUB_TIMESTAMP_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.timestamp_ == vdbms_TIMESTAMP_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for integer_ Value constructor");
@@ -135,27 +135,27 @@ Value::Value(TypeId type, int64_t i) : Value(type) {
   switch (type) {
     case TypeId::BOOLEAN:
       value_.boolean_ = i;
-      size_.len_ = (value_.boolean_ == BUSTUB_BOOLEAN_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.boolean_ == vdbms_BOOLEAN_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TINYINT:
       value_.tinyint_ = i;
-      size_.len_ = (value_.tinyint_ == BUSTUB_INT8_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.tinyint_ == vdbms_INT8_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::SMALLINT:
       value_.smallint_ = i;
-      size_.len_ = (value_.smallint_ == BUSTUB_INT16_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.smallint_ == vdbms_INT16_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::INTEGER:
       value_.integer_ = i;
-      size_.len_ = (value_.integer_ == BUSTUB_INT32_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.integer_ == vdbms_INT32_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::BIGINT:
       value_.bigint_ = i;
-      size_.len_ = (value_.bigint_ == BUSTUB_INT64_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.bigint_ == vdbms_INT64_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TIMESTAMP:
       value_.timestamp_ = i;
-      size_.len_ = (value_.timestamp_ == BUSTUB_TIMESTAMP_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.timestamp_ == vdbms_TIMESTAMP_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for eight-byte Value constructor");
@@ -167,11 +167,11 @@ Value::Value(TypeId type, uint64_t i) : Value(type) {
   switch (type) {
     case TypeId::BIGINT:
       value_.bigint_ = i;
-      size_.len_ = (value_.bigint_ == BUSTUB_INT64_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.bigint_ == vdbms_INT64_NULL ? vdbms_VALUE_NULL : 0);
       break;
     case TypeId::TIMESTAMP:
       value_.timestamp_ = i;
-      size_.len_ = (value_.timestamp_ == BUSTUB_TIMESTAMP_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.timestamp_ == vdbms_TIMESTAMP_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for timestamp_ Value constructor");
@@ -183,7 +183,7 @@ Value::Value(TypeId type, double d) : Value(type) {
   switch (type) {
     case TypeId::DECIMAL:
       value_.decimal_ = d;
-      size_.len_ = (value_.decimal_ == BUSTUB_DECIMAL_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.decimal_ == vdbms_DECIMAL_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for double Value constructor");
@@ -195,7 +195,7 @@ Value::Value(TypeId type, float f) : Value(type) {
   switch (type) {
     case TypeId::DECIMAL:
       value_.decimal_ = f;
-      size_.len_ = (value_.decimal_ == BUSTUB_DECIMAL_NULL ? BUSTUB_VALUE_NULL : 0);
+      size_.len_ = (value_.decimal_ == vdbms_DECIMAL_NULL ? vdbms_VALUE_NULL : 0);
       break;
     default:
       throw Exception(ExceptionType::INCOMPATIBLE_TYPE, "Invalid Type for float value constructor");
@@ -209,11 +209,11 @@ Value::Value(TypeId type, const char *data, uint32_t len, bool manage_data) : Va
     case TypeId::VECTOR:
       if (data == nullptr) {
         value_.varlen_ = nullptr;
-        size_.len_ = BUSTUB_VALUE_NULL;
+        size_.len_ = vdbms_VALUE_NULL;
       } else {
         manage_data_ = manage_data;
         if (manage_data_) {
-          assert(len < BUSTUB_VARCHAR_MAX_LEN);
+          assert(len < vdbms_VARCHAR_MAX_LEN);
           value_.varlen_ = new char[len];
           assert(value_.varlen_ != nullptr);
           size_.len_ = len;
@@ -335,4 +335,4 @@ auto Value::GetVector() const -> std::vector<double> {
   return reinterpret_cast<VectorType *>(Type::GetInstance(type_id_))->GetVector(*this);
 }
 
-}  // namespace bustub
+}  // namespace vdbms

@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // extendible_htable_bucket_page.cpp
 //
@@ -16,7 +16,7 @@
 #include "common/exception.h"
 #include "storage/page/extendible_htable_bucket_page.h"
 
-namespace bustub {
+namespace vdbms {
 
 template <typename K, typename V, typename KC>
 void ExtendibleHTableBucketPage<K, V, KC>::Init(uint32_t max_size) {
@@ -80,4 +80,4 @@ template class ExtendibleHTableBucketPage<GenericKey<16>, RID, GenericComparator
 template class ExtendibleHTableBucketPage<GenericKey<32>, RID, GenericComparator<32>>;
 template class ExtendibleHTableBucketPage<GenericKey<64>, RID, GenericComparator<64>>;
 
-}  // namespace bustub
+}  // namespace vdbms

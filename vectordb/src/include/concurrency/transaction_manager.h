@@ -16,7 +16,7 @@
 #include "recovery/log_manager.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 /// The first undo link in the version chain, that links table heap tuple to the undo log.
 struct VersionUndoLink {
@@ -143,4 +143,4 @@ class TransactionManager {
   auto VerifyTxn(Transaction *txn) -> bool;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

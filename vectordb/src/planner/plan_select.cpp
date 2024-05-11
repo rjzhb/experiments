@@ -30,7 +30,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * 为 SELECT 语句规划生成计划节点。
@@ -174,4 +174,4 @@ auto Planner::PlanSelect(const SelectStatement &statement) -> AbstractPlanNodeRe
   return plan;
 }
 
-}  // namespace bustub
+}  // namespace vdbms

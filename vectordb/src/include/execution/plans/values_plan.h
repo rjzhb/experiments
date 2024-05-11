@@ -9,7 +9,7 @@
 #include "execution/expressions/abstract_expression.h"
 #include "execution/plans/abstract_plan.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * The ValuesPlanNode represents rows of values. For example,
@@ -32,7 +32,7 @@ class ValuesPlanNode : public AbstractPlanNode {
 
   auto GetValues() const -> const std::vector<std::vector<AbstractExpressionRef>> & { return values_; }
 
-  BUSTUB_PLAN_NODE_CLONE_WITH_CHILDREN(ValuesPlanNode);
+  vdbms_PLAN_NODE_CLONE_WITH_CHILDREN(ValuesPlanNode);
 
   std::vector<std::vector<AbstractExpressionRef>> values_;
 
@@ -40,4 +40,4 @@ class ValuesPlanNode : public AbstractPlanNode {
   auto PlanNodeToString() const -> std::string override { return fmt::format("Values {{ rows={} }}", values_.size()); }
 };
 
-}  // namespace bustub
+}  // namespace vdbms

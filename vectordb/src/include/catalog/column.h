@@ -12,7 +12,7 @@
 #include "type/type.h"
 #include "type/type_id.h"
 
-namespace bustub {
+namespace vdbms {
 class AbstractExpression;
 
 class Column {
@@ -26,8 +26,8 @@ class Column {
    */
   Column(std::string column_name, TypeId type)
       : column_name_(std::move(column_name)), column_type_(type), length_(TypeSize(type)) {
-    BUSTUB_ASSERT(type != TypeId::VARCHAR, "Wrong constructor for VARCHAR type.");
-    BUSTUB_ASSERT(type != TypeId::VECTOR, "Wrong constructor for VECTOR type.");
+    vdbms_ASSERT(type != TypeId::VARCHAR, "Wrong constructor for VARCHAR type.");
+    vdbms_ASSERT(type != TypeId::VECTOR, "Wrong constructor for VECTOR type.");
   }
 
   /**
@@ -39,7 +39,7 @@ class Column {
    */
   Column(std::string column_name, TypeId type, uint32_t length)
       : column_name_(std::move(column_name)), column_type_(type), length_(TypeSize(type, length)) {
-    BUSTUB_ASSERT(type == TypeId::VARCHAR || type == TypeId::VECTOR, "Wrong constructor for fixed-size type.");
+    vdbms_ASSERT(type == TypeId::VARCHAR || type == TypeId::VECTOR, "Wrong constructor for fixed-size type.");
   }
 
   /**
@@ -119,22 +119,22 @@ class Column {
   uint32_t column_offset_{0};
 };
 
-}  // namespace bustub
+}  // namespace vdbms
 
 template <typename T>
-struct fmt::formatter<T, std::enable_if_t<std::is_base_of<bustub::Column, T>::value, char>>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of<vdbms::Column, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const bustub::Column &x, FormatCtx &ctx) const {
+  auto format(const vdbms::Column &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x.ToString(), ctx);
   }
 };
 
 template <typename T>
-struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<bustub::Column, T>::value, char>>
+struct fmt::formatter<std::unique_ptr<T>, std::enable_if_t<std::is_base_of<vdbms::Column, T>::value, char>>
     : fmt::formatter<std::string> {
   template <typename FormatCtx>
-  auto format(const std::unique_ptr<bustub::Column> &x, FormatCtx &ctx) const {
+  auto format(const std::unique_ptr<vdbms::Column> &x, FormatCtx &ctx) const {
     return fmt::formatter<std::string>::format(x->ToString(), ctx);
   }
 };

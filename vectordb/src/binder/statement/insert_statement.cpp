@@ -7,7 +7,7 @@
 #include "binder/statement/select_statement.h"
 #include "common/util/string_util.h"
 
-namespace bustub {
+namespace vdbms {
 
 InsertStatement::InsertStatement(std::unique_ptr<BoundBaseTableRef> table, std::unique_ptr<SelectStatement> select)
     : BoundStatement(StatementType::INSERT_STATEMENT), table_(std::move(table)), select_(std::move(select)) {}
@@ -17,4 +17,4 @@ auto InsertStatement::ToString() const -> std::string {
                      StringUtil::IndentAllLines(select_->ToString(), 2));
 }
 
-}  // namespace bustub
+}  // namespace vdbms

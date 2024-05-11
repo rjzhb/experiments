@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // arithmetic_expression.h
 //
@@ -27,7 +27,7 @@
 #include "type/type_id.h"
 #include "type/value_factory.h"
 
-namespace bustub {
+namespace vdbms {
 
 /** ArithmeticType represents the type of computation that we want to perform. */
 enum class ArithmeticType { Plus, Minus };
@@ -43,7 +43,7 @@ class ArithmeticExpression : public AbstractExpression {
         compute_type_{compute_type} {
     if (GetChildAt(0)->GetReturnType().GetType() != TypeId::INTEGER ||
         GetChildAt(1)->GetReturnType().GetType() != TypeId::INTEGER) {
-      throw bustub::NotImplementedException("only support integer for now");
+      throw vdbms::NotImplementedException("only support integer for now");
     }
   }
 
@@ -73,7 +73,7 @@ class ArithmeticExpression : public AbstractExpression {
     return fmt::format("({}{}{})", *GetChildAt(0), compute_type_, *GetChildAt(1));
   }
 
-  BUSTUB_EXPR_CLONE_WITH_CHILDREN(ArithmeticExpression);
+  vdbms_EXPR_CLONE_WITH_CHILDREN(ArithmeticExpression);
 
   ArithmeticType compute_type_;
 
@@ -92,18 +92,18 @@ class ArithmeticExpression : public AbstractExpression {
     }
   }
 };
-}  // namespace bustub
+}  // namespace vdbms
 
 template <>
-struct fmt::formatter<bustub::ArithmeticType> : formatter<string_view> {
+struct fmt::formatter<vdbms::ArithmeticType> : formatter<string_view> {
   template <typename FormatContext>
-  auto format(bustub::ArithmeticType c, FormatContext &ctx) const {
+  auto format(vdbms::ArithmeticType c, FormatContext &ctx) const {
     string_view name;
     switch (c) {
-      case bustub::ArithmeticType::Plus:
+      case vdbms::ArithmeticType::Plus:
         name = "+";
         break;
-      case bustub::ArithmeticType::Minus:
+      case vdbms::ArithmeticType::Minus:
         name = "-";
         break;
       default:

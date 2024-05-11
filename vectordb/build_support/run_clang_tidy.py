@@ -372,7 +372,7 @@ def main():
     # You can use `make check-clang-tidy-diff` to do a fast clang-tidy
     # check.
     if args.only_diff:
-        # Get the path of the repo, e.g. /Users/terrier/bustub
+        # Get the path of the repo, e.g. /Users/terrier/vdbms
         git_repo = subprocess.run(
             ["git", "rev-parse", "--show-toplevel"], capture_output=True
         )

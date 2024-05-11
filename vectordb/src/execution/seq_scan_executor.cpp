@@ -2,7 +2,7 @@
 #include <memory>
 #include "storage/table/table_iterator.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * 构造一个序列扫描执行器 (SeqScanExecutor)。
@@ -43,4 +43,4 @@ auto SeqScanExecutor::Next(Tuple *tuple,
   ++(*iter_); // 将迭代器移动到下一个元组
   return true; // 返回 true，表示成功获取到元组
 }
-}  // namespace bustub
+}  // namespace vdbms

@@ -15,7 +15,7 @@
 #include "storage/table/table_iterator.h"
 #include "storage/table/tuple.h"
 
-namespace bustub {
+namespace vdbms {
 
 class TablePage;
 
@@ -48,7 +48,7 @@ class TableHeap {
   auto InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManager *lock_mgr = nullptr,
 				   Transaction *txn = nullptr, table_oid_t oid = 0) -> std::optional<RID>;
 
-  /**
+  /**tt
    * 更新元组的元数据。
    * @param meta 新的元组元数据
    * @param rid 要更新的元组的RID（行标识符）
@@ -134,4 +134,4 @@ class TableHeap {
 };
 
 
-}  // namespace bustub
+}  // namespace vdbms

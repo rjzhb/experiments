@@ -1,6 +1,6 @@
 //===----------------------------------------------------------------------===//
 //
-//                         BusTub
+//                         vdbms
 //
 // replacer.h
 //
@@ -14,7 +14,7 @@
 
 #include "common/config.h"
 
-namespace bustub {
+namespace vdbms {
 
 /**
  * Replacer is an abstract class that tracks page usage.
@@ -47,4 +47,4 @@ class Replacer {
   virtual auto Size() -> size_t = 0;
 };
 
-}  // namespace bustub
+}  // namespace vdbms

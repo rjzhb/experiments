@@ -10,7 +10,7 @@
 #include "gtest/gtest.h"
 #include "primer/trie.h"
 
-namespace bustub {
+namespace vdbms {
 
 using Integer = std::unique_ptr<uint32_t>;
 
@@ -30,4 +30,4 @@ TEST(TrieTest, NonCopyableTest) {
   ASSERT_EQ(trie.Get<Integer>("test"), nullptr);
 }
 
-}  // namespace bustub
+}  // namespace vdbms
