@@ -142,7 +142,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/execution/limit_executor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/execution/limit_executor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/executors/limit_executor.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/executors/limit_executor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/test/sql/vector.06-highD.slt" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/test/sql/vector.06-highD.slt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -998,7 +1000,7 @@
       <workItem from="1713862118749" duration="1664000" />
       <workItem from="1714534845018" duration="8362000" />
       <workItem from="1714904091963" duration="101000" />
-      <workItem from="1715431063473" duration="4350000" />
+      <workItem from="1715431063473" duration="6255000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1715433055084</created>
@@ -1007,7 +1009,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715433055084</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update">
+      <created>1715435800786</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715435800787</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1016,5 +1025,46 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>56</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>73</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>153</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>170</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>187</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>113</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp</url>
+          <line>27</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

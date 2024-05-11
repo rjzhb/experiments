@@ -20,9 +20,6 @@
 
 namespace vdbms {
 
-/**
- * LimitExecutor limits the number of output tuples produced by a child operator.
- */
 class LimitExecutor : public AbstractExecutor {
  public:
   /**
@@ -32,7 +29,7 @@ class LimitExecutor : public AbstractExecutor {
    * @param child_executor The child executor from which limited tuples are pulled
    */
   LimitExecutor(ExecutorContext *exec_ctx, const LimitPlanNode *plan,
-                std::unique_ptr<AbstractExecutor> &&child_executor);
+				std::unique_ptr<AbstractExecutor> &&child_executor);
 
   /** Initialize the limit */
   void Init() override;
@@ -51,8 +48,9 @@ class LimitExecutor : public AbstractExecutor {
  private:
   /** The limit plan node to be executed */
   const LimitPlanNode *plan_;
-
   /** The child executor from which tuples are obtained */
   std::unique_ptr<AbstractExecutor> child_executor_;
+
+  u_int32_t count_;
 };
 }  // namespace vdbms
