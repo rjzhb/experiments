@@ -22,4 +22,6 @@ std::chrono::milliseconds cycle_detection_interval = std::chrono::milliseconds(5
 
 std::atomic<bool> global_disable_execution_exception_print{false};
 
+bool SIMD_ENABLED = false;
+
 }  // namespace vdbms

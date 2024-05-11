@@ -14,6 +14,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
         message(STATUS "Setting build type to `Debug` as none was specified.")
         set(CMAKE_BUILD_TYPE "Debug")
 endif()
+add_compile_options(-mavx)
 
 if(EMSCRIPTEN)
         add_compile_options(-fexceptions)

@@ -11,7 +11,7 @@
 #include "utf8proc/utf8proc.h"
 #include <chrono>
 #include <iomanip> // 包括用于格式化输出的头文件
-
+#include "common/config.h"
 #include "utf8proc/utf8proc.h"
 
 // 计算UTF-8字符串的显示宽度
@@ -34,6 +34,43 @@ auto GetWidthOfUtf8(const void *beg, const void *end, size_t *width) -> int {
 
 // 主函数
 auto main(int argc, char **argv) -> int {
+  std::vector<double> left(20, 0.5);
+  std::vector<double> right(20, 2.0);
+
+  int iterations = 10; // Number of iterations to average the performance measurements
+  double dist_simd = 0.0, dist_no_simd = 0.0;
+
+  // Measure performance with SIMD enabled
+  auto start_simd = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < iterations; ++i) {
+	dist_simd = 0.0;
+	for (size_t j = 0; j < left.size(); j += 4) {
+	  __m256d vec_left = _mm256_loadu_pd(&left[j]);
+	  __m256d vec_right = _mm256_loadu_pd(&right[j]);
+	  __m256d prod = _mm256_mul_pd(vec_left, vec_right);
+	  double result[4];
+	  _mm256_storeu_pd(result, prod);
+	  dist_simd += result[0] + result[1] + result[2] + result[3];
+	}
+  }
+  auto end_simd = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed_simd = end_simd - start_simd;
+
+  // Measure performance with SIMD disabled
+  auto start_no_simd = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < iterations; ++i) {
+	dist_no_simd = 0.0;
+	for (size_t j = 0; j < left.size(); ++j) {
+	  dist_no_simd += left[j] * right[j];
+	}
+  }
+  auto end_no_simd = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed_no_simd = end_no_simd - start_no_simd;
+
+  std::cout << "Elapsed time with SIMD: " << elapsed_simd.count() << " seconds, Result: " << dist_simd << "\n";
+  std::cout << "Elapsed time without SIMD: " << elapsed_no_simd.count() << " seconds, Result: " << dist_no_simd << "\n";
+
+
   ft_set_u8strwid_func(&GetWidthOfUtf8); // 设置计算字符串宽度的函数
 
   auto vdbms = std::make_unique<vdbms::vdbmsInstance>("test.db"); // 创建数据库实例
@@ -122,6 +159,16 @@ auto main(int argc, char **argv) -> int {
 
 	// 开始计时
 	auto start = std::chrono::high_resolution_clock::now();
+
+	if (query == "SET SIMD;" || query == "set simd;") {
+	  vdbms::SIMD_ENABLED = true;
+	  std::cout << "SIMD enabled." << std::endl;
+	  continue;
+	} else if (query == "UNSET SIMD;" || query == "unset simd;") {
+	  vdbms::SIMD_ENABLED = false;
+	  std::cout << "SIMD disabled." << std::endl;
+	  continue;
+	}
 
 	// 尝试执行SQL查询
 	try {
