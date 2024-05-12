@@ -30,4 +30,5 @@ std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, 
 
 bool SIMD_ENABLED = false;
 bool PARALLEL_ENABLED = false;
+bool CACHE_ENABLED = false;
 }  // namespace vdbms

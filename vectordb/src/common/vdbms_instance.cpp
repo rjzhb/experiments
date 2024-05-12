@@ -234,8 +234,8 @@ see the execution plan of your query.
 // 在数据库实例上执行给定的SQL语句。
 // 这个方法负责管理事务的生命周期（如果需要），并处理SQL执行过程中可能出现的异常。
 auto vdbmsInstance::ExecuteSql(const std::string &sql,
-								ResultWriter &writer,
-								std::shared_ptr<CheckOptions> check_options) -> bool {
+							   ResultWriter &writer,
+							   std::shared_ptr<CheckOptions> check_options) -> bool {
   // 检查当前是否有活动的事务。
   bool is_local_txn = current_txn_ != nullptr;
   // 如果有活动的事务，则使用它；否则，从事务管理器开始一个新的事务。
@@ -264,9 +264,9 @@ auto vdbmsInstance::ExecuteSql(const std::string &sql,
 
 // 在特定事务环境下执行SQL语句，处理内部命令和标准SQL查询。
 auto vdbmsInstance::ExecuteSqlTxn(const std::string &sql,
-								   ResultWriter &writer,
-								   Transaction *txn,
-								   std::shared_ptr<CheckOptions> check_options) -> bool {
+								  ResultWriter &writer,
+								  Transaction *txn,
+								  std::shared_ptr<CheckOptions> check_options) -> bool {
   // 检查是否是内部命令（以'\'开头的命令，类似于psql的内部命令）
   if (!sql.empty() && sql[0] == '\\') {
 	// 处理不同的内部命令
@@ -344,10 +344,8 @@ auto vdbmsInstance::ExecuteSqlTxn(const std::string &sql,
 		continue;
 	  }
 	  case StatementType::DELETE_STATEMENT:
-	  case StatementType::UPDATE_STATEMENT:
-		is_delete = true; // 标记为删除或更新语句
-	  default:
-		break;
+	  case StatementType::UPDATE_STATEMENT: is_delete = true; // 标记为删除或更新语句
+	  default: break;
 	}
 
 	// 再次获取目录的共享锁
@@ -396,7 +394,6 @@ auto vdbmsInstance::ExecuteSqlTxn(const std::string &sql,
   return is_successful; // 返回执行结果
 }
 
-
 /**
  * FOR TEST ONLY. Generate test tables in this vdbms instance.
  * It's used in the shell to predefine some tables, as we don't support
@@ -412,6 +409,28 @@ void vdbmsInstance::GenerateTestTable() {
   l.unlock();
 
   txn_manager_->Commit(txn);
+}
+
+void vdbmsInstance::GenerateHighDTestTable(int D, int N, vdbms::vdbmsInstance* vdbms) {
+  std::string createTableQuery = "CREATE TABLE t1(v1 VECTOR(" + std::to_string(D) + "), v2 integer);"; // 创建表的SQL
+
+  std::mt19937 rng(std::random_device{}()); // 随机数生成器
+  std::uniform_real_distribution<double> dist(-10, 10); // 设定随机数范围
+
+  auto writer = vdbms::FortTableWriter(); // 创建表格写入器
+  vdbms->ExecuteSql(createTableQuery, writer); // 执行创建表格的SQL查询
+
+  for (int i = 0; i < N; ++i) {
+	std::ostringstream insertQueryStream;
+	insertQueryStream << "INSERT INTO t1 VALUES (ARRAY [";
+	for (int j = 0; j < D; ++j) { // 每条数据为D维
+	  insertQueryStream << dist(rng); // 使用ceil函数向上取整
+	  if (j < D - 1) insertQueryStream << ", ";
+	}
+	insertQueryStream << "], " << static_cast<int>(std::ceil(dist(rng))) << ");"; // 每条数据后跟一个向上取整的随机整数
+	auto insertQuery = insertQueryStream.str();
+	vdbms->ExecuteSql(insertQuery, writer); // 执行插入数据的SQL查询
+  }
 }
 
 /**
@@ -445,7 +464,7 @@ void vdbmsInstance::EnableManagedTxn() { managed_txn_mode_ = true; }
 auto vdbmsInstance::CurrentManagedTxn() -> Transaction * { return current_txn_; }
 
 void vdbmsInstance::CmdTxn(const std::vector<std::string> &params,
-							ResultWriter &writer) {
+						   ResultWriter &writer) {
   if (!managed_txn_mode_) {
 	writer.OneCell("only supported in managed mode, please use vdbms-shell");
 	return;

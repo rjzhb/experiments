@@ -83,52 +83,15 @@ auto SelectNeighborsParallel(const std::vector<double> &vec, const std::vector<s
 	  min_heap.push(std::make_pair(dist, vert));
 	}
   }
-//#pragma omp parallel for
-//  for (size_t i = 0; i < vertex_ids.size(); ++i) {
-//	size_t vert = vertex_ids[i];
-//	distances[i] = ComputeDistance(vertices[vert], vec, dist_fn);
-//  }
-//
-//  for (size_t i = 0; i < vertex_ids.size(); ++i) {
-//	size_t vert = vertex_ids[i];
-//	if (min_heap.size() < m) {
-//	  min_heap.push(std::make_pair(distances[i], vert));
-//	} else if (distances[i] < min_heap.top().first) {
-//	  min_heap.pop();
-//	  min_heap.push(std::make_pair(distances[i], vert));
-//	}
-//  }
 
   std::vector<size_t> selected_vs;
+  selected_vs.reserve(min_heap.size()); // 预先分配足够的空间
   while (!min_heap.empty()) {
-	selected_vs.push_back(min_heap.top().second);
+	selected_vs.insert(selected_vs.begin(), min_heap.top().second);
 	min_heap.pop();
   }
-  std::reverse(selected_vs.begin(), selected_vs.end());
   return selected_vs;
-//  std::vector<std::future<void>> futures;
-//  std::vector<std::pair<double, size_t>> distances(vertex_ids.size());
-//  size_t index = 0;
-//  for (const auto vert : vertex_ids) {
-//	size_t current_index = index;  // 捕获当前循环的索引
-//	futures.push_back(std::async(std::launch::async, [&distances, &vertices, vert, &vec, dist_fn, current_index]() {
-//	  distances[current_index] = std::make_pair(ComputeDistance(vertices[vert], vec, dist_fn), vert);
-//	}));
-//	index++;
-//  }
-//
-//// 等待所有异步任务完成
-//  for (auto &fut : futures) {
-//	fut.get();
-//  }
-//
-//  std::sort(distances.begin(), distances.end());
-//  std::vector<size_t> selected_vs;
-//  selected_vs.reserve(std::min(m, distances.size()));
-//  for (size_t i = 0; i < m && i < distances.size(); i++) {
-//	selected_vs.push_back(distances[i].second);
-//  }
-//  return selected_vs;
+
 }
 
 auto NSW::SearchLayerNormal(const std::vector<double> &base_vector,

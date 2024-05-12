@@ -24,7 +24,7 @@
 namespace vdbms {
 
 struct VectorPairHash {
-  std::size_t operator()(const std::pair<std::vector<double>, std::vector<double>>& pair) const {
+  std::size_t operator()(const std::pair<std::vector<double>, std::vector<double>> &pair) const {
 	std::size_t seed = 0;
 	std::hash<double> hasher;
 	for (double v : pair.first) {
@@ -38,14 +38,14 @@ struct VectorPairHash {
 };
 
 struct VectorPairEqual {
-  bool operator()(const std::pair<std::vector<double>, std::vector<double>>& a,
-				  const std::pair<std::vector<double>, std::vector<double>>& b) const {
+  bool operator()(const std::pair<std::vector<double>, std::vector<double>> &a,
+				  const std::pair<std::vector<double>, std::vector<double>> &b) const {
 	return (a.first == b.first && a.second == b.second) || (a.first == b.second && a.second == b.first);
   }
 };
 
-extern std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, VectorPairHash, VectorPairEqual> distance_cache;
-
+extern std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, VectorPairHash, VectorPairEqual>
+	distance_cache;
 
 /** Cycle detection is performed every CYCLE_DETECTION_INTERVAL milliseconds. */
 extern std::chrono::milliseconds cycle_detection_interval;
@@ -58,6 +58,7 @@ extern std::chrono::duration<int64_t> log_timeout;
 
 extern bool SIMD_ENABLED;
 extern bool PARALLEL_ENABLED;
+extern bool CACHE_ENABLED;
 
 static constexpr int INVALID_PAGE_ID = -1;                                           // invalid page id
 static constexpr int INVALID_TXN_ID = -1;                                            // invalid transaction id

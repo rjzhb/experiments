@@ -20,7 +20,7 @@ enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
 
 inline auto ComputeDistance(const std::vector<double> &left, const std::vector<double> &right,
 							VectorExpressionType dist_fn) {
-  if (PARALLEL_ENABLED) {
+  if (CACHE_ENABLED) {
 	auto key = std::make_pair(left, right);
 	auto iter = distance_cache.find(key);
 	if (iter != distance_cache.end()) {
@@ -58,7 +58,7 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		  dist += diff * diff;
 		}
 	  }
-	  if (PARALLEL_ENABLED) {
+	  if (CACHE_ENABLED) {
 		distance_cache[{left, right}] = std::sqrt(dist);
 		distance_cache[{right, left}] = std::sqrt(dist);
 	  }
@@ -87,7 +87,7 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		}
 	  }
 
-	  if (PARALLEL_ENABLED) {
+	  if (CACHE_ENABLED) {
 		distance_cache[{left, right}] = -dist;
 		distance_cache[{right, left}] = -dist;
 	  }
@@ -131,7 +131,7 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 	  }
 	  auto similarity = dist / std::sqrt(norma * normb);
 
-	  if (PARALLEL_ENABLED) {
+	  if (CACHE_ENABLED) {
 		// Store computed distance in cache
 		distance_cache[{left, right}] = 1.0 - similarity;
 		distance_cache[{right, left}] = 1.0 - similarity;

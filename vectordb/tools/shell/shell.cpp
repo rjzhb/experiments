@@ -56,7 +56,6 @@ auto main(int argc, char **argv) -> int {
   }
 
   vdbms->GenerateMockTable(); // 生成模拟表
-
   if (vdbms->buffer_pool_manager_ != nullptr) {
 	vdbms->GenerateTestTable(); // 生成测试表
   }
@@ -70,6 +69,7 @@ auto main(int argc, char **argv) -> int {
 
   auto prompt = use_emoji_prompt ? emoji_prompt : default_prompt; // 根据参数选择提示符
 
+  vdbms->GenerateHighDTestTable(60, 100, vdbms.get());
   // 循环读取和处理用户输入
   while (true) {
 	std::string query;

@@ -272,6 +272,8 @@ class vdbmsInstance {
    */
   void GenerateTestTable();
 
+  void GenerateHighDTestTable(int D, int N, vdbms::vdbmsInstance* vdbms);
+
   /**
    * FOR TEST ONLY. Generate mock tables in this vdbms instance.
    * It's used in the shell to predefine some tables, as we don't support
