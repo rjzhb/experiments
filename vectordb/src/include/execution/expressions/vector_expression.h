@@ -20,6 +20,14 @@ enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
 
 inline auto ComputeDistance(const std::vector<double> &left, const std::vector<double> &right,
 							VectorExpressionType dist_fn) {
+  if (PARALLEL_ENABLED) {
+	auto key = std::make_pair(left, right);
+	auto iter = distance_cache.find(key);
+	if (iter != distance_cache.end()) {
+	  return iter->second;
+	}
+  }
+
   auto sz = left.size();
   vdbms_ASSERT(sz == right.size(), "vector length mismatched!");
   switch (dist_fn) {
@@ -39,7 +47,6 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		_mm256_store_pd(result, sum); // 只在最后一次写回内存
 		dist = result[0] + result[1] + result[2] + result[3];
 
-
 		for (; i < sz; ++i) {
 		  double diff = left[i] - right[i];
 		  dist += diff * diff;
@@ -50,6 +57,10 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		  double diff = left[i] - right[i];
 		  dist += diff * diff;
 		}
+	  }
+	  if (PARALLEL_ENABLED) {
+		distance_cache[{left, right}] = std::sqrt(dist);
+		distance_cache[{right, left}] = std::sqrt(dist);
 	  }
 	  return std::sqrt(dist);
 	}
@@ -74,6 +85,11 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		for (size_t i = 0; i < sz; i++) {
 		  dist += left[i] * right[i];
 		}
+	  }
+
+	  if (PARALLEL_ENABLED) {
+		distance_cache[{left, right}] = -dist;
+		distance_cache[{right, left}] = -dist;
 	  }
 	  return -dist;
 	}
@@ -114,6 +130,12 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 		}
 	  }
 	  auto similarity = dist / std::sqrt(norma * normb);
+
+	  if (PARALLEL_ENABLED) {
+		// Store computed distance in cache
+		distance_cache[{left, right}] = 1.0 - similarity;
+		distance_cache[{right, left}] = 1.0 - similarity;
+	  }
 	  return 1.0 - similarity;
 	}
 	default:vdbms_ASSERT(false, "Unsupported vector expr type.");

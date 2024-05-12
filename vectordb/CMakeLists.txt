@@ -3,7 +3,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # For clang-tidy.
 set(BUILD_SHARED_LIBS OFF) # We expect external libraries to be linked statically.
 set(CMAKE_CXX_STANDARD 17) # Compile as C++17.
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Require C++17 support.
-
 project(vdbms
         VERSION 2023.1
         DESCRIPTION "The vdbms Relational Database Management System (Educational) @ https://github.com/cmu-db/vdbms"
@@ -15,6 +14,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
         set(CMAKE_BUILD_TYPE "Debug")
 endif()
 add_compile_options(-mavx)
+add_compile_options(-fopenmp)
 
 if(EMSCRIPTEN)
         add_compile_options(-fexceptions)
@@ -156,6 +156,7 @@ endfunction()
 set(CMAKE_MODULE_PATH "${vdbms_BUILD_SUPPORT_DIR}/cmake;${CMAKE_MODULE_PATH}")
 find_package(LibElf)
 find_package(LibDwarf)
+find_package(OpenMP REQUIRED)
 
 add_subdirectory(third_party)
 add_subdirectory(src)

@@ -11,8 +11,11 @@
 //===----------------------------------------------------------------------===//
 
 #include "common/config.h"
+#include <unordered_map>
+#include <vector>
 
 namespace vdbms {
+
 
 std::atomic<bool> enable_logging(false);
 
@@ -22,6 +25,9 @@ std::chrono::milliseconds cycle_detection_interval = std::chrono::milliseconds(5
 
 std::atomic<bool> global_disable_execution_exception_print{false};
 
-bool SIMD_ENABLED = false;
+std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, VectorPairHash, VectorPairEqual> distance_cache;
 
+
+bool SIMD_ENABLED = false;
+bool PARALLEL_ENABLED = false;
 }  // namespace vdbms

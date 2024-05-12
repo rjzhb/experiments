@@ -34,43 +34,6 @@ auto GetWidthOfUtf8(const void *beg, const void *end, size_t *width) -> int {
 
 // 主函数
 auto main(int argc, char **argv) -> int {
-  std::vector<double> left(20, 0.5);
-  std::vector<double> right(20, 2.0);
-
-  int iterations = 10; // Number of iterations to average the performance measurements
-  double dist_simd = 0.0, dist_no_simd = 0.0;
-
-  // Measure performance with SIMD enabled
-  auto start_simd = std::chrono::high_resolution_clock::now();
-  for (int i = 0; i < iterations; ++i) {
-	dist_simd = 0.0;
-	for (size_t j = 0; j < left.size(); j += 4) {
-	  __m256d vec_left = _mm256_loadu_pd(&left[j]);
-	  __m256d vec_right = _mm256_loadu_pd(&right[j]);
-	  __m256d prod = _mm256_mul_pd(vec_left, vec_right);
-	  double result[4];
-	  _mm256_storeu_pd(result, prod);
-	  dist_simd += result[0] + result[1] + result[2] + result[3];
-	}
-  }
-  auto end_simd = std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> elapsed_simd = end_simd - start_simd;
-
-  // Measure performance with SIMD disabled
-  auto start_no_simd = std::chrono::high_resolution_clock::now();
-  for (int i = 0; i < iterations; ++i) {
-	dist_no_simd = 0.0;
-	for (size_t j = 0; j < left.size(); ++j) {
-	  dist_no_simd += left[j] * right[j];
-	}
-  }
-  auto end_no_simd = std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> elapsed_no_simd = end_no_simd - start_no_simd;
-
-  std::cout << "Elapsed time with SIMD: " << elapsed_simd.count() << " seconds, Result: " << dist_simd << "\n";
-  std::cout << "Elapsed time without SIMD: " << elapsed_no_simd.count() << " seconds, Result: " << dist_no_simd << "\n";
-
-
   ft_set_u8strwid_func(&GetWidthOfUtf8); // 设置计算字符串宽度的函数
 
   auto vdbms = std::make_unique<vdbms::vdbmsInstance>("test.db"); // 创建数据库实例
@@ -168,8 +131,15 @@ auto main(int argc, char **argv) -> int {
 	  vdbms::SIMD_ENABLED = false;
 	  std::cout << "SIMD disabled." << std::endl;
 	  continue;
+	} else if (query == "SET PARALLEL;") {
+	  vdbms::PARALLEL_ENABLED = true;
+	  std::cout << "PARALLEL enabled." << std::endl;
+	  continue;
+	} else if (query == "UNSET PARALLEL;") {
+	  vdbms::PARALLEL_ENABLED = false;
+	  std::cout << "PARALLEL disabled." << std::endl;
+	  continue;
 	}
-
 	// 尝试执行SQL查询
 	try {
 	  auto writer = vdbms::FortTableWriter(); // 创建表格写入器
@@ -184,7 +154,8 @@ auto main(int argc, char **argv) -> int {
 	  for (const auto &table : writer.tables_) {
 		std::cout << table << std::flush;
 	  }
-	  std::cout << std::fixed << std::setprecision(6) << "Query executed in: " << duration_ms << " ms\n"; // 打印执行时间，保留六位小数
+	  std::cout << std::fixed << std::setprecision(6) << "Query executed in: " << duration_ms
+				<< " ms\n"; // 打印执行时间，保留六位小数
 	} catch (vdbms::Exception &ex) {
 	  std::cerr << ex.what() << std::endl; // 打印异常信息
 	}

@@ -28,6 +28,13 @@ struct NSW {
   // points, sorted by distance
   auto SearchLayer(const std::vector<double> &base_vector, size_t limit, const std::vector<size_t> &entry_points)
       -> std::vector<size_t>;
+
+  auto SearchLayerNormal(const std::vector<double> &base_vector, size_t limit, const std::vector<size_t> &entry_points)
+  -> std::vector<size_t>;
+
+  auto SearchLayerParallel(const std::vector<double> &base_vector, size_t limit, const std::vector<size_t> &entry_points)
+  -> std::vector<size_t>;
+
   // insert a key into the layer, only used when implementing NSW-only index
   auto Insert(const std::vector<double> &vec, size_t vertex_id, size_t ef_construction, size_t m);
   // add a vertex to this layer
@@ -42,6 +49,15 @@ struct NSW {
 auto SelectNeighbors(const std::vector<double> &vec, const std::vector<size_t> &vertex_ids,
                      const std::vector<std::vector<double>> &vertices, size_t m, VectorExpressionType dist_fn)
     -> std::vector<size_t>;
+
+auto SelectNeighborsNormal(const std::vector<double> &vec, const std::vector<size_t> &vertex_ids,
+					 const std::vector<std::vector<double>> &vertices, size_t m, VectorExpressionType dist_fn)
+-> std::vector<size_t>;
+
+auto SelectNeighborsParallel(const std::vector<double> &vec, const std::vector<size_t> &vertex_ids,
+					 const std::vector<std::vector<double>> &vertices, size_t m, VectorExpressionType dist_fn)
+-> std::vector<size_t>;
+
 
 class HNSWIndex : public VectorIndex {
  public:
