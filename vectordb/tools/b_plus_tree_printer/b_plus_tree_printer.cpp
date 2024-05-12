@@ -6,7 +6,7 @@
 //
 // Identification: tools/b_plus_tree_printer/b_plus_tree_printer.cpp
 //
-// Copyright (c) 2015-2022, Carnegie Mellon University Database Group
+//
 //
 //===----------------------------------------------------------------------===//
 

@@ -6,7 +6,7 @@
 //
 // Identification: src/execution/mock_scan_executor.cpp
 //
-// Copyright (c) 2015-2022, Carnegie Mellon University Database Group
+//
 //
 //===----------------------------------------------------------------------===//
 

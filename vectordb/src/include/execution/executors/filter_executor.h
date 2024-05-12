@@ -6,7 +6,7 @@
 //
 // Identification: src/include/execution/executors/filter_executor.h
 //
-// Copyright (c) 2015-2022, Carnegie Mellon University Database Group
+//
 //
 //===----------------------------------------------------------------------===//
 

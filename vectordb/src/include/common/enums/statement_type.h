@@ -6,7 +6,7 @@
 //
 // Identification: src/include/enums/statement_type.h
 //
-// Copyright (c) 2015-2022, Carnegie Mellon University Database Group
+//
 //
 //===----------------------------------------------------------------------===//
 
