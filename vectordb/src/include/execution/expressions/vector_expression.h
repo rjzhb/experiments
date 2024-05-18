@@ -34,23 +34,28 @@ inline auto ComputeDistance(const std::vector<double> &left, const std::vector<d
 	case VectorExpressionType::L2Dist: {
 	  double dist = 0.0;
 	  if (SIMD_ENABLED) {
-		size_t i = 0;
-		__m256d sum = _mm256_setzero_pd();
-		for (; i <= sz - 4; i += 4) {
-		  __m256d vec_left = _mm256_load_pd(left.data() + i); // 改用对齐加载
-		  __m256d vec_right = _mm256_load_pd(right.data() + i);
-		  __m256d diff = _mm256_sub_pd(vec_left, vec_right);
-		  __m256d squared_diff = _mm256_mul_pd(diff, diff);
-		  sum = _mm256_add_pd(sum, squared_diff); // 直接在寄存器中累加
-		}
-		double result[4];
-		_mm256_store_pd(result, sum); // 只在最后一次写回内存
-		dist = result[0] + result[1] + result[2] + result[3];
-
-		for (; i < sz; ++i) {
+#pragma omp simd reduction(+ : dist)
+		for (size_t i = 0; i < sz; i++) {
 		  double diff = left[i] - right[i];
 		  dist += diff * diff;
 		}
+//		size_t i = 0;
+//		__m256d sum = _mm256_setzero_pd();
+//		for (; i <= sz - 4; i += 4) {
+//		  __m256d vec_left = _mm256_load_pd(left.data() + i); // 改用对齐加载
+//		  __m256d vec_right = _mm256_load_pd(right.data() + i);
+//		  __m256d diff = _mm256_sub_pd(vec_left, vec_right);
+//		  __m256d squared_diff = _mm256_mul_pd(diff, diff);
+//		  sum = _mm256_add_pd(sum, squared_diff); // 直接在寄存器中累加
+//		}
+//		double result[4];
+//		_mm256_store_pd(result, sum); // 只在最后一次写回内存
+//		dist = result[0] + result[1] + result[2] + result[3];
+//
+//		for (; i < sz; ++i) {
+//		  double diff = left[i] - right[i];
+//		  dist += diff * diff;
+//		}
 
 	  } else {
 		for (size_t i = 0; i < sz; i++) {

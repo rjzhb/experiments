@@ -23,6 +23,22 @@
 
 namespace vdbms {
 
+struct VectorHash {
+  size_t operator()(const std::vector<double>& v) const {
+	size_t seed = 0;
+	for (double i : v) {
+	  seed ^= std::hash<double>{}(i) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+	}
+	return seed;
+  }
+};
+
+struct VectorEqual {
+  bool operator()(const std::vector<double>& a, const std::vector<double>& b) const {
+	return a == b;
+  }
+};
+
 struct VectorPairHash {
   std::size_t operator()(const std::pair<std::vector<double>, std::vector<double>> &pair) const {
 	std::size_t seed = 0;
@@ -47,6 +63,9 @@ struct VectorPairEqual {
 extern std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, VectorPairHash, VectorPairEqual>
 	distance_cache;
 
+using CacheType = std::unordered_map<std::vector<double>, std::vector<std::vector<double>>, VectorHash, VectorEqual>;
+extern CacheType globalCache;
+
 /** Cycle detection is performed every CYCLE_DETECTION_INTERVAL milliseconds. */
 extern std::chrono::milliseconds cycle_detection_interval;
 
@@ -59,6 +78,7 @@ extern std::chrono::duration<int64_t> log_timeout;
 extern bool SIMD_ENABLED;
 extern bool PARALLEL_ENABLED;
 extern bool CACHE_ENABLED;
+extern bool GLOBAL_CACHE_ENABLED;
 
 static constexpr int INVALID_PAGE_ID = -1;                                           // invalid page id
 static constexpr int INVALID_TXN_ID = -1;                                            // invalid transaction id

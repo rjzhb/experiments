@@ -23,7 +23,7 @@ __global__ void searchKnn(float *queryVectors,
   }
 }
 
-int main() {
+__device__ void deviceFunction() {
   float *d_queryVectors, *d_databaseVectors;
   int *d_indices;
   float *d_distances;

@@ -139,6 +139,22 @@ auto main(int argc, char **argv) -> int {
 	  vdbms::PARALLEL_ENABLED = false;
 	  std::cout << "PARALLEL disabled." << std::endl;
 	  continue;
+	} else if (query == "SET CACHE;") {
+	  vdbms::CACHE_ENABLED = true;
+	  std::cout << "CACHE enabled." << std::endl;
+	  continue;
+	} else if (query == "UNSET CACHE;") {
+	  vdbms::CACHE_ENABLED = false;
+	  std::cout << "CACHE disabled." << std::endl;
+	  continue;
+	} else if (query == "SET GLOBALCACHE;") {
+	  vdbms::GLOBAL_CACHE_ENABLED = true;
+	  std::cout << "GLOBALCACHE enabled." << std::endl;
+	  continue;
+	} else if (query == "UNSET GLOBALCACHE;") {
+	  vdbms::GLOBAL_CACHE_ENABLED = false;
+	  std::cout << "GLOBALCACHE disabled." << std::endl;
+	  continue;
 	}
 	// 尝试执行SQL查询
 	try {

@@ -27,8 +27,11 @@ std::atomic<bool> global_disable_execution_exception_print{false};
 
 std::unordered_map<std::pair<std::vector<double>, std::vector<double>>, double, VectorPairHash, VectorPairEqual> distance_cache;
 
+CacheType globalCache;
 
 bool SIMD_ENABLED = false;
 bool PARALLEL_ENABLED = false;
 bool CACHE_ENABLED = false;
+bool GLOBAL_CACHE_ENABLED;
+
 }  // namespace vdbms

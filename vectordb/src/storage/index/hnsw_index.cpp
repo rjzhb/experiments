@@ -268,20 +268,84 @@ void HNSWIndex::InsertVectorEntry(const std::vector<double> &key, RID rid) {
 #else
 
 auto HNSWIndex::ScanVectorKey(const std::vector<double> &base_vector, size_t limit) -> std::vector<RID> {
-  std::vector<size_t> entry_points{layers_[layers_.size() - 1].DefaultEntryPoint()};
-  for (int level = layers_.size() - 1; level >= 1; level--) {
-	auto nearest_elements = layers_[level].SearchLayer(base_vector, ef_search_, entry_points);
-	nearest_elements = SelectNeighbors(base_vector, nearest_elements, *vertices_, 1, distance_fn_);
-	entry_points = {nearest_elements[0]};
+  if (PARALLEL_ENABLED) {
+	std::vector<size_t> entry_points{layers_[layers_.size() - 1].DefaultEntryPoint()};
+	size_t closest_slot = entry_points[0];
+	double closest_dist = ComputeDistance((*vertices_)[closest_slot], base_vector, distance_fn_);
+
+	for (int level = layers_.size() - 1; level >= 1; level--) {
+	  bool changed;
+	  do {
+		changed = false;
+		for (const auto &neighbor : layers_[level].edges_[closest_slot]) {
+		  double dist = ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
+		  if (dist < closest_dist) {
+			closest_dist = dist;
+			closest_slot = neighbor;
+			changed = true;
+		  }
+		}
+	  } while (changed);
+	}
+
+	// 在最低层进行完整搜索
+	std::unordered_set<size_t> visited;
+	std::priority_queue<std::pair<double, size_t>, std::vector<std::pair<double, size_t>>, std::greater<>> explore_q;
+	std::priority_queue<std::pair<double, size_t>, std::vector<std::pair<double, size_t>>, std::less<>> result_set;
+
+	explore_q.emplace(closest_dist, closest_slot);
+	result_set.emplace(closest_dist, closest_slot);
+	visited.emplace(closest_slot);
+
+	while (!explore_q.empty()) {
+	  auto [dist, vertex] = explore_q.top();
+	  explore_q.pop();
+	  if (dist > result_set.top().first) {
+		break;
+	  }
+
+	  for (const auto &neighbor : layers_[0].edges_[vertex]) {
+		if (visited.find(neighbor) == visited.end()) {
+		  visited.emplace(neighbor);
+		  double dist = ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
+		  explore_q.emplace(dist, neighbor);
+		  result_set.emplace(dist, neighbor);
+		  while (result_set.size() > limit) {
+			result_set.pop();
+		  }
+		}
+	  }
+	}
+
+	std::vector<size_t> neighbors;
+	while (!result_set.empty()) {
+	  neighbors.push_back(result_set.top().second);
+	  result_set.pop();
+	}
+	std::reverse(neighbors.begin(), neighbors.end());
+
+	std::vector<RID> result;
+	result.reserve(neighbors.size());
+	for (auto id : neighbors) {
+	  result.push_back(rids_[id]);
+	}
+	return result;
+  } else {
+	std::vector<size_t> entry_points{layers_[layers_.size() - 1].DefaultEntryPoint()};
+	for (int level = layers_.size() - 1; level >= 1; level--) {
+	  auto nearest_elements = layers_[level].SearchLayer(base_vector, ef_search_, entry_points);
+	  nearest_elements = SelectNeighbors(base_vector, nearest_elements, *vertices_, 1, distance_fn_);
+	  entry_points = {nearest_elements[0]};
+	}
+	auto neighbors = layers_[0].SearchLayer(base_vector, limit > ef_search_ ? limit : ef_search_, entry_points);
+	neighbors = SelectNeighbors(base_vector, neighbors, *vertices_, limit, distance_fn_);
+	std::vector<RID> result;
+	result.reserve(neighbors.size());
+	for (auto id : neighbors) {
+	  result.push_back(rids_[id]);
+	}
+	return result;
   }
-  auto neighbors = layers_[0].SearchLayer(base_vector, limit > ef_search_ ? limit : ef_search_, entry_points);
-  neighbors = SelectNeighbors(base_vector, neighbors, *vertices_, limit, distance_fn_);
-  std::vector<RID> result;
-  result.reserve(neighbors.size());
-  for (auto id : neighbors) {
-	result.push_back(rids_[id]);
-  }
-  return result;
 }
 
 void HNSWIndex::InsertVectorEntry(const std::vector<double> &key, RID rid) {

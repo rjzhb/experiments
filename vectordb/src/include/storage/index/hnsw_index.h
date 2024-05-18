@@ -68,6 +68,7 @@ class HNSWIndex : public VectorIndex {
 
   void BuildIndex(std::vector<std::pair<std::vector<double>, RID>> initial_data) override;
   auto ScanVectorKey(const std::vector<double> &base_vector, size_t limit) -> std::vector<RID> override;
+
   void InsertVectorEntry(const std::vector<double> &key, RID rid) override;
 
   auto AddVertex(const std::vector<double> &vec, RID rid) -> size_t;
