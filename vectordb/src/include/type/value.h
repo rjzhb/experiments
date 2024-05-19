@@ -88,6 +88,7 @@ class Value {
   }
 
   auto GetVector() const -> std::vector<double>;
+  const std::pair<double, double> &GetCache() const { return cache_; }
 
   inline auto CastAs(const TypeId type_id) const -> Value {
     return Type::GetInstance(type_id_)->CastAs(*this, type_id);
@@ -151,6 +152,8 @@ class Value {
   inline auto Copy() const -> Value { return Type::GetInstance(type_id_)->Copy(*this); }
 
  protected:
+  std::pair<double, double> cache_;
+
   // The actual value item
   union Val {
     int8_t boolean_;

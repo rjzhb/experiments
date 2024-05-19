@@ -15,8 +15,146 @@
 
 namespace vdbms {
 
+class VectorWithCache {
+ public:
+  VectorWithCache(const std::vector<double> &vec)
+	  : vec_(vec), cache_(ComputeCache(vec)) {}
+
+  const std::vector<double> &GetVector() const { return vec_; }
+  const std::pair<double, double> &GetCache() const { return cache_; }
+
+ private:
+  std::vector<double> vec_;
+  std::pair<double, double> cache_;
+
+  static std::pair<double, double> ComputeCache(const std::vector<double> &vec) {
+	double norm1 = 0;
+	double norm2 = 0;
+	for (double val : vec) {
+	  norm1 += val;
+	  norm2 += val * val;
+	}
+	return {norm1, norm2};
+  }
+};
+
 /** ComparisonType represents the type of comparison that we want to perform. */
 enum class VectorExpressionType { L2Dist, InnerProduct, CosineSimilarity };
+
+inline auto ComputeDistance(const Value &left, const Value &right,
+							VectorExpressionType dist_fn) {
+  const auto &left_vec = left.GetVector();
+  const auto &right_vec = right.GetVector();
+  const auto &left_cache = left.GetCache();
+  const auto &right_cache = right.GetCache();
+  auto sz = left_vec.size();
+  vdbms_ASSERT(sz == right_vec.size(), "vector length mismatched!");
+  switch (dist_fn) {
+	case VectorExpressionType::L2Dist: {
+	  double dist = 0.0;
+	  if (SIMD_ENABLED) {
+		if (CACHE_ENABLED) {
+		  double dot_product = 0;
+#pragma omp simd reduction(+ : dot_product)
+		  for (size_t i = 0; i < left_vec.size(); ++i) {
+			dot_product += left_vec[i] * right_vec[i];
+		  }
+		  double norm_diff2 = left_cache.second - right_cache.second;
+		  dist = dot_product + norm_diff2;
+		} else {
+#pragma omp simd reduction(+ : dist)
+		  for (size_t i = 0; i < sz; i++) {
+			double diff = left_vec[i] - right_vec[i];
+			dist += diff * diff;
+		  }
+		}
+	  } else {
+		if (CACHE_ENABLED) {
+		  double dot_product = 0;
+#pragma omp simd reduction(+ : dot_product)
+		  for (size_t i = 0; i < left_vec.size(); ++i) {
+			dot_product += left_vec[i] * right_vec[i];
+		  }
+		  double norm_diff2 = left_cache.second - right_cache.second;
+		  dist = dot_product + norm_diff2;
+		} else {
+		  for (size_t i = 0; i < sz; i++) {
+			double diff = left_vec[i] - right_vec[i];
+			dist += diff * diff;
+		  }
+		}
+	  }
+	  return std::sqrt(dist);
+	}
+	case VectorExpressionType::InnerProduct: {
+	  double dist = 0.0;
+	  if (SIMD_ENABLED) {
+		__m256d sum_vec = _mm256_setzero_pd(); // 初始化为0的向量
+		for (size_t i = 0; i < sz; i += 4) {
+		  __m256d vec_left = _mm256_loadu_pd(&left_vec[i]);
+		  __m256d vec_right = _mm256_loadu_pd(&right_vec[i]);
+		  __m256d prod = _mm256_mul_pd(vec_left, vec_right);
+		  sum_vec = _mm256_add_pd(sum_vec, prod);
+		}
+		double sum_array[4];
+		_mm256_storeu_pd(sum_array, sum_vec);
+		dist = sum_array[0] + sum_array[1] + sum_array[2] + sum_array[3];
+		// 处理剩余的元素
+		for (size_t i = sz - sz % 4; i < sz; ++i) {
+		  dist += left_vec[i] * right_vec[i];
+		}
+	  } else {
+		for (size_t i = 0; i < sz; i++) {
+		  dist += left_vec[i] * right_vec[i];
+		}
+	  }
+
+	  return -dist;
+	}
+	case VectorExpressionType::CosineSimilarity: {
+	  double dist = 0.0;
+	  double norma = 0.0;
+	  double normb = 0.0;
+	  if (SIMD_ENABLED) {
+		__m256d sum_vec = _mm256_setzero_pd();
+		__m256d norma_vec = _mm256_setzero_pd();
+		__m256d normb_vec = _mm256_setzero_pd();
+		for (size_t i = 0; i < sz; i += 4) {
+		  __m256d vec_left = _mm256_loadu_pd(&left_vec[i]);
+		  __m256d vec_right = _mm256_loadu_pd(&right_vec[i]);
+		  __m256d prod = _mm256_mul_pd(vec_left, vec_right);
+		  sum_vec = _mm256_add_pd(sum_vec, prod);
+		  norma_vec = _mm256_add_pd(norma_vec, _mm256_mul_pd(vec_left, vec_left));
+		  normb_vec = _mm256_add_pd(normb_vec, _mm256_mul_pd(vec_right, vec_right));
+		}
+		double sum_array[4], norma_array[4], normb_array[4];
+		_mm256_storeu_pd(sum_array, sum_vec);
+		_mm256_storeu_pd(norma_array, norma_vec);
+		_mm256_storeu_pd(normb_array, normb_vec);
+		dist = sum_array[0] + sum_array[1] + sum_array[2] + sum_array[3];
+		norma = norma_array[0] + norma_array[1] + norma_array[2] + norma_array[3];
+		normb = normb_array[0] + normb_array[1] + normb_array[2] + normb_array[3];
+		// 处理剩余的元素
+		for (size_t i = sz - sz % 4; i < sz; ++i) {
+		  dist += left_vec[i] * right_vec[i];
+		  norma += left_vec[i] * left_vec[i];
+		  normb += right_vec[i] * right_vec[i];
+		}
+	  } else {
+		for (size_t i = 0; i < sz; i++) {
+		  dist += left_vec[i] * right_vec[i];
+		  norma += left_vec[i] * left_vec[i];
+		  normb += right_vec[i] * right_vec[i];
+		}
+	  }
+	  auto similarity = dist / std::sqrt(norma * normb);
+
+	  return 1.0 - similarity;
+	}
+	default:vdbms_ASSERT(false, "Unsupported vector expr type.");
+  }
+
+}
 
 inline auto ComputeDistance(const std::vector<double> &left, const std::vector<double> &right,
 							VectorExpressionType dist_fn) {
@@ -177,9 +315,14 @@ class VectorExpression : public AbstractExpression {
 
  private:
   auto PerformComputation(const Value &lhs, const Value &rhs) const -> double {
-	auto left_vec = lhs.GetVector();
-	auto right_vec = rhs.GetVector();
-	return ComputeDistance(left_vec, right_vec, expr_type_);
+	if (CACHE_ENABLED) {
+	  return ComputeDistance(lhs, rhs, expr_type_);
+	} else {
+	  auto left_vec = lhs.GetVector();
+	  auto right_vec = rhs.GetVector();
+	  return ComputeDistance(left_vec, right_vec, expr_type_);
+//	  return ComputeDistance(left_vec, right_vec, expr_type_);
+	}
   }
 };
 

@@ -142,13 +142,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c12e2f0a-cb93-4ec9-81a9-4f164bfc8a3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/common/config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/common/config.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/common/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/common/config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vectordb/src/include/execution/expressions/vector_expression.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/execution/expressions/vector_expression.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/include/storage/index/hnsw_index.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/storage/index/hnsw_index.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/src/storage/index/hnsw_gpu.cu" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/index/hnsw_gpu.cu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/include/type/value.h" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/include/type/value.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/storage/index/hnsw_index.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/tools/shell/shell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vectordb/src/type/value.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/vectordb/src/type/value.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1002,7 +999,8 @@
       <workItem from="1715431063473" duration="19279000" />
       <workItem from="1715495261342" duration="13044000" />
       <workItem from="1716026946292" duration="399000" />
-      <workItem from="1716028001785" duration="5509000" />
+      <workItem from="1716028001785" duration="5782000" />
+      <workItem from="1716038214930" duration="9428000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1715433055084</created>
@@ -1060,7 +1058,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715515817385</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update">
+      <created>1716037892930</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1716037892930</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1071,6 +1076,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/vectordb/src/include/execution/expressions/vector_expression.h</url>
+          <line>72</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
         <watch expression="distance_cache" language="ObjectiveC" />

@@ -104,7 +104,8 @@ auto NSW::SearchLayerNormal(const std::vector<double> &base_vector,
   std::priority_queue<std::pair<double, size_t>, std::vector<std::pair<double, size_t>>, std::greater<>> explore_q;
   std::priority_queue<std::pair<double, size_t>, std::vector<std::pair<double, size_t>>, std::less<>> result_set;
   for (const auto entry_point : entry_points) {
-	auto dist = ComputeDistance(vertices_[entry_point], base_vector, dist_fn_);
+	double dist = 0.0;
+	dist = ComputeDistance(vertices_[entry_point], base_vector, dist_fn_);
 	explore_q.emplace(dist, entry_point);
 	result_set.emplace(dist, entry_point);
 	visited.emplace(entry_point);
@@ -119,7 +120,7 @@ auto NSW::SearchLayerNormal(const std::vector<double> &base_vector,
 	for (const auto &neighbor : edges_[vertex]) {
 	  if (visited.find(neighbor) == visited.end()) {
 		visited.emplace(neighbor);
-		auto dist = ComputeDistance(vertices_[neighbor], base_vector, dist_fn_);
+		dist = ComputeDistance(vertices_[neighbor], base_vector, dist_fn_);
 		explore_q.emplace(dist, neighbor);
 		result_set.emplace(dist, neighbor);
 		while (result_set.size() > limit) {
@@ -271,14 +272,17 @@ auto HNSWIndex::ScanVectorKey(const std::vector<double> &base_vector, size_t lim
   if (PARALLEL_ENABLED) {
 	std::vector<size_t> entry_points{layers_[layers_.size() - 1].DefaultEntryPoint()};
 	size_t closest_slot = entry_points[0];
-	double closest_dist = ComputeDistance((*vertices_)[closest_slot], base_vector, distance_fn_);
-
+	double closest_dist = 0.0;
+	closest_dist =
+		ComputeDistance((*vertices_)[closest_slot], base_vector, distance_fn_);
 	for (int level = layers_.size() - 1; level >= 1; level--) {
 	  bool changed;
 	  do {
 		changed = false;
 		for (const auto &neighbor : layers_[level].edges_[closest_slot]) {
-		  double dist = ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
+		  double dist = 0.0;
+		  dist =
+			  ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
 		  if (dist < closest_dist) {
 			closest_dist = dist;
 			closest_slot = neighbor;
@@ -307,7 +311,9 @@ auto HNSWIndex::ScanVectorKey(const std::vector<double> &base_vector, size_t lim
 	  for (const auto &neighbor : layers_[0].edges_[vertex]) {
 		if (visited.find(neighbor) == visited.end()) {
 		  visited.emplace(neighbor);
-		  double dist = ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
+		  double dist = 0.0;
+		  dist = ComputeDistance((*vertices_)[neighbor], base_vector, distance_fn_);
+
 		  explore_q.emplace(dist, neighbor);
 		  result_set.emplace(dist, neighbor);
 		  while (result_set.size() > limit) {
